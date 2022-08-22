@@ -1,0 +1,11 @@
+.v-application {
+    /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.5;
+    background-color: #f8f9fa;
+}
+
+.st {}
+.st__heading {
+    color: #344767;
+}
