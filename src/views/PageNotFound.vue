@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1>(404) Page Not Found</h1>
+    <h1>{{ $t('pageNotFound.title') }}</h1>
   </v-container>
 </template>
 

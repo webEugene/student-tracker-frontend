@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
+    <h1>{{ $t('teacher.title.add') }}</h1>
     <v-row>
       <v-col cols="4" lg="4">
-        <h1>{{ $t('student.title.add') }}</h1>
         <form @submit.prevent>
           <v-text-field
             v-model="name"
@@ -20,16 +20,11 @@
             @input="$v.surname.$touch()"
             @blur="$v.surname.$touch()"
           ></v-text-field>
-          <div>{{ $t('student.chooseGender') }}</div>
-          <v-radio-group v-model="gender" row>
-            <v-radio :label="$t('formFields.male')" value="male"></v-radio>
-            <v-radio :label="$t('formFields.female')" value="female"></v-radio>
-          </v-radio-group>
           <v-select
             v-if="groupsList.length > 0"
             v-model="selectGroup"
             :items="groupsList"
-            :error-messages="groupErrors"
+            :error-messages="selectErrors"
             :label="$t('formFields.group')"
             item-text="name"
             item-value="id"
@@ -69,10 +64,12 @@
             </template>
             <v-date-picker v-model="birthday" scrollable>
               <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="modal = false">{{ $t('buttons.cancel') }}</v-btn>
-              <v-btn text color="primary" @click="$refs.dialog.save(birthday)">{{
-                $t('buttons.ok')
-              }}</v-btn>
+              <v-btn text color="primary" @click="modal = false">
+                {{ $t('buttons.cancel') }}
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.dialog.save(birthday)">
+                {{ $t('buttons.ok') }}
+              </v-btn>
             </v-date-picker>
           </v-dialog>
           <v-btn
@@ -80,7 +77,7 @@
             color="success"
             type="submit"
             :disabled="loading || $v.$invalid"
-            @click.prevent="saveStudent()"
+            @click.prevent="createTeacher()"
           >
             <v-progress-circular v-if="loading" indeterminate left></v-progress-circular>
             {{ $t('buttons.save') }}
@@ -95,10 +92,11 @@
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import { GroupsService } from '@/services/groups.service';
-import { StudentsService } from '@/services/students.service';
+import { TeachersService } from '@/services/teachers.service';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
+
 export default {
-  name: 'AddStudent',
+  name: 'AddTeacher',
   mixins: [validationMixin],
   data: () => ({
     name: '',
@@ -110,7 +108,6 @@ export default {
     modal: false,
     disabled: false,
     loading: false,
-    gender: 'male',
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -121,7 +118,7 @@ export default {
   },
 
   computed: {
-    groupErrors() {
+    selectErrors() {
       const errors = [];
       if (!this.$v.selectGroup.$dirty) return errors;
       !this.$v.selectGroup.required && errors.push(this.$t('validationErrors.group.required'));
@@ -161,7 +158,7 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    async saveStudent() {
+    async createTeacher() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       this.beforeLoading();
@@ -171,11 +168,10 @@ export default {
         mobilePhone: this.mobilePhone,
         birthday: this.birthday,
         group_id: this.selectGroup,
-        gender: this.gender,
       };
-      await StudentsService.createStudent(preparedData)
+      await TeachersService.createTeacher(preparedData)
         .then(() => {
-          this.$toast.success(this.$t('success.student.added'));
+          this.$toast.success(this.$t('success.teacher.added'));
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -198,7 +194,6 @@ export default {
       this.mobilePhone = '';
       this.birthday = null;
       this.selectGroup = null;
-      this.gender = null;
     },
   },
   mounted() {

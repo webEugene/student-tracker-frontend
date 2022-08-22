@@ -4,7 +4,7 @@ export default function guest({ next, router }) {
   if (loggedIn) {
     if (expireTime < Date.now() / 1000) {
       localStorage.clear();
-      return router.push({ name: 'Login' });
+      return router.push({ name: 'Homepage' });
     }
     return next();
   }

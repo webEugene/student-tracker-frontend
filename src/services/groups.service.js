@@ -1,4 +1,5 @@
 import { axiosHandler } from '../axios.config';
+import getCompanyId from '../helpers/getCompanyId';
 
 export { GroupsService };
 
@@ -12,29 +13,46 @@ class GroupsService {
   static createGroup(name) {
     return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`, {
       name,
+      company_id: getCompanyId(),
     });
   }
 
   /**
-   * Get all groups
+   * Get all groups with relations
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
   static getAllGroups() {
-    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`);
+    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`, {
+      params: {
+        company_id: getCompanyId(),
+      },
+    });
   }
-
   /**
-   * Updating group
+   * Get all groups without relations
+   *
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static getAllGroupsOnly() {
+    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups/list/only`, {
+      params: {
+        company_id: getCompanyId(),
+      },
+    });
+  }
+  /**
+   * Update group
    *
    * @param {string} id
    * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
    */
   static updateGroup({ id, name }) {
-    return axiosHandler.put(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`, {
+    return axiosHandler.patch(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`, {
       id,
       name,
+      company_id: getCompanyId(),
     });
   }
 
@@ -45,6 +63,10 @@ class GroupsService {
    * @returns {Promise<AxiosResponse<any>>}
    */
   static deleteGroup(id) {
-    return axiosHandler.delete(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups/${id}`);
+    return axiosHandler.delete(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups/${id}`, {
+      params: {
+        company_id: getCompanyId(),
+      },
+    });
   }
 }

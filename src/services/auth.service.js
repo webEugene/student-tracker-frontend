@@ -4,6 +4,19 @@ export { AuthService };
 
 class AuthService {
   /**
+   * Get jwt token
+   *
+   * @param {string} email
+   * @param {string} password
+   *
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static register(params) {
+    return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/register`, {
+      ...params,
+    });
+  }
+  /**
    * Logout from the service
    *
    */
@@ -11,7 +24,7 @@ class AuthService {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('expireToken');
     localStorage.removeItem('userInfo');
-    router.push('/login').catch(() => {});
+    router.push('/').catch(() => {});
   }
 
   /**

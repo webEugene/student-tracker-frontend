@@ -7,30 +7,29 @@
         class="text-center redirect-info"
         v-if="this.$route.query.redirect"
       >
-        You must be logged in to access {{ $route.query.redirect }} page!
+        {{ $t('auth.login.goToPageInfo') }} {{ $route.query.redirect }}!
       </v-alert>
       <v-card-title>
-        <span class="headline">Войти</span>
+        <span class="headline">{{ $t('auth.login.title') }}</span>
       </v-card-title>
       <v-card-text>
-        <v-alert type="error" class="error-alert" ismissible dense v-if="error">
-          {{ error }}
+        <v-alert type="error" class="error-alert" ismissible dense v-if="serverErrors">
+          {{ serverErrors }}
         </v-alert>
-        <v-form @submit.prevent="submit">
+        <v-form @submit.prevent>
           <v-text-field
-            v-model.trim="email"
+            v-model="email"
             :error-messages="emailErrors"
-            label="Введите email"
-            required
-            class="email-input"
+            :label="$t('formFields.email')"
             @input="$v.email.$touch()"
             @blur="$v.email.$touch()"
+            class="email-input"
           ></v-text-field>
           <v-text-field
             v-model="password"
-            :error-messages="passErrors"
-            label="Введите пароль"
-            required
+            :error-messages="passwordErrors"
+            :label="$t('formFields.password')"
+            :hint="$t('general.password.hint')"
             class="password-input"
             :append-icon="showPassInput ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassInput ? 'text' : 'password'"
@@ -47,7 +46,7 @@
           >
             <v-progress-circular v-if="loading" indeterminate left></v-progress-circular>
             <v-icon v-if="!loading" left>mdi-login-variant</v-icon>
-            Войти
+            {{ $t('buttons.login') }}
           </v-btn>
         </v-form>
       </v-card-text>
@@ -71,11 +70,11 @@ export default {
   },
   data: () => ({
     dialog: true,
-    email: '',
-    password: '',
+    email: 'eugene@gmail.com',
+    password: 'Qwerty36!',
     submitStatus: null,
     showPassInput: false,
-    error: null,
+    serverErrors: null,
     loading: false,
   }),
 
@@ -83,14 +82,14 @@ export default {
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.required && errors.push('Почта обьязательна');
+      !this.$v.email.required && errors.push(this.$t('validationErrors.email.required'));
+      !this.$v.email.email && errors.push(this.$t('validationErrors.email.invalid'));
       return errors;
     },
-
-    passErrors() {
+    passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.required && errors.push('Пароль обьязательный');
+      !this.$v.password.required && errors.push(this.$t('validationErrors.password.required'));
       return errors;
     },
   },
@@ -105,18 +104,23 @@ export default {
           this.setTokenToLocalStorage(token);
           axiosHandler.defaults.headers.Authorization = 'Bearer ' + token;
           this.serUserInfoToLocalStorage(userInfo);
-          this.$router.push(this.$route.query.redirect || `/user/${userInfo.id}`);
+          this.$router.push(this.$route.query.redirect || `/homepage`);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((errors) => {
           this.loading = false;
-          this.error = error?.message;
+          this.serverErrors = errors?.response?.data?.massage ?? errors.massage;
         });
     },
     serUserInfoToLocalStorage(userInfo) {
       localStorage.setItem(
         'userInfo',
-        JSON.stringify({ id: userInfo.id, username: userInfo.username }),
+        JSON.stringify({
+          id: userInfo.id,
+          name: userInfo.name,
+          surname: userInfo.surname,
+          roles: userInfo.roles,
+          company_id: userInfo.company_id,
+        }),
       );
     },
     setTokenToLocalStorage(token) {
