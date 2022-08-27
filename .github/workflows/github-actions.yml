@@ -2,7 +2,8 @@ name: Student Tracker Frontend Actions
 on:
   push:
     branches: [ master ]
-  pull_request: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   Student-Tracker-Actions:
     runs-on: ubuntu-latest
