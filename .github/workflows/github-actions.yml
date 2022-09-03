@@ -1,36 +1,11 @@
-#name: Student Tracker Frontend Actions
-#
-#on:
-#  push:
-#    branches:
-#      - main
-#  pull_request:
-#    branches: [ main, master ]
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    strategy:
-#      matrix:
-#        node-version: [ 14.x ]
-#
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Use Node.js ${{ matrix.node-version }}
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#      - name: Install dependencies
-#      - run: npm ci
-#      - name: Build project
-#      - run: npm run build --if-present
-name: GitHub Actions Demo
-on: [push]
+name: Student Tracker Frontend Actions
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
