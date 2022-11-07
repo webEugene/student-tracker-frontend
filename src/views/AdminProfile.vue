@@ -192,6 +192,7 @@ export default {
         })
         .catch((error) => {
           this.$toast.error(error.message);
+          AuthService.logout();
         });
       this.loading = false;
     },

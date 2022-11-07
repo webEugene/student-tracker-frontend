@@ -214,7 +214,7 @@
           <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
             <v-card>
               <v-card-title class="text-h6">
-                {{ $t('dialog.heading.delete') }} {{ student.name }} {{ student.surname }}?
+                {{ $t('dialog.heading.delete.default') }} {{ student.name }} {{ student.surname }}?
               </v-card-title>
               <v-card-text>
                 <v-alert type="error">
@@ -396,9 +396,16 @@ export default {
       this.afterLoading();
     },
     getDataFromInput() {
-      // getFileCSV[0].name.replace( /(.+\.(jpg|gif|bmp|bnp|png|jpeg))$/i, `${this.selectGroup.id}.$2` )
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
+
+      // formData.append(
+      //   'avatar_path',
+      //   new File([this.studentId + getFileCSV[0].name], `${getFileCSV[0].name}`, {
+      //     type: getFileCSV[0].type,
+      //     lastModified: getFileCSV[0].lastModified,
+      //   }),
+      // );
 
       formData.append('avatar_path', getFileCSV[0]);
 

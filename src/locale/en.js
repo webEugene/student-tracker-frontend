@@ -193,7 +193,10 @@ export const messages = {
         came: 'Come time',
         left: 'Leave time',
       },
-      delete: 'Delete',
+      delete: {
+        default: 'Delete',
+        group: 'Delete group',
+      },
     },
     chip: {
       for: 'For:',
@@ -216,7 +219,7 @@ export const messages = {
         leave: 'Set the leave time',
       },
     },
-    delete: '@:dialog.heading.delete',
+    delete: '@:dialog.heading.delete.default',
     profile: 'Profile',
     logout: 'Logout',
   },
@@ -253,6 +256,10 @@ export const messages = {
     },
     password: {
       hint: 'Password should have 7 to 15 characters which contain at least one numeric digit and a special character',
+    },
+    nodata: 'Nothing has been created yet',
+    sortBy: {
+      group: 'Sort by group',
     },
   },
   avatar: {

@@ -70,8 +70,8 @@ export default {
   },
   data: () => ({
     dialog: true,
-    email: 'eugene@gmail.com',
-    password: 'Qwerty36!',
+    email: '',
+    password: '',
     submitStatus: null,
     showPassInput: false,
     serverErrors: null,
@@ -106,9 +106,9 @@ export default {
           this.serUserInfoToLocalStorage(userInfo);
           this.$router.push(this.$route.query.redirect || `/homepage`);
         })
-        .catch((errors) => {
+        .catch((error) => {
           this.loading = false;
-          this.serverErrors = errors?.response?.data?.massage ?? errors.massage;
+          this.serverErrors = error?.response?.data?.message ?? error.message;
         });
     },
     serUserInfoToLocalStorage(userInfo) {

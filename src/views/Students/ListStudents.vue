@@ -7,7 +7,7 @@
       solo
       :items="groupsList"
       item-text="name"
-      label="Сортировать по группе"
+      :label="$t('general.sortBy.group')"
       v-model="groupFilterValue"
     ></v-autocomplete>
     <v-data-table

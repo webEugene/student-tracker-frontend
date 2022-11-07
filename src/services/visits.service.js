@@ -1,4 +1,5 @@
 import { axiosHandler } from '../axios.config';
+import getCompanyId from '../helpers/getCompanyId';
 
 export { VisitsService };
 
@@ -15,6 +16,7 @@ class VisitsService {
       student_id,
       came_at,
       brought,
+      company_id: getCompanyId(),
     });
   }
 
@@ -30,6 +32,7 @@ class VisitsService {
       id,
       left_at,
       took,
+      company_id: getCompanyId(),
     });
   }
 }

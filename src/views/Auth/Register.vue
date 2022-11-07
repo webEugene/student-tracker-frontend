@@ -173,6 +173,7 @@ export default {
         surname: this.surname,
         email: this.email,
         password: this.password,
+        company: this.company,
       })
         .then((response) => {
           const userInfo = response.data.userInfo;
@@ -180,11 +181,11 @@ export default {
           this.setTokenToLocalStorage(token);
           axiosHandler.defaults.headers.Authorization = 'Bearer ' + token;
           this.serUserInfoToLocalStorage(userInfo);
-          this.$router.push(this.$route.query.redirect || `/user/${userInfo.id}`);
+          this.$router.push(this.$route.query.redirect || `/homepage`);
         })
         .catch((error) => {
           this.loading = false;
-          this.error = error?.message;
+          this.error = error?.response?.data?.message ?? error.message;
         });
     },
     serUserInfoToLocalStorage(userInfo) {
@@ -195,6 +196,7 @@ export default {
           name: userInfo.name,
           surname: userInfo.surname,
           roles: userInfo.roles,
+          company_id: userInfo.company_id,
         }),
       );
     },
