@@ -57,7 +57,7 @@
             <!-- Modal window for data deleting -->
             <v-dialog v-model="dialogDelete" persistent max-width="400px">
               <v-card>
-                <v-card-title>{{ $t('dialog.heading.edit.group') }}?</v-card-title>
+                <v-card-title>{{ $t('dialog.heading.delete.group') }}?</v-card-title>
                 <v-card-text>
                   <v-chip class="mt-2" label color="primary">
                     {{ deletedItem.name }}
@@ -141,6 +141,10 @@
               </td>
             </tr>
           </template>
+          <!-- Show the message if there is no data -->
+          <template v-slot:no-data>
+            {{ $t('general.nodata') }}
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -211,7 +215,7 @@ export default {
         .then((response) => {
           this.groups = response.data;
         })
-        .catch((error) => console.log(error));
+        .catch(() => {});
       this.afterLoading();
     },
     async updateGroup() {

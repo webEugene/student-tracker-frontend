@@ -193,7 +193,10 @@ export const messages = {
         came: 'Час, коли прийшов/ла',
         left: 'Час, коли пішов/ла',
       },
-      delete: 'Видалити',
+      delete: {
+        default: 'Видалити',
+        group: 'Видалити групу',
+      },
     },
     chip: {
       for: 'Для:',
@@ -216,7 +219,7 @@ export const messages = {
         leave: 'Встановити час коли залишив',
       },
     },
-    delete: '@:dialog.heading.delete',
+    delete: '@:dialog.heading.delete.default',
     profile: 'Профіль',
     logout: 'Вийти',
   },
@@ -253,6 +256,10 @@ export const messages = {
     },
     password: {
       hint: 'Пароль повинен бути від 7 до 15 символів, що містять принаймні одну цифру і особливий символ.',
+    },
+    nodata: 'Ще нічого не було створено',
+    sortBy: {
+      group: 'Сортувати по группі',
     },
   },
   avatar: {
