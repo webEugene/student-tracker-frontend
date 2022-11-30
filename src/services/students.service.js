@@ -104,4 +104,21 @@ class StudentsService {
       },
     );
   }
+
+  /**
+   * Delete student's avatar
+   *
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static studentRemoveAvatar(id, avatarName) {
+    return axiosHandler.delete(
+      `${process.env.VUE_APP_API_ENDPOINT}/v1/students/delete-avatar/${id}`,
+      {
+        params: {
+          avatarName,
+          company_id: getCompanyId(),
+        },
+      },
+    );
+  }
 }

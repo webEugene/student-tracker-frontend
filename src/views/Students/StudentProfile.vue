@@ -66,6 +66,15 @@
                         @click.prevent="dialogAvatar = true"
                         >{{ $t('buttons.edit') }}</v-btn
                       >
+                      <v-btn
+                        elevation="1"
+                        small
+                        class="mt-2"
+                        color="error"
+                        @click.prevent="removeAvatar()"
+                        :disabled="!avatarExist"
+                        >{{ $t('buttons.delete') }}</v-btn
+                      >
                     </div>
                   </v-col>
                   <v-col xl="12" sm="12" md="8" lg="8">
@@ -282,6 +291,7 @@ import { StudentsService } from '@/services/students.service';
 import { GroupsService } from '@/services/groups.service';
 import { required, email } from 'vuelidate/lib/validators';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
+import path from 'path';
 
 export default {
   name: 'StudentProfile',
@@ -301,6 +311,7 @@ export default {
     email: '',
     deleteDialogConfirm: false,
     avatar: '',
+    avatarExist: true,
     dialogAvatar: false,
     rules: [
       (v) => !!v || 'File is required',
@@ -395,6 +406,18 @@ export default {
         });
       this.afterLoading();
     },
+    async removeAvatar() {
+      this.beforeLoading();
+      await StudentsService.studentRemoveAvatar(this.studentId, path.basename(this.avatar))
+        .then(() => {
+          this.$toast.success(this.$t('success.student.update'));
+          this.getStudentData(this.studentId);
+        })
+        .catch((error) => {
+          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+        });
+      this.afterLoading();
+    },
     getDataFromInput() {
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
@@ -442,6 +465,7 @@ export default {
       this.avatar = student.avatar_path
         ? `http://localhost:5000/profileImages/${student.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
+      this.avatarExist = !!student.avatar_path;
     },
     birthdayFormatter(birthday) {
       const date = new Date(birthday);
