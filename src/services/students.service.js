@@ -95,13 +95,13 @@ class StudentsService {
    */
   static studentAvatarChange(id, formData) {
     return axiosHandler.patch(
-      `${process.env.VUE_APP_API_ENDPOINT}/v1/students/upload-avatar/${id}`,
-      formData,
-      {
-        params: {
-          company_id: getCompanyId(),
+        `${process.env.VUE_APP_API_ENDPOINT}/v1/students/upload-avatar/${id}`,
+        formData,
+        {
+          params: {
+            company_id: getCompanyId(),
+          },
         },
-      },
     );
   }
 
@@ -110,12 +110,12 @@ class StudentsService {
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static studentRemoveAvatar(id, avatarName) {
+  static studentRemoveAvatar(id, avatar_path) {
     return axiosHandler.delete(
       `${process.env.VUE_APP_API_ENDPOINT}/v1/students/delete-avatar/${id}`,
       {
         params: {
-          avatarName,
+          avatar_path,
           company_id: getCompanyId(),
         },
       },

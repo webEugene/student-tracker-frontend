@@ -34,7 +34,7 @@
             :disabled="disabled"
           ></v-text-field>
           <v-text-field
-            v-model="company"
+            v-model.trim="company"
             :error-messages="companyErrors"
             :label="$t('formFields.company')"
             :disabled="disabled"
@@ -87,7 +87,7 @@ import { required, email, sameAs } from 'vuelidate/lib/validators';
 import { AuthService } from '@/services/auth.service';
 import jwt_decode from 'jwt-decode';
 import { axiosHandler } from '@/axios.config';
-import { nameSurnameValidate, passwordValidate } from '@/mixins/validators';
+import {companyNameValidate, nameSurnameValidate, passwordValidate} from '@/mixins/validators';
 
 export default {
   name: 'Register',
@@ -111,7 +111,7 @@ export default {
     name: { required, nameSurnameValidate },
     surname: { required, nameSurnameValidate },
     email: { required, email },
-    company: { required, nameSurnameValidate },
+    company: { required, companyNameValidate },
     password: { required, passwordValidate },
     confirmPassword: { required, sameAsPassword: sameAs('password'), passwordValidate },
   },
@@ -142,7 +142,7 @@ export default {
       const errors = [];
       if (!this.$v.company.$dirty) return errors;
       !this.$v.company.required && errors.push(this.$t('validationErrors.company.required'));
-      !this.$v.company.nameSurnameValidate &&
+      !this.$v.company.companyNameValidate &&
         errors.push(this.$t('validationErrors.company.invalid'));
       return errors;
     },

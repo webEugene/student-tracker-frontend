@@ -196,6 +196,9 @@ export const messages = {
       delete: {
         default: 'Видалити',
         group: 'Видалити групу',
+        user: 'Видалити користувача',
+        teacher: 'Видалити вчителя',
+        admin: 'Видалити адміна і компанію',
       },
     },
     chip: {

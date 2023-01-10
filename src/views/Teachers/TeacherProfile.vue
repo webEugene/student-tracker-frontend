@@ -47,6 +47,15 @@
                 <v-btn elevation="1" small class="mt-2" @click.prevent="dialogAvatar = true">{{
                   $t('buttons.edit')
                 }}</v-btn>
+                <v-btn
+                    elevation="1"
+                    small
+                    class="mt-2"
+                    color="error"
+                    @click.prevent="removeAvatar()"
+                    :disabled="!avatarExist"
+                >{{ $t('buttons.delete') }}</v-btn
+                >
               </div>
             </v-col>
             <v-col xl="12" sm="12" md="8" lg="8">
@@ -71,7 +80,7 @@
                   v-model="mobilePhone"
                   :error-messages="mobilePhoneErrors"
                   :label="$t('formFields.phone')"
-                  placeholder="+380991234567"
+                  placeholder="+38(0__)_______"
                   :disabled="disabled"
                   @input="$v.mobilePhone.$touch()"
                   @blur="$v.mobilePhone.$touch()"
@@ -182,7 +191,7 @@
     <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
       <v-card>
         <v-card-title class="text-h6">
-          {{ $t('dialog.heading.delete') }} {{ teacher.name }} {{ teacher.surname }}?
+          {{ $t('dialog.heading.delete.teacher') }} {{ teacher.name }} {{ teacher.surname }}?
         </v-card-title>
         <v-card-text>
           <strong>{{ $t('dialog.warning.title') }}</strong
@@ -207,6 +216,7 @@ import { TeachersService } from '@/services/teachers.service';
 import { GroupsService } from '@/services/groups.service';
 import { required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
+import path from "path";
 
 export default {
   name: 'TeacherProfile',
@@ -224,8 +234,14 @@ export default {
     loading: false,
     deleteDialogConfirm: false,
     avatar: '',
+    avatarExist: true,
     dialogAvatar: false,
-    rules: [(value) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'],
+    rules: [
+      (v) => !!v || 'File is required',
+      (v) => (v && v.size > 0) || 'File is required',
+      (v) => !v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',
+    ],
+    tab: null,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -276,8 +292,8 @@ export default {
       this.disabled = true;
       this.dialogAvatar = false;
       this.beforeLoading();
-      const avatarData = this.getDataFromInput();
-      await TeachersService.teacherAvatarChange(this.teacherId, avatarData)
+      const avatarName = this.getDataFromInput();
+      await TeachersService.teacherAvatarChange(this.teacherId, avatarName)
         .then(() => {
           this.$toast.success(this.$t('success.teacher.avatar'));
           this.getTeacherData(this.teacherId);
@@ -290,9 +306,7 @@ export default {
     getDataFromInput() {
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
-
       formData.append('avatar_path', getFileCSV[0]);
-
       return formData;
     },
     async loadGroups() {
@@ -322,8 +336,9 @@ export default {
       this.mobilePhone = teacher.mobilePhone;
       this.selectGroup = teacher.group;
       this.avatar = teacher.avatar_path
-        ? `http://localhost:5000/profileImages/${teacher.avatar_path}`
+        ? `http://localhost:5000/profiles/${teacher.company_id}/${teacher.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
+      this.avatarExist = !!teacher.avatar_path;
     },
     birthdayFormatter(birthday) {
       const date = new Date(birthday);
@@ -351,6 +366,18 @@ export default {
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
         });
+      this.afterLoading();
+    },
+    async removeAvatar() {
+      this.beforeLoading();
+      await TeachersService.teacherRemoveAvatar(this.teacherId, path.basename(this.avatar))
+          .then(() => {
+            this.$toast.success(this.$t('success.teacher.update'));
+            this.getTeacherData(this.teacherId);
+          })
+          .catch((error) => {
+            this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          });
       this.afterLoading();
     },
     async deleteTeacher() {

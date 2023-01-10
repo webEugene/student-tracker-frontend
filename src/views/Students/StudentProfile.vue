@@ -395,8 +395,8 @@ export default {
       this.disabled = true;
       this.dialogAvatar = false;
       this.beforeLoading();
-      const avatarData = this.getDataFromInput();
-      await StudentsService.studentAvatarChange(this.studentId, avatarData)
+      const avatarName = this.getDataFromInput();
+        await StudentsService.studentAvatarChange(this.studentId, avatarName)
         .then(() => {
           this.$toast.success(this.$t('success.student.update'));
           this.getStudentData(this.studentId);
@@ -421,17 +421,7 @@ export default {
     getDataFromInput() {
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
-
-      // formData.append(
-      //   'avatar_path',
-      //   new File([this.studentId + getFileCSV[0].name], `${getFileCSV[0].name}`, {
-      //     type: getFileCSV[0].type,
-      //     lastModified: getFileCSV[0].lastModified,
-      //   }),
-      // );
-
       formData.append('avatar_path', getFileCSV[0]);
-
       return formData;
     },
     async loadGroups() {
@@ -463,7 +453,7 @@ export default {
       this.selectGroup = student.group;
       this.email = student.email;
       this.avatar = student.avatar_path
-        ? `http://localhost:5000/profileImages/${student.avatar_path}`
+        ? `http://localhost:5000/profiles/${student.company_id}/${student.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
       this.avatarExist = !!student.avatar_path;
     },

@@ -103,7 +103,7 @@
     <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
       <v-card>
         <v-card-title class="text-h6">
-          {{ $t('dialog.heading.delete') }} {{ user.name }} {{ user.surname }}?
+          {{ $t('dialog.heading.delete.admin') }} {{ user.name }} {{ user.surname }}?
         </v-card-title>
         <v-card-text>
           <strong>{{ $t('dialog.warning.title') }}</strong

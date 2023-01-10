@@ -196,6 +196,9 @@ export const messages = {
       delete: {
         default: 'Delete',
         group: 'Delete group',
+        user: 'Delete user',
+        teacher: 'Delete teacher',
+        admin: 'Delete admin and company',
       },
     },
     chip: {

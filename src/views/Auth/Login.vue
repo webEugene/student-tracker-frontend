@@ -97,7 +97,7 @@ export default {
     login() {
       this.error = '';
       this.loading = true;
-      AuthService.login(this.email, this.password)
+      AuthService.login(this.email.toLowerCase(), this.password)
         .then((response) => {
           const userInfo = response.data.userInfo;
           const token = response.data.access_token;
