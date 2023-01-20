@@ -6,8 +6,8 @@
   </div>
 </template>
 
-<style>
-@import './assets/styles.css';
+<style lang="scss">
+@import './assets/global.scss';
 </style>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1 class="text-center">Student Management Tracker</h1>
+    <h1 class="text-center">Pupils Management Tracker</h1>
     <p class="text-center">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, eaque!
     </p>

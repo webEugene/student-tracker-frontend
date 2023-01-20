@@ -164,40 +164,60 @@
       </template>
       <!-- Data table output -->
       <template v-slot:item="row">
-        <tr>
+        <tr :class="{'tbody-tr-mobile': isMobile}">
           <td>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[0].text }}:</div>
             {{ row.item.name }} {{ row.item.surname }}
-            <v-tooltip top v-if="$can('admin')">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
+            <div class="d-sm-none d-md-none d-lg-none tbody-redirect-mobile" v-if="$can('admin')">
+              <v-btn
                   fab
                   x-small
                   icon
-                  v-bind="attrs"
-                  v-on="on"
                   class="btn-domain-page"
                   router
                   :to="{
                     name: 'StudentProfile',
                     params: { id: row.item.id },
                   }"
+              ><v-icon>mdi-dots-vertical</v-icon></v-btn
+              >
+            </div>
+            <div class="d-none d-sm-flex">
+              <v-tooltip top v-if="$can('admin')">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      fab
+                      x-small
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      class="btn-domain-page"
+                      router
+                      :to="{
+                    name: 'StudentProfile',
+                    params: { id: row.item.id },
+                  }"
                   ><v-icon>mdi-dots-vertical</v-icon></v-btn
-                >
-              </template>
-              <span>{{ $t('student.redirectTo') }}</span>
-            </v-tooltip>
+                  >
+                </template>
+                <span>{{ $t('student.redirectTo') }}</span>
+              </v-tooltip>
+            </div>
           </td>
-          <td>
+          <td :class="{'flex-in-one-line-td' : isMobile}">
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[1].text }}:</div>
             <v-icon v-if="row.item.gender === 'male'" left>mdi-human-male</v-icon>
             <v-icon v-if="row.item.gender === 'female'" left>mdi-human-female</v-icon>
           </td>
           <td>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[2].text }}:</div>
             <v-chip v-if="row.item.group" color="primary" label>
               {{ row.item.group.name }}
             </v-chip>
             <v-chip v-else label small> - </v-chip>
           </td>
           <td>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[3].text }}:</div>
             <v-chip v-if="row.item.group && row.item.group.teacher" class="" color="primary" label>
               <v-icon left> mdi-account-circle-outline </v-icon>
               {{ row.item.group.teacher.name }} {{ row.item.group.teacher.surname }}
@@ -205,6 +225,7 @@
             <v-chip center v-else label small> - </v-chip>
           </td>
           <td>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[4].text }}:</div>
             <v-chip :color="getCameTime(row.item).color" dark small>
               {{ getCameTime(row.item).text }}
             </v-chip>
@@ -214,6 +235,7 @@
             >
           </td>
           <td>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[5].text }}:</div>
             <v-chip :color="getLeftTime(row.item).color" dark small>
               {{ getLeftTime(row.item).text }}
             </v-chip>
@@ -222,59 +244,95 @@
               {{ getBySomebody(row.item.visits, 'took') | relativesFilter }}</span
             >
           </td>
-          <td>
-            <v-tooltip top v-if="$can('admin')">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
+          <td :class="{'flex-in-one-line-td' : isMobile}">
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[6].text }}:</div>
+            <div class="d-sm-none d-md-none d-lg-none tbody-actions-mobile" v-if="$can('admin')">
+              <v-btn
                   class="mx-1 mr-1"
                   fab
                   dark
                   x-small
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on"
                   @click="showEditGroupDialog(row.item)"
-                >
-                  <v-icon dark> mdi-account-edit-outline </v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('tooltips.edit.group') }}</span>
-            </v-tooltip>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
+              >
+                <v-icon dark> mdi-account-edit-outline </v-icon>
+              </v-btn>
+              <v-btn
                   class="mx-1 mr-1 disabled-action"
                   fab
                   dark
                   x-small
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on"
                   @click="showCameAtDialog(row.item)"
-                >
-                  <v-icon dark> mdi-account-arrow-left-outline </v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('tooltips.set.time.arrival') }}</span>
-            </v-tooltip>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
+              >
+                <v-icon dark> mdi-account-arrow-left-outline </v-icon>
+              </v-btn>
+              <v-btn
                   class="mx-1 mr-1 disabled-action"
                   fab
                   dark
                   x-small
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on"
                   :disabled="getCameTime(row.item).showLeftTimeTooltip"
                   @click="showLeftAtDialog(row.item)"
-                >
-                  <v-icon dark> mdi-account-arrow-right-outline </v-icon>
-                </v-btn>
-              </template>
-              <span>{{ $t('tooltips.set.time.leave') }}</span>
-            </v-tooltip>
+              >
+                <v-icon dark> mdi-account-arrow-right-outline </v-icon>
+              </v-btn>
+            </div>
+            <div class="d-none d-sm-flex">
+              <v-tooltip top v-if="$can('admin')">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mx-1 mr-1"
+                    fab
+                    dark
+                    x-small
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="showEditGroupDialog(row.item)"
+                  >
+                    <v-icon dark> mdi-account-edit-outline </v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('tooltips.edit.group') }}</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mx-1 mr-1 disabled-action"
+                    fab
+                    dark
+                    x-small
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="showCameAtDialog(row.item)"
+                  >
+                    <v-icon dark> mdi-account-arrow-left-outline </v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('tooltips.set.time.arrival') }}</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mx-1 mr-1 disabled-action"
+                    fab
+                    dark
+                    x-small
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
+                    :disabled="getCameTime(row.item).showLeftTimeTooltip"
+                    @click="showLeftAtDialog(row.item)"
+                  >
+                    <v-icon dark> mdi-account-arrow-right-outline </v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ $t('tooltips.set.time.leave') }}</span>
+              </v-tooltip>
+            </div>
           </td>
         </tr>
       </template>
@@ -318,6 +376,7 @@ export default {
     relativesList: [{ value: 0 }, { value: 1 }, { value: 2 }, { value: 3 }],
     students: [],
     groupFilterValue: '',
+    isMobile: false,
   }),
   computed: {
     filteredRelatives() {
@@ -526,15 +585,26 @@ export default {
       );
       this.dialogLeftAt = true;
     },
+    onResize () {
+      this.isMobile = window.innerWidth < 600;
+    },
   },
   watch: {
     $route() {
       this.loadStudents();
     },
   },
+  beforeDestroy () {
+    if (typeof window === 'undefined') return;
+
+    window.removeEventListener('resize', this.onResize, { passive: true });
+  },
   mounted() {
     this.loadStudents();
     this.loadGroups();
+    this.onResize();
+
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
 };
 </script>

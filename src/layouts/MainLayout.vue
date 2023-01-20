@@ -6,28 +6,41 @@
 
     <v-app-bar clipped-rightdark app color="green darken-1" dense dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title
+      <v-icon>mdi-timer-lock-outline</v-icon>
+      <v-toolbar-title class="ml-2 d-none d-md-block"
         >{{ appName }}
-        <v-chip class="ma-2" color="pink" label small> BETA </v-chip></v-toolbar-title
-      >
+        </v-toolbar-title>
       <v-spacer></v-spacer>
       <LanguageSwitcher />
       <v-tooltip bottom v-if="$can('admin')">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             color="primary"
+            small
             :value="1"
             router
             :to="`/profile/${getUserInfo.id}`"
-            depressed
             v-bind="attrs"
             v-on="on"
+            class="ml-2 d-none d-md-flex"
           >
             {{ $t('general.welcomeUser') }}, {{ getUserInfo.name }}
           </v-btn>
         </template>
         <span>{{ $t('tooltips.profile') }}</span>
       </v-tooltip>
+      <v-btn
+          color="primary"
+          elevation="2"
+          fab
+          small
+          :value="1"
+          router
+          :to="`/profile/${getUserInfo.id}`"
+          class="ml-2 d-md-none d-lg-none"
+      >
+        <span class="white--text">{{ getUserInfo.name | firstLetterUppercaseFilter }}{{ getUserInfo.surname | firstLetterUppercaseFilter }}</span>
+      </v-btn>
       <v-btn-toggle v-model="toggle_exclusive" color="primary" dense group>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -42,7 +55,10 @@
 
     <Main />
     <v-footer color="green darken-1" app class="d-flex justify-space-between">
-      <span class="white--text">{{ $t('general.version') }}: 1.0.0</span>
+      <div>
+        <v-chip class="mr-2 white--text" color="pink" label small>BETA</v-chip>
+        <span class="white--text">{{ $t('general.version') }}: 1.0.0</span>
+      </div>
       <span class="white--text">Copyright &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -62,7 +78,7 @@ export default {
 
   data: () => ({
     drawer: null,
-    appName: 'Students Management Tracker',
+    appName: 'Pupils Management Tracker',
     icons: {
       iconProfile: 'mdi-account-circle-outline',
       iconLogout: 'mdi-logout-variant',

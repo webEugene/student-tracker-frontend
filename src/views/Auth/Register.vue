@@ -1,8 +1,20 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
     <v-card>
-      <v-card-title>
+      <v-card-title class="justify-space-between">
         <span class="headline">{{ $t('auth.register.title') }}</span>
+        <v-btn
+            icon
+            small
+            class="ma-2"
+            color="blue-grey"
+            dark
+            @click="$router.push('/')"
+        >
+          <v-icon>
+            mdi-home
+          </v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-alert type="error" class="error-alert" ismissible dense v-if="error">
@@ -65,7 +77,7 @@
             @click:append="showConfirmPassInput = !showConfirmPassInput"
           ></v-text-field>
           <v-btn
-            class="mr-4 login-btn"
+            class="mr-4 mt-2 login-btn"
             color="success"
             type="submit"
             :disabled="loading || $v.$invalid"
@@ -76,8 +88,18 @@
             {{ $t('buttons.register') }}
           </v-btn>
         </v-form>
+
       </v-card-text>
+      <v-divider class="mx-4"></v-divider>
+      <v-card-actions class="justify-center">
+        <span>{{ $t('auth.account.exist') }}</span>
+        <v-btn class="ml-2" color="primary" @click="$router.push('/login')">
+          {{ $t('buttons.login') }}
+        </v-btn>
+      </v-card-actions>
     </v-card>
+
+
   </v-dialog>
 </template>
 
