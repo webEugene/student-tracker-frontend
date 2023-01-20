@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="4" lg="4">
+      <v-col cols="12" xs="12" sm="8" md="6">
         <h1>{{ $t('student.title.add') }}</h1>
         <form @submit.prevent>
           <v-text-field

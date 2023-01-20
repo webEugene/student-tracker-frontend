@@ -33,7 +33,7 @@
         </v-dialog>
         <form @submit.prevent>
           <v-row>
-            <v-col xl="12" sm="12" md="4" lg="4">
+            <v-col sm="12" md="4" lg="4" class="flex-xs-basis">
               <div class="d-flex flex-column" style="max-width: 120px">
                 <v-avatar class="profile" color="blue-grey lighten-4" size="120" rounded>
                   <v-img
@@ -145,8 +145,8 @@
                 v-if="disabled"
                 @click.prevent="disabled = !disabled"
               >
-                <v-icon left> mdi-pencil </v-icon>
-                {{ $t('buttons.edit') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-pencil </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.edit') }}</span>
               </v-btn>
               <div v-else>
                 <v-btn
@@ -157,7 +157,8 @@
                   :disabled="$v.$invalid || disabled || loading"
                   @click.prevent="updateTeacher"
                 >
-                  {{ $t('buttons.save') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                 </v-btn>
 
                 <v-btn
@@ -167,7 +168,8 @@
                   type="submit"
                   @click.prevent="disabled = !disabled"
                 >
-                  {{ $t('buttons.cancel') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                 </v-btn>
               </div>
             </v-col>
@@ -180,7 +182,8 @@
                 :disabled="!disabled || loading"
                 @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
               >
-                {{ $t('buttons.delete') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
               </v-btn>
             </v-col>
           </v-row>

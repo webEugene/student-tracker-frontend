@@ -198,7 +198,7 @@ export const messages = {
         group: 'Видалити групу',
         user: 'Видалити користувача',
         teacher: 'Видалити вчителя',
-        admin: 'Видалити адміна і компанію',
+        admin: 'Видалити компанію',
       },
     },
     chip: {
@@ -278,5 +278,9 @@ export const messages = {
     register: {
       title: 'Зареєструватись',
     },
+    account: {
+      exist: 'Вже є аккаунт?',
+      notExist: 'Немає аккаунта?'
+    }
   },
 };

@@ -48,7 +48,7 @@
               </v-dialog>
               <form @submit.prevent>
                 <v-row>
-                  <v-col xl="12" sm="12" md="4" lg="4">
+                  <v-col sm="12" md="4" lg="4" class="flex-xs-basis">
                     <div class="d-flex flex-column" style="max-width: 120px">
                       <v-avatar class="profile" color="blue-grey lighten-4" size="120" rounded>
                         <v-img
@@ -77,7 +77,7 @@
                       >
                     </div>
                   </v-col>
-                  <v-col xl="12" sm="12" md="8" lg="8">
+                  <v-col sm="12" md="8" lg="8">
                     <div>
                       <v-text-field
                         v-model="name"
@@ -177,8 +177,8 @@
                       v-if="disabled"
                       @click.prevent="disabled = !disabled"
                     >
-                      <v-icon left> mdi-pencil </v-icon>
-                      {{ $t('buttons.edit') }}
+                      <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-pencil </v-icon>
+                      <span class="d-none d-sm-flex">{{ $t('buttons.edit') }}</span>
                     </v-btn>
                     <div v-else>
                       <v-btn
@@ -189,7 +189,8 @@
                         :disabled="$v.$invalid || disabled || loading"
                         @click.prevent="updateStudent"
                       >
-                        {{ $t('buttons.save') }}
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                        <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                       </v-btn>
 
                       <v-btn
@@ -199,7 +200,8 @@
                         type="submit"
                         @click.prevent="disabled = !disabled"
                       >
-                        {{ $t('buttons.cancel') }}
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                        <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                       </v-btn>
                     </div>
                   </v-col>
@@ -212,7 +214,8 @@
                       :disabled="!disabled || loading"
                       @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
                     >
-                      {{ $t('buttons.delete') }}
+                      <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+                      <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -245,18 +248,18 @@
         </v-tab-item>
         <v-tab-item>
           <v-card>
-            <h3>{{ $t('student.visit.title') }}</h3>
             <v-simple-table>
               <template v-slot:default>
                 <thead>
-                  <tr>
+                  <tr class="v-data-table-header">
                     <th class="text-left">{{ $t('table.header.came') }}</th>
                     <th class="text-left">{{ $t('table.header.left') }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="visit in student.visits" :key="visit.id">
+                  <tr v-for="visit in student.visits" :key="visit.id" :class="{'tbody-tr-mobile': isMobile}">
                     <td>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.came') }}:</div>
                       <v-chip :color="getTimeData(visit, 'came_at').color" dark small>
                         {{ getTimeData(visit, 'came_at').text }}
                       </v-chip>
@@ -266,6 +269,7 @@
                       >
                     </td>
                     <td>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.left') }}:</div>
                       <v-chip :color="getTimeData(visit, 'left_at').color" dark small>
                         {{ getTimeData(visit, 'left_at').text }}
                       </v-chip>
@@ -319,6 +323,7 @@ export default {
       (v) => !v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',
     ],
     tab: null,
+    isMobile: false,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -506,9 +511,20 @@ export default {
     afterLoading() {
       this.loading = false;
     },
+    onResize () {
+      this.isMobile = window.innerWidth < 600;
+    },
+  },
+  beforeDestroy () {
+    if (typeof window === 'undefined') return;
+
+    window.removeEventListener('resize', this.onResize, { passive: true });
   },
   mounted() {
     this.loadGroups();
+    this.onResize();
+
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
 };
 </script>

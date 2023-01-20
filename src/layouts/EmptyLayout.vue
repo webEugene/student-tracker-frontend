@@ -1,7 +1,8 @@
 <template>
   <v-app id="inspire">
     <v-app-bar clipped-rightdark app color="green darken-1" dense dark>
-      <v-toolbar-title>{{ appName }}</v-toolbar-title>
+      <v-icon>mdi-timer-lock-outline</v-icon>
+      <v-toolbar-title class="ml-2 d-none d-md-block">{{ appName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <LanguageSwitcher />
     </v-app-bar>
@@ -14,7 +15,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 import Main from '@/components/Main';
 export default {
   data: () => ({
-    appName: 'Students Management Tracker',
+    appName: 'Pupils Management Tracker',
   }),
   components: {
     Main,
