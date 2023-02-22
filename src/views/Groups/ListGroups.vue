@@ -94,7 +94,7 @@
               <td>
                 <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[1].text }}:</div>
                 <v-chip color="teal lighten-4" class="ml-0 mr-2 black--text" label>
-                  {{ $t('general.chips.students') }}: {{ row.item.students.length }}
+                  {{ $t('general.chips.pupils') }}: {{ row.item.pupils.length }}
                 </v-chip>
               </td>
               <td>
@@ -215,9 +215,9 @@ export default {
       return [
         { text: this.$t('table.header.group'), align: 'start', value: 'name', sortable: false },
         {
-          text: this.$t('table.header.students'),
+          text: this.$t('table.header.pupils'),
           align: 'start',
-          value: 'students',
+          value: 'pupils',
           sortable: false,
         },
         {

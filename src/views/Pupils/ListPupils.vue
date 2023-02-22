@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1>{{ $t('student.title.list') }}</h1>
+    <h1>{{ $t('pupil.title.list') }}</h1>
     <v-autocomplete
       clearable
       dense
@@ -12,7 +12,7 @@
     ></v-autocomplete>
     <v-data-table
       :headers="headers"
-      :items="students"
+      :items="pupils"
       :loading="loading"
       :items-per-page="-1"
       class="elevation-1"
@@ -48,7 +48,7 @@
               <v-btn color="blue darken-1" text @click="closeDialogs">{{
                 $t('buttons.cancel')
               }}</v-btn>
-              <v-btn color="success darken-1" text @click="changeGroupForStudent(editedItem.id)">{{
+              <v-btn color="success darken-1" text @click="changeGroupForPupil(editedItem.id)">{{
                 $t('buttons.edit')
               }}</v-btn>
             </v-card-actions>
@@ -176,7 +176,7 @@
                   class="btn-domain-page"
                   router
                   :to="{
-                    name: 'StudentProfile',
+                    name: 'PupilProfile',
                     params: { id: row.item.id },
                   }"
               ><v-icon>mdi-dots-vertical</v-icon></v-btn
@@ -194,13 +194,13 @@
                       class="btn-domain-page"
                       router
                       :to="{
-                    name: 'StudentProfile',
+                    name: 'PupilProfile',
                     params: { id: row.item.id },
                   }"
                   ><v-icon>mdi-dots-vertical</v-icon></v-btn
                   >
                 </template>
-                <span>{{ $t('student.redirectTo') }}</span>
+                <span>{{ $t('pupil.redirectTo') }}</span>
               </v-tooltip>
             </div>
           </td>
@@ -341,12 +341,12 @@
 </template>
 
 <script>
-import { StudentsService } from '@/services/students.service';
+import { PupilsService } from '@/services/pupils.service';
 import { GroupsService } from '@/services/groups.service';
 import { VisitsService } from '@/services/visits.service';
 import relativesFilter from '@/filters/relativesFilter';
 export default {
-  name: 'ListStudents',
+  name: 'ListPupils',
   data: () => ({
     loading: false,
     disabled: false,
@@ -374,7 +374,7 @@ export default {
     },
     groupsList: [],
     relativesList: [{ value: 0 }, { value: 1 }, { value: 2 }, { value: 3 }],
-    students: [],
+    pupils: [],
     groupFilterValue: '',
     isMobile: false,
   }),
@@ -427,11 +427,11 @@ export default {
         .catch((error) => console.log(error));
       this.afterLoading();
     },
-    async loadStudents() {
+    async loadPupils() {
       this.beforeLoading();
-      await StudentsService.getAllStudents()
+      await PupilsService.getAllPupils()
         .then((response) => {
-          this.students = response.data;
+          this.pupils = response.data;
         })
         .catch((error) => console.log(error));
       this.afterLoading();
@@ -482,12 +482,12 @@ export default {
         };
       }
     },
-    async changeGroupForStudent(id) {
+    async changeGroupForPupil(id) {
       this.beforeLoading();
-      await StudentsService.studentGroupChange({ id, group_id: this.editedItem.group.id })
+      await PupilsService.pupilGroupChange({ id, group_id: this.editedItem.group.id })
         .then(() => {
-          this.loadStudents();
-          this.$toast.success(this.$t('success.student.edit.group'));
+          this.loadPupils();
+          this.$toast.success(this.$t('success.pupil.edit.group'));
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -498,14 +498,14 @@ export default {
     async setCameTime() {
       this.beforeLoading();
       const d = new Date();
-      await VisitsService.setStudentCameVisit({
-        student_id: this.editedItem.id,
+      await VisitsService.setPupilCameVisit({
+        pupil_id: this.editedItem.id,
         came_at: d.toISOString(),
         brought: this.editedItem.brought.value,
       })
         .then(() => {
-          this.loadStudents();
-          this.$toast.success(this.$t('success.student.set.time'));
+          this.loadPupils();
+          this.$toast.success(this.$t('success.pupil.set.time'));
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -516,14 +516,14 @@ export default {
     async setLeftTime(visitId) {
       this.beforeLoading();
       const d = new Date();
-      await VisitsService.setStudentLeftVisit({
+      await VisitsService.setPupilLeftVisit({
         id: visitId,
         left_at: d.toISOString(),
         took: this.editedItem.took.value,
       })
         .then(() => {
-          this.loadStudents();
-          this.$toast.success(this.$t('success.student.set.time'));
+          this.loadPupils();
+          this.$toast.success(this.$t('success.pupil.set.time'));
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -544,7 +544,7 @@ export default {
     },
     showEditGroupDialog(item) {
       // Get the object properties of the editable element
-      this.editedIndex = this.students.indexOf(item);
+      this.editedIndex = this.pupils.indexOf(item);
       this.editedItem = Object.assign(
         {},
         {
@@ -558,7 +558,7 @@ export default {
     showCameAtDialog(item) {
       // Get the object properties of the editable element
       const parseDate = item?.visits[0]?.came_at ? Date.parse(item?.visits[0]?.came_at) : '';
-      this.editedIndex = this.students.indexOf(item);
+      this.editedIndex = this.pupils.indexOf(item);
       this.editedItem = Object.assign(
         {},
         {
@@ -573,7 +573,7 @@ export default {
     showLeftAtDialog(item) {
       // Get the object properties of the editable element
       const parseDate = item?.visits[0]?.left_at ? Date.parse(item?.visits[0]?.left_at) : '';
-      this.editedIndex = this.students.indexOf(item);
+      this.editedIndex = this.pupils.indexOf(item);
       this.editedItem = Object.assign(
         {},
         {
@@ -591,7 +591,7 @@ export default {
   },
   watch: {
     $route() {
-      this.loadStudents();
+      this.loadPupils();
     },
   },
   beforeDestroy () {
@@ -600,7 +600,7 @@ export default {
     window.removeEventListener('resize', this.onResize, { passive: true });
   },
   mounted() {
-    this.loadStudents();
+    this.loadPupils();
     this.loadGroups();
     this.onResize();
 

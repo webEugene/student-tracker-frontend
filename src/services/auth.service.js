@@ -6,16 +6,15 @@ class AuthService {
   /**
    * Get jwt token
    *
-   * @param {string} email
-   * @param {string} password
-   *
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
   static register(params) {
     return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/register`, {
       ...params,
     });
   }
+
   /**
    * Logout from the service
    *
