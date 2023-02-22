@@ -8,11 +8,11 @@ export const messages = {
         list: '@:group.title.list',
       },
     },
-    student: {
+    pupil: {
       mainTitle: 'Pupils',
       subLinks: {
-        add: '@:student.title.add',
-        list: '@:student.title.list',
+        add: '@:pupil.title.add',
+        list: '@:pupil.title.list',
       },
     },
     teacher: {
@@ -30,7 +30,7 @@ export const messages = {
       },
     },
   },
-  student: {
+  pupil: {
     title: {
       add: 'Add Pupil',
       list: 'List Pupils',
@@ -131,7 +131,7 @@ export const messages = {
     noGroups: 'Group not yet added',
   },
   success: {
-    student: {
+    pupil: {
       added: 'Pupil successfully added',
       edit: {
         group: 'Group successfully edited',
@@ -161,7 +161,7 @@ export const messages = {
     },
   },
   error: {
-    student: {},
+    pupil: {},
     general: {
       oops: 'Упс...',
     },
@@ -179,7 +179,7 @@ export const messages = {
       came: 'Came',
       left: 'Left',
       actions: 'Actions',
-      students: 'Pupils',
+      pupils: 'Pupils',
       users: 'Users',
       role: 'Role',
     },
@@ -243,7 +243,7 @@ export const messages = {
       title: 'User data',
     },
     chips: {
-      students: 'Pupils',
+      pupils: 'Pupils',
       attached: {
         group: 'Group is not attached',
         teacher: 'Teacher is not attached',

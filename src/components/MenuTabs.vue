@@ -75,19 +75,19 @@ export default {
           permission: ['admin', 'user'],
         },
         {
-          title: this.$t('menu.student.mainTitle'),
+          title: this.$t('menu.pupil.mainTitle'),
           url: '',
           icon: 'mdi-account-group',
           subLinks: [
             {
-              title: this.$t('menu.student.subLinks.add'),
-              url: '/add-students',
+              title: this.$t('menu.pupil.subLinks.add'),
+              url: '/add-pupils',
               icon: 'mdi-account-multiple-plus-outline',
               permission: ['admin'],
             },
             {
-              title: this.$t('menu.student.subLinks.list'),
-              url: '/list-students',
+              title: this.$t('menu.pupil.subLinks.list'),
+              url: '/list-pupils',
               icon: 'mdi-card-account-details-outline',
               permission: ['admin', 'user'],
             },

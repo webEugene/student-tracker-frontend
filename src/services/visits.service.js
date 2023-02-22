@@ -1,4 +1,4 @@
-import { axiosHandler } from '../axios.config';
+import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
 
 export { VisitsService };
@@ -7,13 +7,13 @@ class VisitsService {
   /**
    * Sey a new came visit
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
-  static setStudentCameVisit(params) {
-    const { student_id, came_at, brought } = params;
+  static setPupilCameVisit(params) {
+    const { pupil_id, came_at, brought } = params;
     return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/visits/came`, {
-      student_id,
+      pupil_id,
       came_at,
       brought,
       company_id: getCompanyId(),
@@ -23,10 +23,10 @@ class VisitsService {
   /**
    * Sey a new came visit
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
-  static setStudentLeftVisit(params) {
+  static setPupilLeftVisit(params) {
     const { id, left_at, took } = params;
     return axiosHandler.patch(`${process.env.VUE_APP_API_ENDPOINT}/v1/visits/left/${id}`, {
       id,

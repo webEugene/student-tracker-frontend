@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" xs="12" sm="8" md="6">
-        <h1>{{ $t('student.title.add') }}</h1>
+        <h1>{{ $t('pupil.title.add') }}</h1>
         <form @submit.prevent>
           <v-text-field
             v-model="name"
@@ -20,7 +20,7 @@
             @input="$v.surname.$touch()"
             @blur="$v.surname.$touch()"
           ></v-text-field>
-          <div>{{ $t('student.chooseGender') }}</div>
+          <div>{{ $t('pupil.chooseGender') }}</div>
           <v-radio-group v-model="gender" row>
             <v-radio :label="$t('formFields.male')" value="male"></v-radio>
             <v-radio :label="$t('formFields.female')" value="female"></v-radio>
@@ -80,7 +80,7 @@
             color="success"
             type="submit"
             :disabled="loading || $v.$invalid"
-            @click.prevent="saveStudent()"
+            @click.prevent="savePupil()"
           >
             <v-progress-circular v-if="loading" indeterminate left></v-progress-circular>
             {{ $t('buttons.save') }}
@@ -95,10 +95,10 @@
 import { validationMixin } from 'vuelidate';
 import { required } from 'vuelidate/lib/validators';
 import { GroupsService } from '@/services/groups.service';
-import { StudentsService } from '@/services/students.service';
+import { PupilsService } from '@/services/pupils.service';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
 export default {
-  name: 'AddStudent',
+  name: 'AddPupil',
   mixins: [validationMixin],
   data: () => ({
     name: '',
@@ -161,7 +161,7 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    async saveStudent() {
+    async savePupil() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       this.beforeLoading();
@@ -173,9 +173,9 @@ export default {
         group_id: this.selectGroup,
         gender: this.gender,
       };
-      await StudentsService.createStudent(preparedData)
+      await PupilsService.createPupil(preparedData)
         .then(() => {
-          this.$toast.success(this.$t('success.student.added'));
+          this.$toast.success(this.$t('success.pupil.added'));
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);

@@ -1,45 +1,46 @@
-import { axiosHandler } from '../axios.config';
+import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
 
-export { StudentsService };
+export { PupilsService };
 
-class StudentsService {
+class PupilsService {
   /**
-   * Create a new student
+   * Create a new pupil
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
-  static createStudent(params) {
+  static createPupil(params) {
     // const { name, surname, mobilePhone, birthday, group_id, gender } = params;
-    return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/students`, {
+    return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils`, {
       ...params,
       company_id: getCompanyId(),
     });
   }
 
   /**
-   * Update a new student
+   * Update a new pupil
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param id
+   * @param params
    */
-  static updateStudent(id, params) {
+  static updatePupil(id, params) {
     // const { name, surname, phone, birthday, group_id, gender } = params;
-    return axiosHandler.patch(`${process.env.VUE_APP_API_ENDPOINT}/v1/students/${id}`, {
+    return axiosHandler.patch(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/${id}`, {
       ...params,
       company_id: getCompanyId(),
     });
   }
 
   /**
-   * Delete student
+   * Delete pupil
    *
    * @param {string} id
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static deleteStudent(id) {
-    return axiosHandler.delete(`${process.env.VUE_APP_API_ENDPOINT}/v1/students/${id}`, {
+  static deletePupil(id) {
+    return axiosHandler.delete(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/${id}`, {
       params: {
         company_id: getCompanyId(),
       },
@@ -47,12 +48,12 @@ class StudentsService {
   }
 
   /**
-   * Get all students
+   * Get all pupils
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static getAllStudents() {
-    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/students`, {
+  static getAllPupils() {
+    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils`, {
       params: {
         company_id: getCompanyId(),
       },
@@ -60,12 +61,12 @@ class StudentsService {
   }
 
   /**
-   * Get student by ID
+   * Get pupil by ID
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static findOneStudent(id) {
-    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/students/${id}`, {
+  static findOnePupil(id) {
+    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/${id}`, {
       params: {
         company_id: getCompanyId(),
       },
@@ -73,14 +74,14 @@ class StudentsService {
   }
 
   /**
-   * Change group for student
+   * Change group for pupil
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static studentGroupChange(params) {
+  static pupilGroupChange(params) {
     const { id, group_id } = params;
     return axiosHandler.patch(
-      `${process.env.VUE_APP_API_ENDPOINT}/v1/students/student-group-change/${id}`,
+      `${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/pupil-group-change/${id}`,
       {
         group_id,
         company_id: getCompanyId(),
@@ -89,13 +90,13 @@ class StudentsService {
   }
 
   /**
-   * Set/Change student's avatar
+   * Set/Change pupil's avatar
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static studentAvatarChange(id, formData) {
+  static pupilAvatarChange(id, formData) {
     return axiosHandler.patch(
-        `${process.env.VUE_APP_API_ENDPOINT}/v1/students/upload-avatar/${id}`,
+        `${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/upload-avatar/${id}`,
         formData,
         {
           params: {
@@ -106,13 +107,13 @@ class StudentsService {
   }
 
   /**
-   * Delete student's avatar
+   * Delete pupil's avatar
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static studentRemoveAvatar(id, avatar_path) {
+  static pupilRemoveAvatar(id, avatar_path) {
     return axiosHandler.delete(
-      `${process.env.VUE_APP_API_ENDPOINT}/v1/students/delete-avatar/${id}`,
+      `${process.env.VUE_APP_API_ENDPOINT}/v1/pupils/delete-avatar/${id}`,
       {
         params: {
           avatar_path,

@@ -7,9 +7,9 @@ import Login from '@/views/Auth/Login';
 import Register from '@/views/Auth/Register';
 import AddGroup from '@/views/Groups/AddGroup.vue';
 import ListGroups from '@/views/Groups/ListGroups.vue';
-import AddStudent from '@/views/Students/AddStudent.vue';
-import ListStudents from '@/views/Students/ListStudents.vue';
-import StudentProfile from '@/views/Students/StudentProfile.vue';
+import AddPupil from '@/views/Pupils/AddPupil.vue';
+import ListPupils from '@/views/Pupils/ListPupils.vue';
+import PupilProfile from '@/views/Pupils/PupilProfile.vue';
 import ListTeachers from '@/views/Teachers/ListTeachers';
 import AddTeacher from '@/views/Teachers/AddTeacher';
 import TeacherProfile from '@/views/Teachers/TeacherProfile';
@@ -106,9 +106,9 @@ const routes = [
     },
   },
   {
-    path: '/add-students',
-    name: 'AddStudent',
-    component: AddStudent,
+    path: '/add-pupils',
+    name: 'AddPupil',
+    component: AddPupil,
     meta: {
       layout: 'main',
       breadcrumb: 'Добавить ученика',
@@ -117,9 +117,9 @@ const routes = [
     },
   },
   {
-    path: '/list-students',
-    name: 'ListStudents',
-    component: ListStudents,
+    path: '/list-pupils',
+    name: 'ListPupils',
+    component: ListPupils,
     meta: {
       layout: 'main',
       breadcrumb: 'Список учеников',
@@ -128,9 +128,9 @@ const routes = [
     },
   },
   {
-    path: '/students/:id',
-    name: 'StudentProfile',
-    component: StudentProfile,
+    path: '/pupils/:id',
+    name: 'PupilProfile',
+    component: PupilProfile,
     meta: {
       layout: 'main',
       breadcrumb: 'Профиль ученика',
