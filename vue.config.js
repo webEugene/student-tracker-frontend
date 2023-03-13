@@ -3,7 +3,7 @@ module.exports = {
   transpileDependencies: ['vuetify'],
   devServer: {
     proxy: {
-      '^/v1': {
+      '^/api/v1': {
         target: process.env.VUE_APP_API_ENDPOINT,
         ws: true,
         changeOrigin: true,
