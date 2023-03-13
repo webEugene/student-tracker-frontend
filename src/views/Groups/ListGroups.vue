@@ -2,7 +2,7 @@
   <v-container fluid>
     <h1>{{ $t('group.title.list') }}</h1>
     <v-row>
-      <v-col cols="6" lg="6">
+      <v-col md="12" lg="8">
         <v-data-table
           :headers="headers"
           :items="groups"
