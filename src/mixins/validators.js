@@ -44,3 +44,14 @@ export function passwordValidate(value) {
   const regex = new RegExp(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/);
   return !!value.match(regex);
 }
+
+/**
+ * Validate Company name regex
+ *
+ * @param value
+ * @returns {boolean}
+ */
+export function companyNameValidate(value) {
+  const regex = new RegExp(/^[А-яA-z\s]*$/);
+  return !!value.match(regex);
+}

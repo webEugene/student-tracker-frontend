@@ -8,11 +8,11 @@ export const messages = {
         list: '@:group.title.list',
       },
     },
-    student: {
+    pupil: {
       mainTitle: 'Учні',
       subLinks: {
-        add: '@:student.title.add',
-        list: '@:student.title.list',
+        add: '@:pupil.title.add',
+        list: '@:pupil.title.list',
       },
     },
     teacher: {
@@ -30,7 +30,7 @@ export const messages = {
       },
     },
   },
-  student: {
+  pupil: {
     title: {
       add: 'Додати учня',
       list: 'Список учнів',
@@ -131,7 +131,7 @@ export const messages = {
     noGroups: 'Група ще не добавлена',
   },
   success: {
-    student: {
+    pupil: {
       added: 'Учень успішно доданий',
       edit: {
         group: 'Група успішно змінена',
@@ -161,7 +161,7 @@ export const messages = {
     },
   },
   error: {
-    student: {},
+    pupil: {},
     general: {
       oops: 'Упс...',
     },
@@ -179,7 +179,7 @@ export const messages = {
       came: 'Прийшов/ла',
       left: 'Пішов/ла',
       actions: 'Дії',
-      students: 'Кількість учнів',
+      pupils: 'Кількість учнів',
       users: 'Користувачі',
       role: 'Роль',
     },
@@ -196,6 +196,9 @@ export const messages = {
       delete: {
         default: 'Видалити',
         group: 'Видалити групу',
+        user: 'Видалити користувача',
+        teacher: 'Видалити вчителя',
+        admin: 'Видалити компанію',
       },
     },
     chip: {
@@ -240,7 +243,7 @@ export const messages = {
       title: 'Дані користувача',
     },
     chips: {
-      students: 'Учнів',
+      pupils: 'Учнів',
       attached: {
         group: 'Група не підвязана',
         teacher: 'Вчитель не підвязаний',
@@ -275,5 +278,9 @@ export const messages = {
     register: {
       title: 'Зареєструватись',
     },
+    account: {
+      exist: 'Вже є аккаунт?',
+      notExist: 'Немає аккаунта?'
+    }
   },
 };

@@ -1,4 +1,4 @@
-import { axiosHandler } from '../axios.config';
+import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
 
 export { TeachersService };
@@ -7,8 +7,8 @@ class TeachersService {
   /**
    * Create a new teachers
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
   static createTeacher(params) {
     // const { name, surname, mobilePhone, group_id, birthday } = params;
@@ -74,7 +74,7 @@ class TeachersService {
   }
 
   /**
-   * Set/Change teachers\'s avatar
+   * Set/Change teacher's avatar
    *
    * @returns {Promise<AxiosResponse<any>>}
    */
@@ -87,6 +87,23 @@ class TeachersService {
           company_id: getCompanyId(),
         },
       },
+    );
+  }
+
+  /**
+   * Delete teacher's avatar
+   *
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static teacherRemoveAvatar(id, avatar_path) {
+    return axiosHandler.delete(
+        `${process.env.VUE_APP_API_ENDPOINT}/v1/teachers/delete-avatar/${id}`,
+        {
+          params: {
+            avatar_path,
+            company_id: getCompanyId(),
+          },
+        },
     );
   }
 }

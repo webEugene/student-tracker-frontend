@@ -57,8 +57,8 @@
                 v-if="disabled"
                 @click.prevent="disabled = !disabled"
               >
-                <v-icon left> mdi-pencil </v-icon>
-                {{ $t('buttons.edit') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-pencil </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.edit') }}</span>
               </v-btn>
               <div v-else>
                 <v-btn
@@ -69,7 +69,8 @@
                   :disabled="$v.$invalid || disabled || loading"
                   @click.prevent="updateUser"
                 >
-                  {{ $t('buttons.save') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                 </v-btn>
 
                 <v-btn
@@ -79,7 +80,8 @@
                   type="submit"
                   @click.prevent="disabled = !disabled"
                 >
-                  {{ $t('buttons.cancel') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                 </v-btn>
               </div>
             </v-col>
@@ -92,7 +94,8 @@
                 :disabled="!disabled || loading"
                 @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
               >
-                {{ $t('buttons.delete') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -103,7 +106,7 @@
     <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
       <v-card>
         <v-card-title class="text-h6">
-          {{ $t('dialog.heading.delete') }} {{ user.name }} {{ user.surname }}?
+          {{ $t('dialog.heading.delete.user') }} {{ user.name }} {{ user.surname }}?
         </v-card-title>
         <v-card-text>
           <strong>{{ $t('dialog.warning.title') }}</strong

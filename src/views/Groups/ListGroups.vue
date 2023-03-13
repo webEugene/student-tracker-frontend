@@ -87,57 +87,86 @@
           </template>
           <!-- Data table output -->
           <template v-slot:item="row">
-            <tr>
-              <td>{{ row.item.name }}</td>
+            <tr :class="{'tbody-tr-mobile': isMobile}">
               <td>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[0].text }}:</div>
+                {{ row.item.name }}</td>
+              <td>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[1].text }}:</div>
                 <v-chip color="teal lighten-4" class="ml-0 mr-2 black--text" label>
-                  {{ $t('general.chips.students') }}: {{ row.item.students.length }}
+                  {{ $t('general.chips.pupils') }}: {{ row.item.pupils.length }}
                 </v-chip>
               </td>
               <td>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[2].text }}:</div>
                 <v-chip v-if="row.item.teacher" color="primary" label>
                   <v-icon left> mdi-account-circle-outline </v-icon>
                   {{ row.item.teacher.name }} {{ row.item.teacher.surname }}
                 </v-chip>
                 <v-chip v-else label> {{ $t('general.chips.attached.teacher') }} </v-chip>
               </td>
-              <td>
-                <!-- Edit button -->
-                <v-tooltip top v-if="$can('admin')">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
+              <td :class="{'flex-in-one-line-td' : isMobile}">
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[3].text }}:</div>
+                <div class="d-sm-none d-md-none d-lg-none tbody-actions-mobile" v-if="$can('admin')">
+                  <v-btn
                       class="show-edit-dialog-btn mx-2 mr-2"
                       fab
                       dark
                       x-small
                       color="primary"
                       @click="showEditDialog(row.item)"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <v-icon dark> mdi-pencil </v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('tooltips.edit.group') }}</span>
-                </v-tooltip>
-                <!-- Delete button -->
-                <v-tooltip top v-if="$can('admin')">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
+                  >
+                    <v-icon dark> mdi-pencil </v-icon>
+                  </v-btn>
+                  <v-btn
                       class="show-delete-dialog-btn mx-2"
                       fab
                       dark
                       x-small
                       color="error"
                       @click="showDeleteDialog(row.item)"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <v-icon dark> mdi-delete </v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $t('tooltips.delete') }}</span>
-                </v-tooltip>
+                  >
+                    <v-icon dark> mdi-delete </v-icon>
+                  </v-btn>
+                </div>
+                <div class="d-none d-sm-flex">
+                  <!-- Edit button -->
+                  <v-tooltip top v-if="$can('admin')" class="d-none">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                          class="show-edit-dialog-btn mx-2 mr-2"
+                          fab
+                          dark
+                          x-small
+                          color="primary"
+                          @click="showEditDialog(row.item)"
+                          v-bind="attrs"
+                          v-on="on"
+                      >
+                        <v-icon dark> mdi-pencil </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>{{ $t('tooltips.edit.group') }}</span>
+                  </v-tooltip>
+                  <!-- Delete button -->
+                  <v-tooltip top v-if="$can('admin')" class="d-none">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                          class="show-delete-dialog-btn mx-2"
+                          fab
+                          dark
+                          x-small
+                          color="error"
+                          @click="showDeleteDialog(row.item)"
+                          v-bind="attrs"
+                          v-on="on"
+                      >
+                        <v-icon dark> mdi-delete </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>{{ $t('tooltips.delete') }}</span>
+                  </v-tooltip>
+                </div>
               </td>
             </tr>
           </template>
@@ -174,6 +203,7 @@ export default {
     dialogEdit: false,
     dialogDelete: false,
     deletedItem: {},
+    isMobile: false,
   }),
   validations: {
     editedItem: {
@@ -185,9 +215,9 @@ export default {
       return [
         { text: this.$t('table.header.group'), align: 'start', value: 'name', sortable: false },
         {
-          text: this.$t('table.header.students'),
+          text: this.$t('table.header.pupils'),
           align: 'start',
-          value: 'students',
+          value: 'pupils',
           sortable: false,
         },
         {
@@ -286,14 +316,25 @@ export default {
       });
       this.$v.editedItem.$reset();
     },
+    onResize () {
+      this.isMobile = window.innerWidth < 600;
+    },
   },
   watch: {
     $route() {
       this.loadGroups();
     },
   },
+  beforeDestroy () {
+    if (typeof window === 'undefined') return;
+
+    window.removeEventListener('resize', this.onResize, { passive: true });
+  },
   mounted() {
     this.loadGroups();
+    this.onResize();
+
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
 };
 </script>

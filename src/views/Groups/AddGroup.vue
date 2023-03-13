@@ -13,7 +13,7 @@
             @blur="liveTrimData(name), $v.name.$touch()"
           ></v-text-field>
           <v-btn
-            class="mr-4 login-btn"
+            class="mt-2 mr-4 login-btn"
             color="success"
             type="submit"
             :disabled="loading || $v.$invalid"

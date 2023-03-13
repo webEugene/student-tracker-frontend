@@ -1,4 +1,4 @@
-name: Student Tracker Frontend Actions
+name: Pupil Tracker Frontend Actions
 on:
   push:
     branches: [ main, master ]

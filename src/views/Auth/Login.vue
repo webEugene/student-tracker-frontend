@@ -9,8 +9,20 @@
       >
         {{ $t('auth.login.goToPageInfo') }} {{ $route.query.redirect }}!
       </v-alert>
-      <v-card-title>
+      <v-card-title class="justify-space-between">
         <span class="headline">{{ $t('auth.login.title') }}</span>
+        <v-btn
+            icon
+            small
+            class="ma-2"
+            color="blue-grey"
+            dark
+            @click="$router.push('/')"
+        >
+          <v-icon>
+            mdi-home
+          </v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text>
         <v-alert type="error" class="error-alert" ismissible dense v-if="serverErrors">
@@ -38,7 +50,7 @@
             @click:append="showPassInput = !showPassInput"
           ></v-text-field>
           <v-btn
-            class="mr-4 login-btn"
+            class="mr-4 mt-2 login-btn"
             color="success"
             type="submit"
             :disabled="loading || $v.$invalid"
@@ -50,6 +62,13 @@
           </v-btn>
         </v-form>
       </v-card-text>
+      <v-divider class="mx-4"></v-divider>
+      <v-card-actions class="justify-center">
+        <span>{{ $t('auth.account.notExist') }}</span>
+        <v-btn class="ml-2" color="primary" @click="$router.push('/register')">
+          {{ $t('buttons.register') }}
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -97,7 +116,7 @@ export default {
     login() {
       this.error = '';
       this.loading = true;
-      AuthService.login(this.email, this.password)
+      AuthService.login(this.email.toLowerCase(), this.password)
         .then((response) => {
           const userInfo = response.data.userInfo;
           const token = response.data.access_token;

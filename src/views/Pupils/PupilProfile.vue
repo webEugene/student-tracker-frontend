@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <h1 v-if="student.gender">
-      {{ $t('student.title.profile.' + gender) }}: {{ student.name }} {{ student.surname }}
+    <h1 v-if="pupil.gender">
+      {{ $t('pupil.title.profile.' + gender) }}: {{ pupil.name }} {{ pupil.surname }}
     </h1>
     <v-card>
       <!--  Tabs  -->
@@ -10,7 +10,7 @@
           {{ $t('general.detail.title') }}
         </v-tab>
         <v-tab>
-          {{ $t('student.visit.title') }}
+          {{ $t('pupil.visit.title') }}
         </v-tab>
       </v-tabs>
 
@@ -48,7 +48,7 @@
               </v-dialog>
               <form @submit.prevent>
                 <v-row>
-                  <v-col xl="12" sm="12" md="4" lg="4">
+                  <v-col sm="12" md="4" lg="4" class="flex-xs-basis">
                     <div class="d-flex flex-column" style="max-width: 120px">
                       <v-avatar class="profile" color="blue-grey lighten-4" size="120" rounded>
                         <v-img
@@ -56,7 +56,7 @@
                           max-height="150"
                           max-width="120"
                           :src="`${avatar}`"
-                          :alt="`${student.name} ${student.surname}`"
+                          :alt="`${pupil.name} ${pupil.surname}`"
                         ></v-img>
                       </v-avatar>
                       <v-btn
@@ -77,7 +77,7 @@
                       >
                     </div>
                   </v-col>
-                  <v-col xl="12" sm="12" md="8" lg="8">
+                  <v-col sm="12" md="8" lg="8">
                     <div>
                       <v-text-field
                         v-model="name"
@@ -177,8 +177,8 @@
                       v-if="disabled"
                       @click.prevent="disabled = !disabled"
                     >
-                      <v-icon left> mdi-pencil </v-icon>
-                      {{ $t('buttons.edit') }}
+                      <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-pencil </v-icon>
+                      <span class="d-none d-sm-flex">{{ $t('buttons.edit') }}</span>
                     </v-btn>
                     <div v-else>
                       <v-btn
@@ -187,9 +187,10 @@
                         color="primary"
                         type="submit"
                         :disabled="$v.$invalid || disabled || loading"
-                        @click.prevent="updateStudent"
+                        @click.prevent="updatePupil"
                       >
-                        {{ $t('buttons.save') }}
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                        <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                       </v-btn>
 
                       <v-btn
@@ -199,7 +200,8 @@
                         type="submit"
                         @click.prevent="disabled = !disabled"
                       >
-                        {{ $t('buttons.cancel') }}
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                        <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                       </v-btn>
                     </div>
                   </v-col>
@@ -212,7 +214,8 @@
                       :disabled="!disabled || loading"
                       @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
                     >
-                      {{ $t('buttons.delete') }}
+                      <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+                      <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -223,7 +226,7 @@
           <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
             <v-card>
               <v-card-title class="text-h6">
-                {{ $t('dialog.heading.delete.default') }} {{ student.name }} {{ student.surname }}?
+                {{ $t('dialog.heading.delete.default') }} {{ pupil.name }} {{ pupil.surname }}?
               </v-card-title>
               <v-card-text>
                 <v-alert type="error">
@@ -236,7 +239,7 @@
                 <v-btn color="primary darken-1" text @click="deleteDialogConfirm = false">
                   {{ $t('buttons.cancel') }}
                 </v-btn>
-                <v-btn color="error darken-1" text @click="deleteStudent">
+                <v-btn color="error darken-1" text @click="deletePupil">
                   {{ $t('buttons.approve') }}
                 </v-btn>
               </v-card-actions>
@@ -245,18 +248,18 @@
         </v-tab-item>
         <v-tab-item>
           <v-card>
-            <h3>{{ $t('student.visit.title') }}</h3>
             <v-simple-table>
               <template v-slot:default>
                 <thead>
-                  <tr>
+                  <tr class="v-data-table-header">
                     <th class="text-left">{{ $t('table.header.came') }}</th>
                     <th class="text-left">{{ $t('table.header.left') }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="visit in student.visits" :key="visit.id">
+                  <tr v-for="visit in pupil.visits" :key="visit.id" :class="{'tbody-tr-mobile': isMobile}">
                     <td>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.came') }}:</div>
                       <v-chip :color="getTimeData(visit, 'came_at').color" dark small>
                         {{ getTimeData(visit, 'came_at').text }}
                       </v-chip>
@@ -266,6 +269,7 @@
                       >
                     </td>
                     <td>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.left') }}:</div>
                       <v-chip :color="getTimeData(visit, 'left_at').color" dark small>
                         {{ getTimeData(visit, 'left_at').text }}
                       </v-chip>
@@ -287,17 +291,17 @@
 </template>
 
 <script>
-import { StudentsService } from '@/services/students.service';
+import { PupilsService } from '@/services/pupils.service';
 import { GroupsService } from '@/services/groups.service';
 import { required, email } from 'vuelidate/lib/validators';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
 import path from 'path';
 
 export default {
-  name: 'StudentProfile',
+  name: 'PupilProfile',
   data: () => ({
-    studentId: '',
-    student: '',
+    pupilId: '',
+    pupil: '',
     name: '',
     surname: '',
     selectGroup: {},
@@ -319,6 +323,7 @@ export default {
       (v) => !v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',
     ],
     tab: null,
+    isMobile: false,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -330,8 +335,8 @@ export default {
   },
   created() {
     // Start method getting domain data by id
-    this.studentId = this.$route.params?.id;
-    this.getStudentData(this.studentId);
+    this.pupilId = this.$route.params?.id;
+    this.getPupilData(this.pupilId);
   },
   watch: {},
   computed: {
@@ -395,11 +400,11 @@ export default {
       this.disabled = true;
       this.dialogAvatar = false;
       this.beforeLoading();
-      const avatarData = this.getDataFromInput();
-      await StudentsService.studentAvatarChange(this.studentId, avatarData)
+      const avatarName = this.getDataFromInput();
+        await PupilsService.pupilAvatarChange(this.pupilId, avatarName)
         .then(() => {
-          this.$toast.success(this.$t('success.student.update'));
-          this.getStudentData(this.studentId);
+          this.$toast.success(this.$t('success.pupil.update'));
+          this.getPupilData(this.pupilId);
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -408,10 +413,10 @@ export default {
     },
     async removeAvatar() {
       this.beforeLoading();
-      await StudentsService.studentRemoveAvatar(this.studentId, path.basename(this.avatar))
+      await PupilsService.pupilRemoveAvatar(this.pupilId, path.basename(this.avatar))
         .then(() => {
-          this.$toast.success(this.$t('success.student.update'));
-          this.getStudentData(this.studentId);
+          this.$toast.success(this.$t('success.pupil.update'));
+          this.getPupilData(this.pupilId);
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -421,17 +426,7 @@ export default {
     getDataFromInput() {
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
-
-      // formData.append(
-      //   'avatar_path',
-      //   new File([this.studentId + getFileCSV[0].name], `${getFileCSV[0].name}`, {
-      //     type: getFileCSV[0].type,
-      //     lastModified: getFileCSV[0].lastModified,
-      //   }),
-      // );
-
       formData.append('avatar_path', getFileCSV[0]);
-
       return formData;
     },
     async loadGroups() {
@@ -441,31 +436,31 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    async getStudentData(id) {
+    async getPupilData(id) {
       if (!id) return;
       this.loading = true;
-      await StudentsService.findOneStudent(id)
+      await PupilsService.findOnePupil(id)
         .then((response) => {
-          this.student = response.data;
-          this.setDataStudent(response.data);
+          this.pupil = response.data;
+          this.setDataPupil(response.data);
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
         });
       this.loading = false;
     },
-    setDataStudent(student) {
-      this.name = student.name;
-      this.surname = student.surname;
-      this.birthday = this.birthdayFormatter(student.birthday);
-      this.mobilePhone = student.mobilePhone;
-      this.gender = student.gender;
-      this.selectGroup = student.group;
-      this.email = student.email;
-      this.avatar = student.avatar_path
-        ? `http://localhost:5000/profileImages/${student.avatar_path}`
+    setDataPupil(pupil) {
+      this.name = pupil.name;
+      this.surname = pupil.surname;
+      this.birthday = this.birthdayFormatter(pupil.birthday);
+      this.mobilePhone = pupil.mobilePhone;
+      this.gender = pupil.gender;
+      this.selectGroup = pupil.group;
+      this.email = pupil.email;
+      this.avatar = pupil.avatar_path
+        ? `http://localhost:5000/profiles/${pupil.company_id}/${pupil.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
-      this.avatarExist = !!student.avatar_path;
+      this.avatarExist = !!pupil.avatar_path;
     },
     birthdayFormatter(birthday) {
       const date = new Date(birthday);
@@ -474,7 +469,7 @@ export default {
       let year = date.getFullYear();
       return `${year}-${month}-${day}`;
     },
-    async updateStudent() {
+    async updatePupil() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       this.beforeLoading();
@@ -487,22 +482,22 @@ export default {
         gender: this.gender,
         email: this.email,
       };
-      await StudentsService.updateStudent(this.studentId, preparedData)
+      await PupilsService.updatePupil(this.pupilId, preparedData)
         .then(() => {
-          this.$toast.success(this.$t('success.student.update'));
-          this.getStudentData(this.studentId);
+          this.$toast.success(this.$t('success.pupil.update'));
+          this.getPupilData(this.pupilId);
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
         });
       this.afterLoading();
     },
-    async deleteStudent() {
+    async deletePupil() {
       this.deleteDialogConfirm = false;
       this.beforeLoading();
-      await StudentsService.deleteStudent(this.studentId)
+      await PupilsService.deletePupil(this.pupilId)
         .then(() => {
-          return this.$router.push(`/list-students`);
+          return this.$router.push(`/list-pupils`);
         })
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
@@ -516,9 +511,20 @@ export default {
     afterLoading() {
       this.loading = false;
     },
+    onResize () {
+      this.isMobile = window.innerWidth < 600;
+    },
+  },
+  beforeDestroy () {
+    if (typeof window === 'undefined') return;
+
+    window.removeEventListener('resize', this.onResize, { passive: true });
   },
   mounted() {
     this.loadGroups();
+    this.onResize();
+
+    window.addEventListener('resize', this.onResize, { passive: true });
   },
 };
 </script>

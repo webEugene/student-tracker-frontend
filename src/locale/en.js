@@ -8,11 +8,11 @@ export const messages = {
         list: '@:group.title.list',
       },
     },
-    student: {
-      mainTitle: 'Students',
+    pupil: {
+      mainTitle: 'Pupils',
       subLinks: {
-        add: '@:student.title.add',
-        list: '@:student.title.list',
+        add: '@:pupil.title.add',
+        list: '@:pupil.title.list',
       },
     },
     teacher: {
@@ -30,17 +30,17 @@ export const messages = {
       },
     },
   },
-  student: {
+  pupil: {
     title: {
-      add: 'Add Student',
-      list: 'List Students',
+      add: 'Add Pupil',
+      list: 'List Pupils',
       profile: {
-        male: 'Student',
-        female: 'Student',
+        male: 'Pupil',
+        female: 'Pupil',
       },
     },
     chooseGender: 'Choose gender',
-    redirectTo: 'Go to the student page',
+    redirectTo: 'Go to the pupil page',
     visit: {
       title: 'Visits',
     },
@@ -66,7 +66,7 @@ export const messages = {
     },
   },
   welcome: {
-    title: 'Welcome to the student tracking system',
+    title: 'Welcome to the Pupils Tracking System',
   },
   pageNotFound: {
     title: '(404) Page Not Found',
@@ -131,17 +131,17 @@ export const messages = {
     noGroups: 'Group not yet added',
   },
   success: {
-    student: {
-      added: 'Student successfully added',
+    pupil: {
+      added: 'Pupil successfully added',
       edit: {
         group: 'Group successfully edited',
       },
       set: {
         time: 'Time is set successfully',
       },
-      update: 'Student successfully updated',
-      delete: 'Student successfully deleted',
-      avatar: "Student's avatar successfully updated",
+      update: 'Pupil successfully updated',
+      delete: 'Pupil successfully deleted',
+      avatar: "Pupil's avatar successfully updated",
     },
     teacher: {
       added: 'Teacher successfully added',
@@ -161,7 +161,7 @@ export const messages = {
     },
   },
   error: {
-    student: {},
+    pupil: {},
     general: {
       oops: 'Упс...',
     },
@@ -179,7 +179,7 @@ export const messages = {
       came: 'Came',
       left: 'Left',
       actions: 'Actions',
-      students: 'Students',
+      pupils: 'Pupils',
       users: 'Users',
       role: 'Role',
     },
@@ -196,6 +196,9 @@ export const messages = {
       delete: {
         default: 'Delete',
         group: 'Delete group',
+        user: 'Delete user',
+        teacher: 'Delete teacher',
+        admin: 'Delete company',
       },
     },
     chip: {
@@ -240,7 +243,7 @@ export const messages = {
       title: 'User data',
     },
     chips: {
-      students: 'Students',
+      pupils: 'Pupils',
       attached: {
         group: 'Group is not attached',
         teacher: 'Teacher is not attached',
@@ -275,5 +278,9 @@ export const messages = {
     register: {
       title: 'Register',
     },
+    account: {
+      exist: 'Already have an account?',
+      notExist: 'Do not have an account?'
+    }
   },
 };

@@ -33,7 +33,7 @@
         </v-dialog>
         <form @submit.prevent>
           <v-row>
-            <v-col xl="12" sm="12" md="4" lg="4">
+            <v-col sm="12" md="4" lg="4" class="flex-xs-basis">
               <div class="d-flex flex-column" style="max-width: 120px">
                 <v-avatar class="profile" color="blue-grey lighten-4" size="120" rounded>
                   <v-img
@@ -47,6 +47,15 @@
                 <v-btn elevation="1" small class="mt-2" @click.prevent="dialogAvatar = true">{{
                   $t('buttons.edit')
                 }}</v-btn>
+                <v-btn
+                    elevation="1"
+                    small
+                    class="mt-2"
+                    color="error"
+                    @click.prevent="removeAvatar()"
+                    :disabled="!avatarExist"
+                >{{ $t('buttons.delete') }}</v-btn
+                >
               </div>
             </v-col>
             <v-col xl="12" sm="12" md="8" lg="8">
@@ -71,7 +80,7 @@
                   v-model="mobilePhone"
                   :error-messages="mobilePhoneErrors"
                   :label="$t('formFields.phone')"
-                  placeholder="+380991234567"
+                  placeholder="+38(0__)_______"
                   :disabled="disabled"
                   @input="$v.mobilePhone.$touch()"
                   @blur="$v.mobilePhone.$touch()"
@@ -136,8 +145,8 @@
                 v-if="disabled"
                 @click.prevent="disabled = !disabled"
               >
-                <v-icon left> mdi-pencil </v-icon>
-                {{ $t('buttons.edit') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-pencil </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.edit') }}</span>
               </v-btn>
               <div v-else>
                 <v-btn
@@ -148,7 +157,8 @@
                   :disabled="$v.$invalid || disabled || loading"
                   @click.prevent="updateTeacher"
                 >
-                  {{ $t('buttons.save') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                 </v-btn>
 
                 <v-btn
@@ -158,7 +168,8 @@
                   type="submit"
                   @click.prevent="disabled = !disabled"
                 >
-                  {{ $t('buttons.cancel') }}
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                  <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                 </v-btn>
               </div>
             </v-col>
@@ -171,7 +182,8 @@
                 :disabled="!disabled || loading"
                 @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
               >
-                {{ $t('buttons.delete') }}
+                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -182,7 +194,7 @@
     <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
       <v-card>
         <v-card-title class="text-h6">
-          {{ $t('dialog.heading.delete') }} {{ teacher.name }} {{ teacher.surname }}?
+          {{ $t('dialog.heading.delete.teacher') }} {{ teacher.name }} {{ teacher.surname }}?
         </v-card-title>
         <v-card-text>
           <strong>{{ $t('dialog.warning.title') }}</strong
@@ -207,6 +219,7 @@ import { TeachersService } from '@/services/teachers.service';
 import { GroupsService } from '@/services/groups.service';
 import { required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
+import path from "path";
 
 export default {
   name: 'TeacherProfile',
@@ -224,8 +237,14 @@ export default {
     loading: false,
     deleteDialogConfirm: false,
     avatar: '',
+    avatarExist: true,
     dialogAvatar: false,
-    rules: [(value) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!'],
+    rules: [
+      (v) => !!v || 'File is required',
+      (v) => (v && v.size > 0) || 'File is required',
+      (v) => !v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',
+    ],
+    tab: null,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -276,8 +295,8 @@ export default {
       this.disabled = true;
       this.dialogAvatar = false;
       this.beforeLoading();
-      const avatarData = this.getDataFromInput();
-      await TeachersService.teacherAvatarChange(this.teacherId, avatarData)
+      const avatarName = this.getDataFromInput();
+      await TeachersService.teacherAvatarChange(this.teacherId, avatarName)
         .then(() => {
           this.$toast.success(this.$t('success.teacher.avatar'));
           this.getTeacherData(this.teacherId);
@@ -290,9 +309,7 @@ export default {
     getDataFromInput() {
       const getFileCSV = document.getElementById('avatar').files;
       let formData = new FormData();
-
       formData.append('avatar_path', getFileCSV[0]);
-
       return formData;
     },
     async loadGroups() {
@@ -322,8 +339,9 @@ export default {
       this.mobilePhone = teacher.mobilePhone;
       this.selectGroup = teacher.group;
       this.avatar = teacher.avatar_path
-        ? `http://localhost:5000/profileImages/${teacher.avatar_path}`
+        ? `http://localhost:5000/profiles/${teacher.company_id}/${teacher.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
+      this.avatarExist = !!teacher.avatar_path;
     },
     birthdayFormatter(birthday) {
       const date = new Date(birthday);
@@ -351,6 +369,18 @@ export default {
         .catch((error) => {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
         });
+      this.afterLoading();
+    },
+    async removeAvatar() {
+      this.beforeLoading();
+      await TeachersService.teacherRemoveAvatar(this.teacherId, path.basename(this.avatar))
+          .then(() => {
+            this.$toast.success(this.$t('success.teacher.update'));
+            this.getTeacherData(this.teacherId);
+          })
+          .catch((error) => {
+            this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          });
       this.afterLoading();
     },
     async deleteTeacher() {
