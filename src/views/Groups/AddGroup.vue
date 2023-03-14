@@ -2,7 +2,7 @@
   <v-container fluid>
     <h1>{{ $t('group.title.add') }}</h1>
     <v-row>
-      <v-col cols="12" xs="12" sm="8" md="6">
+      <v-col xs="12" md="6" lg="4">
         <form @submit.prevent>
           <v-text-field
             v-model="name"
