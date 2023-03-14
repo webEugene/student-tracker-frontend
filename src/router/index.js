@@ -20,7 +20,8 @@ import AdminProfile from '@/views/AdminProfile';
 import Cabinet from '@/views/Cabinet';
 import Middlewares from '../middlewares';
 import middlewarePipeline from './middlewarePipeline';
-
+// i18n
+import { i18n } from '@/plugins/i18n.js';
 Vue.use(VueRouter);
 
 const routes = [
@@ -59,6 +60,7 @@ const routes = [
       layout: 'main',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin', 'user'],
+      breadcrumb: i18n.t('breadcrumb.homepage'),
     },
   },
   {
@@ -67,9 +69,9 @@ const routes = [
     component: AdminProfile,
     meta: {
       layout: 'main',
-      breadcrumb: 'Профиль',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.profile'),
     },
   },
   {
@@ -89,9 +91,9 @@ const routes = [
     component: AddGroup,
     meta: {
       layout: 'main',
-      breadcrumb: 'Добавить группу',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.group.add'),
     },
   },
   {
@@ -100,9 +102,9 @@ const routes = [
     component: ListGroups,
     meta: {
       layout: 'main',
-      breadcrumb: 'Список групп',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin', 'user'],
+      breadcrumb: i18n.t('breadcrumb.group.list'),
     },
   },
   {
@@ -111,9 +113,9 @@ const routes = [
     component: AddPupil,
     meta: {
       layout: 'main',
-      breadcrumb: 'Добавить ученика',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.pupil.add'),
     },
   },
   {
@@ -122,9 +124,9 @@ const routes = [
     component: ListPupils,
     meta: {
       layout: 'main',
-      breadcrumb: 'Список учеников',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin', 'user'],
+      breadcrumb: i18n.t('breadcrumb.pupil.list'),
     },
   },
   {
@@ -133,9 +135,9 @@ const routes = [
     component: PupilProfile,
     meta: {
       layout: 'main',
-      breadcrumb: 'Профиль ученика',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.pupil.profile'),
     },
   },
   {
@@ -144,9 +146,9 @@ const routes = [
     component: ListTeachers,
     meta: {
       layout: 'main',
-      breadcrumb: 'Список воспитателей',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.teacher.add'),
     },
   },
   {
@@ -155,9 +157,9 @@ const routes = [
     component: AddTeacher,
     meta: {
       layout: 'main',
-      breadcrumb: 'Добавить учителя',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.teacher.list'),
     },
   },
   {
@@ -166,9 +168,9 @@ const routes = [
     component: TeacherProfile,
     meta: {
       layout: 'main',
-      breadcrumb: 'Профиль воспитателя',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.teacher.profile'),
     },
   },
   {
@@ -177,9 +179,9 @@ const routes = [
     component: ListUsers,
     meta: {
       layout: 'main',
-      breadcrumb: 'Список пользователей',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.user.list'),
     },
   },
   {
@@ -188,9 +190,9 @@ const routes = [
     component: AddUser,
     meta: {
       layout: 'main',
-      breadcrumb: 'Добавить пользователя',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.user.add'),
     },
   },
   {
@@ -199,9 +201,9 @@ const routes = [
     component: UserProfile,
     meta: {
       layout: 'main',
-      breadcrumb: 'Профиль пользователя',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
       permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.user.profile'),
     },
   },
 

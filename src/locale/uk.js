@@ -283,4 +283,27 @@ export const messages = {
       notExist: 'Немає аккаунта?'
     }
   },
+  breadcrumb: {
+    homepage: 'Головна',
+    group: {
+      add: '@:group.title.add',
+      list: '@:group.title.list',
+    },
+    pupil: {
+      add: '@:pupil.title.add',
+      list: '@:pupil.title.list',
+      profile: '@:general.page',
+    },
+    teacher: {
+      add: '@:teacher.title.add',
+      list: '@:teacher.title.list',
+      profile: '@:general.page',
+    },
+    user: {
+      add: '@:user.title.add',
+      list: '@:user.title.list',
+      profile: '@:general.page',
+    },
+    profile: 'Профіль'
+  }
 };
