@@ -9,6 +9,7 @@
         {{ $t('buttons.register') }}
       </v-btn>
     </div>
+    <plans-section />
   </v-container>
 </template>
 
@@ -17,6 +18,9 @@ import router from '../router';
 
 export default {
   name: 'Welcome',
+  components: {
+    PlansSection: () => import('@/layouts/Sections/PlansSection.vue'),
+  },
   data: () => ({}),
   methods: {
     toLogin() {

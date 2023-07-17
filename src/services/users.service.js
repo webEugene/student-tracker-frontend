@@ -45,6 +45,20 @@ class UsersService {
   }
 
   /**
+   * Get admin by ID
+   *
+   * @param {string} id
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static findAdminUser(id) {
+    return axiosHandler.get(`${process.env.VUE_APP_API_ENDPOINT}/v1/users/admin/${id}`, {
+      params: {
+        company_id: getCompanyId(),
+      },
+    });
+  }
+
+  /**
    * Remove teachers
    *
    * @param {string} id

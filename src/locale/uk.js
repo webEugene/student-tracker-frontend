@@ -85,6 +85,7 @@ export const messages = {
     company: 'Введіть компанію',
     companyName: 'Компанія',
     role: 'Роль',
+    plan: 'Виберіть план',
   },
   validationErrors: {
     name: {
@@ -114,6 +115,9 @@ export const messages = {
     password: {
       required: "Пароль обов'язковий",
       invalid: 'Пароль невалідний',
+    },
+    tariff: {
+      required: "Тариф обов'язковий",
     },
   },
   buttons: {
@@ -305,5 +309,22 @@ export const messages = {
       profile: '@:general.page',
     },
     profile: 'Профіль'
+  },
+  plans: {
+    list: {
+      free: 'Free',
+      light: 'Light',
+    },
+    heading: 'Тарифи',
+    title: 'міс.',
+    button: {
+      choose: 'Обрати',
+    },
+    tariffs: {
+      free: '<li>1 користувач</li><li>1 вчитель</li><li>1 група</li><li>до 5 учнів</li>',
+      light: '<li>до 2х користувачів</li><li>до 2х вчителів</li><li>до 2х груп</li><li>до 10 учнів</li>',
+      standard: '<li>до 3х користувачів</li><li>до 3х вчителів</li><li>до 3х груп</li><li>до 30 учнів</li>',
+      premium: '<li>до 10 користувачів</li><li>до 10 вчителів</li><li>до 10 груп</li><li>до 100 учнів</li><li class="cross">Можливість додавати фото учням, вчителям</li>',
+    }
   }
 };
