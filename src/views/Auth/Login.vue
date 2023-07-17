@@ -139,6 +139,7 @@ export default {
           surname: userInfo.surname,
           roles: userInfo.roles,
           company_id: userInfo.company_id,
+          test_plan: userInfo.test_plan
         }),
       );
     },

@@ -1,4 +1,4 @@
-import { axiosHandler } from '../axios.config';
+import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
 
 export { GroupsService };

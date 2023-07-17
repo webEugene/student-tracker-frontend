@@ -105,7 +105,7 @@
     <!-- Dialog confirm -->
     <v-dialog v-model="deleteDialogConfirm" persistent max-width="500">
       <v-card>
-        <v-card-title class="text-h6">
+        <v-card-title class="text-h6" v-if="company">
           {{ $t('dialog.heading.delete.admin') }} {{ company.company }} ?
         </v-card-title>
         <v-card-text>
@@ -124,6 +124,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <h2>Your plan</h2>
+    <plan-card v-if="planInfo" :plans="planInfo"></plan-card>
   </v-container>
 </template>
 
@@ -132,6 +134,7 @@ import { UsersService } from '@/services/users.service';
 import { email, required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate } from '@/mixins/validators';
 import { AuthService } from '@/services/auth.service';
+import PlanCard from "@/components/PlanCard";
 
 export default {
   name: 'AdminProfile',
@@ -146,6 +149,7 @@ export default {
     loading: false,
     deleteDialogConfirm: false,
     role: null,
+    planInfo: null,
     company: null,
   }),
   validations: {
@@ -153,6 +157,7 @@ export default {
     surname: { required, nameSurnameValidate },
     email: { required, email },
   },
+  components: { PlanCard },
   created() {
     // Start method getting domain data by id
     this.userId = this.$route.params?.id;
@@ -189,7 +194,7 @@ export default {
     async getUserData(id) {
       if (!id) return;
       this.loading = true;
-      await UsersService.findOneUser(id)
+      await UsersService.findAdminUser(id)
         .then((response) => {
           this.user = response.data;
           this.setDataUser(response.data);
@@ -205,7 +210,8 @@ export default {
       this.surname = user.surname;
       this.email = user.email;
       this.role = user.roles[0];
-      this.company = user.company;
+      this.company = user?.company;
+      this.planInfo = user?.company.plan;
     },
     async updateUser() {
       this.$v.$touch();

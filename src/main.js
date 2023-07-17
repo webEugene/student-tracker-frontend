@@ -12,6 +12,7 @@ import { VueI18n, i18n } from '@/plugins/i18n';
 import { getBySomebody } from '@/mixins/reusable.methods';
 // filters
 import relativesFilter from '@/filters/relativesFilter';
+import planNumberFilter from '@/filters/planNumberFilter';
 import firstLetterUppercaseFilter from '@/filters/firstLetterUppercaseFilter';
 
 Vue.config.productionTip = false;
@@ -41,6 +42,7 @@ Vue.use(Toast, options);
 
 Vue.filter('relativesFilter', relativesFilter);
 Vue.filter('firstLetterUppercaseFilter', firstLetterUppercaseFilter);
+Vue.filter('planNumberFilter', planNumberFilter);
 
 new Vue({
   router,

@@ -85,6 +85,7 @@ export const messages = {
     company: 'Enter company',
     companyName: 'Company',
     role: 'Role',
+    plan: 'Choose plan',
   },
   validationErrors: {
     name: {
@@ -114,6 +115,9 @@ export const messages = {
     password: {
       required: 'Password is required',
       invalid: 'Password is invalid',
+    },
+    tariff: {
+      required: "Tariff is required",
     },
   },
   buttons: {
@@ -283,4 +287,44 @@ export const messages = {
       notExist: 'Do not have an account?'
     }
   },
+  breadcrumb: {
+    homepage: 'Homepage',
+    group: {
+      add: '@:group.title.add',
+      list: '@:group.title.list',
+    },
+    pupil: {
+      add: '@:pupil.title.add',
+      list: '@:pupil.title.list',
+      profile: '@:general.page',
+    },
+    teacher: {
+      add: '@:teacher.title.add',
+      list: '@:teacher.title.list',
+      profile: '@:general.page',
+    },
+    user: {
+      add: '@:user.title.add',
+      list: '@:user.title.list',
+      profile: '@:general.page',
+    },
+    profile: 'Profile'
+  },
+  plans: {
+    list: {
+      free: 'Free',
+      light: 'Light',
+    },
+    heading: 'Tariffs',
+    title: 'mo.',
+    button: {
+      choose: 'Choose',
+    },
+    tariffs: {
+      free: '<li>1 user</li><li>1 teacher</li><li>1 group</li><li>Up to 10 pupils</li>',
+      light: '<li>Up to 2 users</li><li>Up to 2 teachers</li><li>Up to 2 groups</li><li>Up to 10 pupils</li>',
+      standard: '<li>Up to 3 users</li><li>Up to 3 teachers</li><li>Up to 3 groups</li><li>Up to 30 pupils</li>',
+      premium: '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',
+    }
+  }
 };

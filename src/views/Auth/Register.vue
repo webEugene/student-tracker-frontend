@@ -53,6 +53,19 @@
             @input="$v.company.$touch()"
             @blur="$v.company.$touch()"
           ></v-text-field>
+          <v-select
+            v-if="plans.length > 0"
+            v-model="selectTariff"
+            :error-messages="tariffErrors"
+            :items="plans"
+            :label="$t('formFields.plan')"
+            item-text="plan"
+            item-value="id"
+            required
+            chips
+            @change="$v.selectTariff.$touch()"
+            @blur="$v.selectTariff.$touch()"
+          ></v-select>
           <v-text-field
             v-model="password"
             :error-messages="passwordErrors"
@@ -110,6 +123,8 @@ import { AuthService } from '@/services/auth.service';
 import jwt_decode from 'jwt-decode';
 import { axiosHandler } from '@/axios.config';
 import {companyNameValidate, nameSurnameValidate, passwordValidate} from '@/mixins/validators';
+import { PlansService } from "@/services/plans.service";
+import planNumberFilter from "@/filters/planNumberFilter";
 
 export default {
   name: 'Register',
@@ -122,12 +137,14 @@ export default {
     password: '',
     confirmPassword: '',
     company: '',
+    selectTariff: null,
     submitStatus: null,
     showPassInput: false,
     showConfirmPassInput: false,
     error: null,
     loading: false,
     disabled: false,
+    plans: [],
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -136,8 +153,15 @@ export default {
     company: { required, companyNameValidate },
     password: { required, passwordValidate },
     confirmPassword: { required, sameAsPassword: sameAs('password'), passwordValidate },
+    selectTariff: { required }
   },
   computed: {
+    tariffErrors() {
+      const errors = [];
+      if (!this.$v.selectTariff.$dirty) return errors;
+      !this.$v.selectTariff.required && errors.push(this.$t('validationErrors.tariff.required'));
+      return errors;
+    },
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
@@ -187,6 +211,29 @@ export default {
     },
   },
   methods: {
+    async loadPlans() {
+      await PlansService.getAllPlansForNonLogin()
+        .then((response) => {
+          const getPlans = response.data;
+          const sortedPlans = getPlans.sort((a,b) => a.price - b.price);
+          this.plans = sortedPlans.map(item => planNumberFilter(item));
+
+          this.setTariff();
+        })
+        .catch((error) => console.log(error));
+    },
+    getTariffFromHost(){
+      const regex = /\w+$/gm;
+      const tariff = window.location.search;
+      const str = `?tariff=${tariff}`;
+
+      return str.match(regex) !== null ? str.match(regex)[0] : null;
+    },
+    setTariff() {
+      const chosenTariff = this.getTariffFromHost();
+      this.selectTariff = this.plans.find(item => item.plan === chosenTariff);
+
+    },
     register() {
       this.error = '';
       this.loading = true;
@@ -196,6 +243,7 @@ export default {
         email: this.email,
         password: this.password,
         company: this.company,
+        plan_id: this.selectTariff,
       })
         .then((response) => {
           const userInfo = response.data.userInfo;
@@ -219,6 +267,7 @@ export default {
           surname: userInfo.surname,
           roles: userInfo.roles,
           company_id: userInfo.company_id,
+          type_tariff: userInfo.type_tariff
         }),
       );
     },
@@ -227,7 +276,8 @@ export default {
       localStorage.setItem('expireToken', jwt_decode(token).exp.toString());
     },
   },
+  mounted() {
+    this.loadPlans();
+  }
 };
 </script>
-
-<style scoped></style>
