@@ -321,7 +321,7 @@ export const messages = {
       choose: 'Choose',
     },
     tariffs: {
-      free: '<li>1 user</li><li>1 teacher</li><li>1 group</li><li>Up to 10 pupils</li>',
+      free: '<li>1 user</li><li>1 teacher</li><li>1 group</li><li>Up to 5 pupils</li>',
       light: '<li>Up to 2 users</li><li>Up to 2 teachers</li><li>Up to 2 groups</li><li>Up to 10 pupils</li>',
       standard: '<li>Up to 3 users</li><li>Up to 3 teachers</li><li>Up to 3 groups</li><li>Up to 30 pupils</li>',
       premium: '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',

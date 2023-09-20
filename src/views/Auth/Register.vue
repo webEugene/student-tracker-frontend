@@ -251,7 +251,7 @@ export default {
           this.setTokenToLocalStorage(token);
           axiosHandler.defaults.headers.Authorization = 'Bearer ' + token;
           this.serUserInfoToLocalStorage(userInfo);
-          this.$router.push(this.$route.query.redirect || `/homepage`);
+          this.$router.push(this.$route.query.redirect || `/profile/${userInfo.id}`);
         })
         .catch((error) => {
           this.loading = false;
@@ -267,7 +267,8 @@ export default {
           surname: userInfo.surname,
           roles: userInfo.roles,
           company_id: userInfo.company_id,
-          type_tariff: userInfo.type_tariff
+          type_tariff: userInfo.type_tariff,
+          tariff_permission: userInfo.tariff_permission,
         }),
       );
     },

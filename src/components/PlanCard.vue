@@ -9,12 +9,12 @@
     <v-card-subtitle class="mx-auto py-2">{{ currentPlan.description }}</v-card-subtitle>
     <v-divider class="mx-2"></v-divider>
     <v-card-text class="text--primary">
-      <ul v-html="$t(`plans.tariffs.${[enumPlan[currentPlan.plan].toLowerCase()]}`)">
+      <ul v-html="$t(`plans.tariffs.${[enumPlan[currentPlan.plan]?.toLowerCase()]}`)">
       </ul>
 
     </v-card-text>
     <v-divider class="mx-2"></v-divider>
-    <v-card-actions class="">
+    <v-card-actions class="" v-if="hideChooseBtn">
       <v-btn
           color="primary"
           class="d-flex mx-auto my-2"
@@ -30,6 +30,7 @@
 import router from "@/router";
 import { Plan } from '@/common/constants/plan.enum-like';
 import planNumberFilter from "@/filters/planNumberFilter";
+import { AuthService } from '@/services/auth.service';
 
 export default {
   name: "PlanCard",
@@ -37,16 +38,29 @@ export default {
     currentPlan: {
       type: Object,
       required: true,
+    },
+    hideChooseBtn: {
+      type: Boolean,
+      default: true,
+      required: false,
     }
   },
   data: () => ({
     enumPlan: Plan,
   }),
+  computed: {
+    isLoggedIn(){
+      return AuthService.isLoggedIn();
+    }
+  },
   methods: {
     truncPrice(price) {
       return Math.trunc(price);
     },
     goToRegister(chosenPlan) {
+      if(this.isLoggedIn) {
+        return router.push(`/?tariff=${planNumberFilter(chosenPlan).plan}`);
+      }
       return router.push(`/register?tariff=${planNumberFilter(chosenPlan).plan}`);
     },
   },
