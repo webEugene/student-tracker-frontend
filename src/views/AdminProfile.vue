@@ -1,6 +1,60 @@
 <template>
   <v-container fluid>
-    <h1>{{ $t('general.pageAdmin') }}: {{ user.name }} {{ user.surname }}</h1>
+    <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
+<!--  Short Admin info -->
+    <v-card id="short-profile" max-width="900px" class="pa-2 d-flex">
+      <v-avatar
+          color="primary"
+          rounded
+          size="60"
+      ><v-icon dark>
+        mdi-account-circle
+      </v-icon></v-avatar>
+      <div class="ml-2 d-flex flex-column">
+        <strong >{{ user.name }} {{ user.surname }}</strong>
+        <span class="text-caption">{{ user.company?.company }}</span>
+      </div>
+
+    </v-card>
+    <!--  Plan Admin -->
+    <v-card class="mt-2 " max-width="900px">
+      <v-card-title class="text-h5 d-flex justify-space-between">
+        <div>
+          Your plan: <v-chip color="primary" label>{{ enumPlan[planInfo?.plan] }}</v-chip>
+        </div>
+
+        <v-chip
+            color="green"
+            label
+            text-color="white"
+            class="text-uppercase font-weight-bold"
+        >Paid</v-chip>
+<!--        <v-chip-->
+<!--            color="orange"-->
+<!--            label-->
+<!--            text-color="white"-->
+<!--            class="text-uppercase font-weight-bold"-->
+<!--        >Unpaid</v-chip>-->
+      </v-card-title>
+      <v-card-text>
+        <div>
+          <span class="text-h6 text--primary ">Price: </span>
+          <span class="price-style font-weight-medium">{{ truncPrice(planInfo?.price) }}</span>
+          <strong class="text--primary">{{ planInfo?.currency_code }}/{{$t('plans.title') }}</strong>
+        </div>
+      </v-card-text>
+      <v-card-actions class="mx-2">
+        <v-btn
+            small
+            class="mr-3"
+            color="success"
+            type="submit"
+            elevation="2"
+            @click="makePayment"
+        >make the payment</v-btn>
+      </v-card-actions>
+    </v-card>
+    <!--  Edit Admin -->
     <v-card class="mt-4" max-width="900px">
       <v-card-title>{{ $t('general.detail.title') }}</v-card-title>
       <v-card-text>
@@ -86,18 +140,18 @@
               </div>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col md="2" class="text-right">
-              <v-btn
-                small
-                color="error"
-                type="submit"
-                :disabled="!disabled || loading"
-                @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
-              >
-                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
-                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
-              </v-btn>
-            </v-col>
+<!--            <v-col md="2" class="text-right">-->
+<!--              <v-btn-->
+<!--                small-->
+<!--                color="error"-->
+<!--                type="submit"-->
+<!--                :disabled="!disabled || loading"-->
+<!--                @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"-->
+<!--              >-->
+<!--                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>-->
+<!--                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>-->
+<!--              </v-btn>-->
+<!--            </v-col>-->
           </v-row>
         </form>
       </v-card-text>
@@ -124,8 +178,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <h2>Your plan</h2>
-    <plan-card v-if="planInfo" :plans="planInfo"></plan-card>
+    <!--  Delete Admin -->
+    <v-card class="mt-2" max-width="900px">
+      <v-card-title class="text-h5">
+        Delete account
+      </v-card-title>
+      <v-card-subtitle>Once you delete your account, there is no going back. Please be certain.</v-card-subtitle>
+      <v-card-actions class="mx-4 d-flex justify-space-between">
+        <div>
+          <v-switch
+              v-model="confirmDelete"
+              inset
+              :label="`I want to delete my account.`"
+          ></v-switch>
+        </div>
+        <div class="text-right">
+          <v-btn
+              small
+              color="error"
+              type="submit"
+              :disabled="!disabled || loading"
+              @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
+          >
+            <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
+            <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
   </v-container>
 </template>
 
@@ -134,7 +214,9 @@ import { UsersService } from '@/services/users.service';
 import { email, required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate } from '@/mixins/validators';
 import { AuthService } from '@/services/auth.service';
-import PlanCard from "@/components/PlanCard";
+// import PlanCard from "@/components/PlanCard";
+import { PaymentService } from "@/services/payment.service";
+import { Plan } from '@/common/constants/plan.enum-like';
 
 export default {
   name: 'AdminProfile',
@@ -151,13 +233,14 @@ export default {
     role: null,
     planInfo: null,
     company: null,
+    confirmDelete: true,
+    enumPlan: Plan,
   }),
   validations: {
     name: { required, nameSurnameValidate },
     surname: { required, nameSurnameValidate },
     email: { required, email },
   },
-  components: { PlanCard },
   created() {
     // Start method getting domain data by id
     this.userId = this.$route.params?.id;
@@ -191,6 +274,9 @@ export default {
     },
   },
   methods: {
+    truncPrice(price) {
+      return Math.trunc(price);
+    },
     async getUserData(id) {
       if (!id) return;
       this.loading = true;
@@ -251,6 +337,33 @@ export default {
     afterLoading() {
       this.loading = false;
     },
+    async makePayment() {
+      const dataForPayment = {
+        company_id: this.user.company_id,
+        plan: this.planInfo.plan,
+        userName: `${this.user.name} ${this.user.surname}`,
+        amount: this.planInfo.price.replace(/\./g, ''),
+        currency: this.planInfo.currency_code,
+      };
+
+      await PaymentService.createPaymentFondy(dataForPayment)
+      .then((response) => {
+        if(response.data.response_status === 'success' && response.data.checkout_url) {
+          window.location.href = response.data.checkout_url || this.$router.push(`/profile/${this.userId}`);
+        }
+        console.log(response.data);
+      })
+      .catch((error) => {
+        this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+      });
+    }
   },
 };
 </script>
+
+<style scoped>
+.price-style {
+  font-size: 30px;
+  color: #1976d2;
+}
+</style>
