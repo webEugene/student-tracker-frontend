@@ -62,13 +62,13 @@ export default {
             {
               title: this.$t('menu.group.subLinks.add'),
               url: '/add-group',
-              icon: 'mdi-group',
+              icon: 'mdi-vector-square-plus',
               permission: ['admin'],
             },
             {
               title: this.$t('menu.group.subLinks.list'),
               url: '/list-groups',
-              icon: 'mdi-group',
+              icon: 'mdi-list-box-outline',
               permission: ['admin', 'user'],
             },
           ],
@@ -82,13 +82,13 @@ export default {
             {
               title: this.$t('menu.pupil.subLinks.add'),
               url: '/add-pupils',
-              icon: 'mdi-account-multiple-plus-outline',
+              icon: 'mdi-account-plus-outline',
               permission: ['admin'],
             },
             {
               title: this.$t('menu.pupil.subLinks.list'),
               url: '/list-pupils',
-              icon: 'mdi-card-account-details-outline',
+              icon: 'mdi-list-box-outline',
               permission: ['admin', 'user'],
             },
           ],
@@ -102,13 +102,13 @@ export default {
             {
               title: this.$t('menu.teacher.subLinks.add'),
               url: '/add-teacher',
-              icon: 'mdi-account-multiple-plus',
+              icon: 'mdi-account-plus-outline',
               permission: ['admin'],
             },
             {
               title: this.$t('menu.teacher.subLinks.list'),
               url: '/list-teachers',
-              icon: 'mdi-account-multiple',
+              icon: 'mdi-list-box-outline',
               permission: ['admin'],
             },
           ],
@@ -122,13 +122,13 @@ export default {
             {
               title: this.$t('menu.user.subLinks.add'),
               url: '/add-user',
-              icon: 'mdi-group',
+              icon: 'mdi-account-plus-outline',
               permission: ['admin'],
             },
             {
               title: this.$t('menu.user.subLinks.list'),
               url: '/list-users',
-              icon: 'mdi-group',
+              icon: 'mdi-list-box-outline',
               permission: ['admin'],
             },
           ],

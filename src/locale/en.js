@@ -314,6 +314,8 @@ export const messages = {
     list: {
       free: 'Free',
       light: 'Light',
+      standard: 'Standard',
+      premium: 'Premium',
     },
     heading: 'Tariffs',
     title: 'mo.',
@@ -326,5 +328,48 @@ export const messages = {
       standard: '<li>Up to 3 users</li><li>Up to 3 teachers</li><li>Up to 3 groups</li><li>Up to 30 pupils</li>',
       premium: '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',
     }
+  },
+  payment: {
+    status: {
+      paid: 'Paid',
+      unpaid: 'Unpaid'
+    }
+  },
+  admin: {
+    cards: {
+      delete: {
+        heading: 'Delete account',
+        subtitle: 'Once you delete your account, there is no going back. Please be certain.',
+        checkbox: 'I want to delete my account.'
+      }
+    }
+  },
+  toastification: {
+    errors: {
+      group: {
+        0: 'Exceeded limit according to the tariff conditions',
+        1: 'Group is already exist',
+        2: 'Group can not be deleted. Delete relations with pupil or teacher first!'
+      },
+      pupil: {
+        0: 'Exceeded limit according to the tariff conditions',
+        1: 'Pupil is already exist',
+        2: 'Pupil can not be deleted. Delete relations first!'
+      },
+      teacher: {
+        0: '@:toastification.errors.group.0',
+        1: 'Teacher is already exist',
+        // 2: 'Teacher can not be deleted. Delete relations with pupil or teacher first!'
+      },
+      user: {
+        0: '@:toastification.errors.group.0',
+        1: 'User is already exist',
+        3: 'User with such email is already exist'
+        // 2: 'User can not be deleted. Delete relations with pupil or teacher first!'
+      },
+      general: {
+        0: 'something has been broken, we are fixing this!'
+      }
+    },
   }
 };

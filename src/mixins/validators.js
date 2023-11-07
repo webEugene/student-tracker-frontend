@@ -5,7 +5,7 @@
  * @returns {boolean}
  */
 export function groupValidate(value) {
-  const regex = new RegExp(/^[А-яA-z0-9\s]*$/);
+  const regex = new RegExp(/^[А-Яа-яЁёЇїІіЄєҐґA-z0-9\s]*$/);
   return !!value.match(regex);
 }
 
@@ -16,7 +16,7 @@ export function groupValidate(value) {
  * @returns {boolean}
  */
 export function nameSurnameValidate(value) {
-  const regex = new RegExp(/^[А-яA-z]*$/);
+  const regex = new RegExp(/^[А-Яа-яЁёЇїІіЄєҐґA-z]*$/);
   return !!value.match(regex);
 }
 
@@ -52,6 +52,6 @@ export function passwordValidate(value) {
  * @returns {boolean}
  */
 export function companyNameValidate(value) {
-  const regex = new RegExp(/^[А-яA-z\s]*$/);
+  const regex = new RegExp(/^[А-Яа-яЁёЇїІіЄєҐґA-z\s]*$/);
   return !!value.match(regex);
 }

@@ -1,5 +1,6 @@
 import { axiosHandler } from '../axios.config';
 import getCompanyId from '../helpers/getCompanyId';
+import getTariffPermission from "../helpers/getTariffPermission";
 
 export { UsersService };
 
@@ -7,14 +8,15 @@ class UsersService {
   /**
    * Create a new user
    *
-   * @param {string} name
    * @returns {Promise<AxiosResponse<any>>}
+   * @param params
    */
   static createUser(params) {
     // const { name, surname, email, password, role } = params;
     return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/users/new`, {
       ...params,
       company_id: getCompanyId(),
+      tariff_permission: getTariffPermission(),
     });
   }
 

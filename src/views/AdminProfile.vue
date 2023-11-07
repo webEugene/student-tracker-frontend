@@ -1,7 +1,10 @@
 <template>
   <v-container fluid>
+    <v-alert text type="info">
+      Щоб використовувати ваш тариф, оплатіть його
+    </v-alert>
     <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
-<!--  Short Admin info -->
+    <!--  Short Admin info -->
     <v-card id="short-profile" max-width="900px" class="pa-2 d-flex">
       <v-avatar
           color="primary"
@@ -23,18 +26,18 @@
           Your plan: <v-chip color="primary" label>{{ enumPlan[planInfo?.plan] }}</v-chip>
         </div>
 
-        <v-chip
-            color="green"
-            label
-            text-color="white"
-            class="text-uppercase font-weight-bold"
-        >Paid</v-chip>
 <!--        <v-chip-->
-<!--            color="orange"-->
+<!--            color="green"-->
 <!--            label-->
 <!--            text-color="white"-->
 <!--            class="text-uppercase font-weight-bold"-->
-<!--        >Unpaid</v-chip>-->
+<!--        >{{$t('payment.status.paid') }}</v-chip>-->
+        <v-chip
+            color="orange"
+            label
+            text-color="white"
+            class="text-uppercase font-weight-bold"
+        >{{$t('payment.status.unpaid') }}</v-chip>
       </v-card-title>
       <v-card-text>
         <div>
@@ -139,19 +142,6 @@
                 </v-btn>
               </div>
             </v-col>
-            <v-spacer></v-spacer>
-<!--            <v-col md="2" class="text-right">-->
-<!--              <v-btn-->
-<!--                small-->
-<!--                color="error"-->
-<!--                type="submit"-->
-<!--                :disabled="!disabled || loading"-->
-<!--                @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"-->
-<!--              >-->
-<!--                <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>-->
-<!--                <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>-->
-<!--              </v-btn>-->
-<!--            </v-col>-->
           </v-row>
         </form>
       </v-card-text>
@@ -181,15 +171,15 @@
     <!--  Delete Admin -->
     <v-card class="mt-2" max-width="900px">
       <v-card-title class="text-h5">
-        Delete account
+        {{ $t('admin.cards.delete.heading') }}
       </v-card-title>
-      <v-card-subtitle>Once you delete your account, there is no going back. Please be certain.</v-card-subtitle>
+      <v-card-subtitle>{{ $t('admin.cards.delete.subtitle') }}</v-card-subtitle>
       <v-card-actions class="mx-4 d-flex justify-space-between">
         <div>
           <v-switch
               v-model="confirmDelete"
               inset
-              :label="`I want to delete my account.`"
+              :label="$t('admin.cards.delete.checkbox')"
           ></v-switch>
         </div>
         <div class="text-right">
@@ -197,7 +187,7 @@
               small
               color="error"
               type="submit"
-              :disabled="!disabled || loading"
+              :disabled="!confirmDelete || loading"
               @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
           >
             <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
@@ -214,7 +204,6 @@ import { UsersService } from '@/services/users.service';
 import { email, required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate } from '@/mixins/validators';
 import { AuthService } from '@/services/auth.service';
-// import PlanCard from "@/components/PlanCard";
 import { PaymentService } from "@/services/payment.service";
 import { Plan } from '@/common/constants/plan.enum-like';
 
@@ -233,7 +222,7 @@ export default {
     role: null,
     planInfo: null,
     company: null,
-    confirmDelete: true,
+    confirmDelete: false,
     enumPlan: Plan,
   }),
   validations: {

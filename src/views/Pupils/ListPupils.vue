@@ -167,7 +167,7 @@
         <tr :class="{'tbody-tr-mobile': isMobile}">
           <td>
             <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[0].text }}:</div>
-            {{ row.item.name }} {{ row.item.surname }}
+            <span>{{ row.item.name }} {{ row.item.surname }}</span>
             <div class="d-sm-none d-md-none d-lg-none tbody-redirect-mobile" v-if="$can('admin')">
               <v-btn
                   fab
@@ -182,7 +182,7 @@
               ><v-icon>mdi-dots-vertical</v-icon></v-btn
               >
             </div>
-            <div class="d-none d-sm-flex">
+            <div class="d-none d-sm-inline-block ">
               <v-tooltip top v-if="$can('admin')">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn

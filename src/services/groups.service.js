@@ -1,5 +1,6 @@
 import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
+import getTariffPermission from "../helpers/getTariffPermission";
 
 export { GroupsService };
 
@@ -14,6 +15,7 @@ class GroupsService {
     return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/groups`, {
       name,
       company_id: getCompanyId(),
+      tariff_permission: getTariffPermission(),
     });
   }
 

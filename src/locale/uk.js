@@ -314,6 +314,8 @@ export const messages = {
     list: {
       free: 'Free',
       light: 'Light',
+      standard: 'Standard',
+      premium: 'Premium',
     },
     heading: 'Тарифи',
     title: 'міс.',
@@ -325,6 +327,49 @@ export const messages = {
       light: '<li>до 2х користувачів</li><li>до 2х вчителів</li><li>до 2х груп</li><li>до 10 учнів</li>',
       standard: '<li>до 3х користувачів</li><li>до 3х вчителів</li><li>до 3х груп</li><li>до 30 учнів</li>',
       premium: '<li>до 10 користувачів</li><li>до 10 вчителів</li><li>до 10 груп</li><li>до 100 учнів</li><li class="cross">Можливість додавати фото учням, вчителям</li>',
+    }
+  },
+  payment: {
+    status: {
+      paid: 'Оплачений',
+      unpaid: 'Неоплачений'
+    }
+  },
+  admin: {
+    cards: {
+      delete: {
+        heading: 'Видалити аккаунт',
+        subtitle: 'Після видалення облікового запису повернення назад не буде. Будь ласка, будьте певні.',
+        checkbox: 'Підтвержую видаленя аккаунта'
+      }
+    }
+  },
+  toastification: {
+    errors: {
+      group: {
+        0: 'Перевищений ліміт згідно умови тарифу',
+        1: 'Така група вже створена',
+        2: 'Група не може бути видалена. Видаліть звязок з учнем/вчителем спочатку!'
+      },
+      pupil: {
+        0: 'Перевищений ліміт згідно умови тарифу',
+        1: 'Такий учень вже створений',
+        2: 'Учень не може бути видалений. Видаліть звязок з спочатку!'
+      },
+      teacher: {
+        0: '@:toastification.errors.group.0',
+        1: 'Такий вчитель вже доданий',
+        // 2: 'Teacher can not be deleted. Delete relations with pupil or teacher first!'
+      },
+      user: {
+        0: '@:toastification.errors.group.0',
+        1: 'Такий користувач вже доданий',
+        3: 'Користувач з такою поштою вже доданий',
+        // 2: 'Teacher can not be deleted. Delete relations with pupil or teacher first!'
+      },
+      general: {
+        0: 'щось зламалось, вже виправлямо!'
+      }
     }
   }
 };

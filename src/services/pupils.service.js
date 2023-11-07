@@ -1,5 +1,6 @@
 import { axiosHandler } from '@/axios.config';
 import getCompanyId from '../helpers/getCompanyId';
+import getTariffPermission from "../helpers/getTariffPermission";
 
 export { PupilsService };
 
@@ -15,6 +16,7 @@ class PupilsService {
     return axiosHandler.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/pupils`, {
       ...params,
       company_id: getCompanyId(),
+      tariff_permission: getTariffPermission(),
     });
   }
 
