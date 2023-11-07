@@ -283,7 +283,11 @@ export default {
           this.loadGroups();
         })
         .catch((error) => {
-          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          if(error.response.status === 500) {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.general[0]')}`);
+          } else {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.group[' +error.message+ ']')}`);
+          }
           this.afterLoading();
         });
     },

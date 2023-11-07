@@ -12,6 +12,14 @@ export default function planNumberFilter(value) {
             value.plan = i18n.t('plans.list.light');
             break;
         }
+        case 2: {
+            value.plan = i18n.t('plans.list.standard');
+            break;
+        }
+        case 3: {
+            value.plan = i18n.t('plans.list.premium');
+            break;
+        }
     }
 
     return value;

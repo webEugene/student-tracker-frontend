@@ -178,7 +178,11 @@ export default {
           this.$toast.success(this.$t('success.pupil.added'));
         })
         .catch((error) => {
-          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          if(error.response.status === 500) {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.general[0]')}`);
+          } else {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.pupil[' +error.message+ ']')}`);
+          }
         });
       this.afterLoading();
     },

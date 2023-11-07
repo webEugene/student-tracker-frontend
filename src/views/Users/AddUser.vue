@@ -154,7 +154,11 @@ export default {
           this.$toast.success(this.$t('success.user.added'));
         })
         .catch((error) => {
-          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          if(error.response.status === 500) {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.general[0]')}`);
+          } else {
+            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.user[' +error.message+ ']')}`);
+          }
         });
       this.afterLoading();
     },

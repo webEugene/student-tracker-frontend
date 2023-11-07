@@ -48,7 +48,7 @@
               </v-dialog>
               <form @submit.prevent>
                 <v-row>
-                  <v-col sm="12" md="4" lg="4" class="flex-xs-basis">
+                  <v-col sm="12" md="4" lg="4" class="flex-xs-basis" v-if="tariffPermission === 3">
                     <div class="d-flex flex-column" style="max-width: 120px">
                       <v-avatar class="profile" color="blue-grey lighten-4" size="120" rounded>
                         <v-img
@@ -324,6 +324,7 @@ export default {
     ],
     tab: null,
     isMobile: false,
+    tariffPermission: null,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -458,9 +459,10 @@ export default {
       this.selectGroup = pupil.group;
       this.email = pupil.email;
       this.avatar = pupil.avatar_path
-        ? `http://localhost:5000/profiles/${pupil.company_id}/${pupil.avatar_path}`
+        ? `http://localhost:3000/profiles/${pupil.company_id}/${pupil.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
       this.avatarExist = !!pupil.avatar_path;
+      this.tariffPermission = pupil.company.tariff_permission;
     },
     birthdayFormatter(birthday) {
       const date = new Date(birthday);

@@ -339,7 +339,7 @@ export default {
       this.mobilePhone = teacher.mobilePhone;
       this.selectGroup = teacher.group;
       this.avatar = teacher.avatar_path
-        ? `http://localhost:5000/profiles/${teacher.company_id}/${teacher.avatar_path}`
+        ? `http://localhost:3000/profiles/${teacher.company_id}/${teacher.avatar_path}`
         : `https://lux-admin-pro.indielayer.com/images/avatars/avatar1.svg`;
       this.avatarExist = !!teacher.avatar_path;
     },
