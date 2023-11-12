@@ -90,6 +90,7 @@
                 color="success darken-1"
                 text
                 @click="setCameTime"
+                :disabled="!editedItem?.brought"
                 >{{ $t('buttons.setTime') }}</v-btn
               >
               <v-chip
@@ -143,6 +144,7 @@
                 v-if="!editedItem.left_at"
                 color="success darken-1"
                 text
+                :disabled="!editedItem?.took"
                 @click="setLeftTime(editedItem.id)"
                 >{{ $t('buttons.setTime') }}</v-btn
               >
@@ -498,10 +500,13 @@ export default {
     async setCameTime() {
       this.beforeLoading();
       const d = new Date();
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
       await VisitsService.setPupilCameVisit({
         pupil_id: this.editedItem.id,
         came_at: d.toISOString(),
         brought: this.editedItem.brought.value,
+        came_confirmer: `${userInfo.name} ${userInfo.surname}`
       })
         .then(() => {
           this.loadPupils();
@@ -516,10 +521,13 @@ export default {
     async setLeftTime(visitId) {
       this.beforeLoading();
       const d = new Date();
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
       await VisitsService.setPupilLeftVisit({
         id: visitId,
         left_at: d.toISOString(),
         took: this.editedItem.took.value,
+        left_confirmer: `${userInfo.name} ${userInfo.surname}`
       })
         .then(() => {
           this.loadPupils();

@@ -267,6 +267,17 @@
                         >{{ $t('general.who') }}:
                         {{ getBySomebody(visit, 'brought') | relativesFilter }}</span
                       >
+                      <v-chip
+                          class="ma-2"
+                          color="primary"
+                          label
+                      >
+                        <v-icon left>
+                          mdi-account-circle-outline
+                        </v-icon>
+                        {{ visit.came_confirmer }}
+                      </v-chip>
+
                     </td>
                     <td>
                       <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.left') }}:</div>
@@ -277,6 +288,16 @@
                         >{{ $t('general.who') }}:
                         {{ getBySomebody(visit, 'took') | relativesFilter }}</span
                       >
+                      <v-chip
+                          class="ma-2"
+                          color="primary"
+                          label
+                      >
+                        <v-icon left>
+                          mdi-account-circle-outline
+                        </v-icon>
+                        {{ visit.left_confirmer }}
+                      </v-chip>
                     </td>
                   </tr>
                 </tbody>
