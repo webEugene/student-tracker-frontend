@@ -1,7 +1,7 @@
 <template>
-  <v-card class="mx-4 d-flex flex-column" width="250" outlined>
-    <v-chip class="mx-auto ma-4" color="primary" label>{{ enumPlan[currentPlan.plan] }}</v-chip>
-    <v-card-title class="mx-auto">
+  <v-card class="mx-4 d-flex flex-column" :class="{'is-chosen-plan': isChosenPlan}" width="250" outlined>
+    <v-chip class="mx-auto plan-position-chip" color="primary" small>{{ enumPlan[currentPlan.plan] }}</v-chip>
+    <v-card-title class="mx-auto mt-2">
       <span class="price-style">{{ truncPrice(currentPlan.price) }}</span>
       <sup><small>{{ currentPlan.currency_code }}</small></sup>
       / {{$t('plans.title') }}
@@ -14,14 +14,44 @@
 
     </v-card-text>
     <v-divider class="mx-2"></v-divider>
-    <v-card-actions class="" v-if="hideChooseBtn">
+    <v-card-actions class="">
       <v-btn
+          v-if="!isChosenPlan"
           color="primary"
           class="d-flex mx-auto my-2"
           @click="goToRegister(currentPlan)"
       >
         {{ $t('plans.button.choose') }}
       </v-btn>
+      <v-btn
+          v-if="isChosenPlan"
+          small
+          class="d-flex mx-auto my-2"
+          color="success"
+          type="submit"
+          elevation="2"
+      >{{ $t('buttons.makePayment') }}</v-btn>
+<!--      <v-chip-->
+<!--          v-if="isChosenPlan"-->
+<!--          color="primary"-->
+<!--          label-->
+<!--          text-color="white"-->
+<!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
+<!--      >-->
+<!--        <v-avatar left>-->
+<!--          <v-icon>mdi-checkbox-marked-circle</v-icon>-->
+<!--        </v-avatar>-->
+<!--        {{$t('payment.status.paid') }}</v-chip>-->
+<!--      <v-chip-->
+<!--          color="orange"-->
+<!--          label-->
+<!--          text-color="white"-->
+<!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
+<!--      >-->
+<!--        <v-avatar left>-->
+<!--          <v-icon>mdi-alert</v-icon>-->
+<!--        </v-avatar>-->
+<!--        {{$t('payment.status.unpaid') }}</v-chip>-->
     </v-card-actions>
   </v-card>
 </template>
@@ -43,7 +73,11 @@ export default {
       type: Boolean,
       default: true,
       required: false,
-    }
+    },
+    chosenPlan: {
+      type: Number,
+      required: false,
+    },
   },
   data: () => ({
     enumPlan: Plan,
@@ -51,17 +85,21 @@ export default {
   computed: {
     isLoggedIn(){
       return AuthService.isLoggedIn();
+    },
+    isChosenPlan() {
+      return this.currentPlan.plan === this.chosenPlan;
     }
   },
   methods: {
     truncPrice(price) {
-      return Math.trunc(price);
+      return price ? (parseFloat(price) / 100) : 0;
     },
     goToRegister(chosenPlan) {
       if(this.isLoggedIn) {
-        return router.push(`/?tariff=${planNumberFilter(chosenPlan).plan}`);
-      }
+        this.$emit('change-tariff', chosenPlan.id);
+      } else {
       return router.push(`/register?tariff=${planNumberFilter(chosenPlan).plan}`);
+      }
     },
   },
 }
@@ -71,5 +109,21 @@ export default {
 .price-style {
   font-size: 40px;
   color: #1976d2;
+}
+.plan-position-chip {
+  content: '';
+  position: absolute;
+  top: -13px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  max-width: 120px;
+  justify-content: center;
+}
+.is-chosen-plan {
+  transform: scale(1.1);
+  border-width: 2px;
+  border-color: #1976d2;
 }
 </style>

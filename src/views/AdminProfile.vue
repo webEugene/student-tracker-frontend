@@ -1,7 +1,23 @@
 <template>
   <v-container fluid>
-    <v-alert text type="info">
-      Щоб використовувати ваш тариф, оплатіть його
+    <v-alert text type="info" max-width="900px">
+      {{ $t('alerts.toUsePlan') }} <strong>12.10.2023</strong>.
+    </v-alert>
+    <v-alert
+        text
+        dense
+        color="deep-orange"
+        icon="mdi-clock-fast"
+        border="left"
+        max-width="900px"
+    >
+      {{ $t('alerts.remindToPayPlan') }} <strong>12.10.2023</strong>
+    </v-alert>
+    <v-alert
+        max-width="900px"
+        type="error"
+    >
+      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>. {{ $t('alerts.payOrChangePlan') }}
     </v-alert>
     <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
     <!--  Short Admin info -->
@@ -17,46 +33,17 @@
         <strong >{{ user.name }} {{ user.surname }}</strong>
         <span class="text-caption">{{ user.company?.company }}</span>
       </div>
-
     </v-card>
     <!--  Plan Admin -->
-    <v-card class="mt-2 " max-width="900px">
-      <v-card-title class="text-h5 d-flex justify-space-between">
-        <div>
-          Your plan: <v-chip color="primary" label>{{ enumPlan[planInfo?.plan] }}</v-chip>
-        </div>
-
-<!--        <v-chip-->
-<!--            color="green"-->
-<!--            label-->
-<!--            text-color="white"-->
-<!--            class="text-uppercase font-weight-bold"-->
-<!--        >{{$t('payment.status.paid') }}</v-chip>-->
-        <v-chip
-            color="orange"
-            label
-            text-color="white"
-            class="text-uppercase font-weight-bold"
-        >{{$t('payment.status.unpaid') }}</v-chip>
-      </v-card-title>
-      <v-card-text>
-        <div>
-          <span class="text-h6 text--primary ">Price: </span>
-          <span class="price-style font-weight-medium">{{ truncPrice(planInfo?.price) }}</span>
-          <strong class="text--primary">{{ planInfo?.currency_code }}/{{$t('plans.title') }}</strong>
-        </div>
-      </v-card-text>
-      <v-card-actions class="mx-2">
-        <v-btn
-            small
-            class="mr-3"
-            color="success"
-            type="submit"
-            elevation="2"
-            @click="makePayment"
-        >make the payment</v-btn>
-      </v-card-actions>
-    </v-card>
+    <div class="plans d-flex my-12">
+      <plan-card
+          v-for="(plan, index) in plans"
+          :key="index"
+          :current-plan="plan"
+          :chosen-plan="user.company?.plan.plan"
+          @change-tariff="changeAdminTariff"
+      ></plan-card>
+    </div>
     <!--  Edit Admin -->
     <v-card class="mt-4" max-width="900px">
       <v-card-title>{{ $t('general.detail.title') }}</v-card-title>
@@ -200,15 +187,19 @@
 </template>
 
 <script>
-import { UsersService } from '@/services/users.service';
-import { email, required } from 'vuelidate/lib/validators';
-import { nameSurnameValidate } from '@/mixins/validators';
 import { AuthService } from '@/services/auth.service';
+import { UsersService } from '@/services/users.service';
+import { PlansService } from "@/services/plans.service";
 import { PaymentService } from "@/services/payment.service";
+import { CompanyService } from "@/services/company.service";
+ import { email, required } from 'vuelidate/lib/validators';
+import { nameSurnameValidate } from '@/mixins/validators';
 import { Plan } from '@/common/constants/plan.enum-like';
-
 export default {
   name: 'AdminProfile',
+  components: {
+    PlanCard: () => import('@/components/PlanCard'),
+  },
   data: () => ({
     userId: '',
     user: '',
@@ -224,6 +215,7 @@ export default {
     company: null,
     confirmDelete: false,
     enumPlan: Plan,
+    plans: [],
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -234,6 +226,7 @@ export default {
     // Start method getting domain data by id
     this.userId = this.$route.params?.id;
     this.getUserData(this.userId);
+    this.loadPlans();
   },
   computed: {
     roleLabel() {
@@ -264,7 +257,17 @@ export default {
   },
   methods: {
     truncPrice(price) {
-      return Math.trunc(price);
+      return (parseFloat(price) / 100);
+    },
+    async loadPlans() {
+      this.beforeLoading();
+      await PlansService.getAllPlansForNonLogin()
+          .then((response) => {
+            const sortedPlans = response.data;
+            this.plans = sortedPlans.sort((a,b) => a.price - b.price);
+          })
+          .catch((error) => console.log(error));
+      this.afterLoading();
     },
     async getUserData(id) {
       if (!id) return;
@@ -326,6 +329,19 @@ export default {
     afterLoading() {
       this.loading = false;
     },
+    async changeAdminTariff(planId){
+      this.beforeLoading();
+      await CompanyService.changeTariffPlan(planId)
+      .then(() => {
+        this.getUserData(this.userId);
+        this.loadPlans();
+        this.$toast.success(this.$t('success.user.update'));
+      })
+      .catch((error) => {
+        this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+      });
+      this.afterLoading();
+    },
     async makePayment() {
       const dataForPayment = {
         company_id: this.user.company_id,
@@ -350,9 +366,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.price-style {
-  font-size: 30px;
-  color: #1976d2;
-}
-</style>
+<style scoped></style>

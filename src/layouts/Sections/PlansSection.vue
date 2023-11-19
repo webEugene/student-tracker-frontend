@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="text-center mb-4">{{$t('plans.heading') }}</h2>
+    <h2 class="text-center mb-8 ">{{$t('plans.heading') }}</h2>
     <div class="plans d-flex justify-center">
       <plan-card v-for="(plan, index) in plans" :key="index" :current-plan="plan"></plan-card>
     </div>

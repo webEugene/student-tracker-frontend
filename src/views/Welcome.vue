@@ -10,6 +10,12 @@
       </v-btn>
     </div>
     <plans-section />
+    <section>
+      <h2>Чому це зручно?</h2>
+    </section>
+    <section>
+      <h2>Чому це зручно?</h2>
+    </section>
   </v-container>
 </template>
 

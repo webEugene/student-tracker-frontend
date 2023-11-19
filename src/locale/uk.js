@@ -130,9 +130,14 @@ export const messages = {
     approve: 'Підтвердити',
     login: 'Увійти',
     register: 'Зареєструватись',
+    makePayment: 'Оплатити',
   },
   alerts: {
     noGroups: 'Група ще не добавлена',
+    toUsePlan: 'Щоб використовувати ваш тариф, оплатіть його до',
+    remindToPayPlan: 'Нагадуємо про обов\'язкову оплату тарифу до',
+    notInTimePaidPlan: 'Оплати згідно тарифу не було зроблено до',
+    payOrChangePlan: 'Ваш тариф залишився такий самий, але з лімітом данних. Щоб продовжити ваш тариф перейдіть до оплати.',
   },
   success: {
     pupil: {
@@ -268,6 +273,7 @@ export const messages = {
     sortBy: {
       group: 'Сортувати по группі',
     },
+    supportTitle: 'Підтримка',
   },
   avatar: {
     title: 'Завантажте нову аватар',

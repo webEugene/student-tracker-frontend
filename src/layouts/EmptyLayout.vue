@@ -7,18 +7,21 @@
       <LanguageSwitcher />
     </v-app-bar>
     <Main />
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import Main from '@/components/Main';
+import Footer from '@/components/Footer';
 export default {
   data: () => ({
     appName: 'Pupils Management Tracker',
   }),
   components: {
     Main,
+    Footer,
     LanguageSwitcher,
   },
 };

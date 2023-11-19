@@ -2,6 +2,14 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
       <MenuTabs />
+      <template v-slot:append>
+        <div class="pa-2" v-if="$can('admin')">
+          <p class="text-subtitle-2 font-weight-bold ma-0">{{ $t('general.supportTitle') }}:</p>
+          <v-btn plain href="mailto:support@gmail.com" class="ma-0 pa-0 text--secondary">
+            support@gmail.com
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar clipped-rightdark app color="green darken-1" dense dark>
@@ -78,7 +86,7 @@ export default {
 
   data: () => ({
     drawer: null,
-    appName: 'Pupils Management Tracker',
+    appName: 'KiddySafe Management Tracker',
     icons: {
       iconProfile: 'mdi-account-circle-outline',
       iconLogout: 'mdi-logout-variant',

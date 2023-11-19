@@ -130,9 +130,14 @@ export const messages = {
     approve: 'Approve',
     login: 'Login',
     register: 'Register',
+    makePayment: 'Make the payment',
   },
   alerts: {
     noGroups: 'Group not yet added',
+    toUsePlan: 'To use your tariff plan, please, make the payment until',
+    remindToPayPlan: 'Reminding you about the obligatory payment by your tariff until',
+    notInTimePaidPlan: 'Payment according to the tariff was not made until',
+    payOrChangePlan: 'Your tariff remains the same, but with a data limit. To extend your tariff, make the payment.',
   },
   success: {
     pupil: {
@@ -268,6 +273,7 @@ export const messages = {
     sortBy: {
       group: 'Sort by group',
     },
+    supportTitle: 'User support',
   },
   avatar: {
     title: 'Upload a new avatar',
