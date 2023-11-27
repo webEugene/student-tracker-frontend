@@ -375,7 +375,7 @@ export default {
       took: null,
     },
     groupsList: [],
-    relativesList: [{ value: 0 }, { value: 1 }, { value: 2 }, { value: 3 }],
+    relativesList: [{ value: 0 }, { value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }],
     pupils: [],
     groupFilterValue: '',
     isMobile: false,

@@ -66,7 +66,7 @@ export const messages = {
     },
   },
   welcome: {
-    title: 'Welcome to the Pupils Tracking System',
+    title: 'Welcome to the Pupils Tracking System KiddySafe',
   },
   pageNotFound: {
     title: '(404) Page Not Found',
@@ -167,6 +167,7 @@ export const messages = {
       added: 'User successfully added',
       update: 'User information successfully updated',
       delete: 'User successfully deleted',
+      changeTariff: 'Tariff plan successfully changed',
     },
   },
   error: {
@@ -242,6 +243,7 @@ export const messages = {
       mother: 'Mother',
       grandpa: 'Grandpa',
       grandma: 'Grandma',
+      nanny: 'Nanny'
     },
     set: {
       time: {
