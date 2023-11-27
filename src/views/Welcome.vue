@@ -10,11 +10,17 @@
       </v-btn>
     </div>
     <plans-section />
-    <section>
-      <h2>Чому це зручно?</h2>
-    </section>
-    <section>
-      <h2>Чому це зручно?</h2>
+    <section style="max-width: 900px;" class="mx-auto">
+      <h2 class="text-center">Чому це зручно?</h2>
+      <v-alert
+          color="cyan"
+          border="left"
+          elevation="2"
+          colored-border
+          icon="mdi-monitor-cellphone"
+      >
+        Простота інтерфейсу
+      </v-alert>
     </section>
   </v-container>
 </template>

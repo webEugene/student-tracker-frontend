@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-alert text type="info" max-width="900px">
+    <v-alert text type="info" max-width="900px" v-if="Boolean(user.company?.plan.plan)">
       {{ $t('alerts.toUsePlan') }} <strong>12.10.2023</strong>.
     </v-alert>
     <v-alert
@@ -335,7 +335,7 @@ export default {
       .then(() => {
         this.getUserData(this.userId);
         this.loadPlans();
-        this.$toast.success(this.$t('success.user.update'));
+        this.$toast.success(this.$t('success.user.changeTariff'));
       })
       .catch((error) => {
         this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);

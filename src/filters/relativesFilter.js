@@ -21,6 +21,10 @@ export default function relativesFilter(value) {
       relative = i18n.t('general.relatives.grandma');
       break;
     }
+    case 4: {
+      relative = i18n.t('general.relatives.nanny');
+      break;
+    }
   }
 
   return relative;

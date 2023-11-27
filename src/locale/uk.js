@@ -66,7 +66,7 @@ export const messages = {
     },
   },
   welcome: {
-    title: 'Вас вітає система трекінгу учнів',
+    title: 'Вас вітає система трекінгу учнів KiddySafe',
   },
   pageNotFound: {
     title: '(404) Сторінку не знайдено',
@@ -167,6 +167,7 @@ export const messages = {
       added: 'Користувач успішно доданий',
       update: 'Дані користувача успішно змінені',
       delete: 'Користувач успішно видалений',
+      changeTariff: 'Тарифний план змінений',
     },
   },
   error: {
@@ -242,6 +243,7 @@ export const messages = {
       mother: 'Мама',
       grandpa: 'Дідусь',
       grandma: 'Бабуся',
+      nanny: 'Няня'
     },
     set: {
       time: {
