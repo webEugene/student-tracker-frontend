@@ -3,45 +3,32 @@
     <v-alert text type="info" max-width="900px" v-if="Boolean(user.company?.plan.plan)">
       {{ $t('alerts.toUsePlan') }} <strong>12.10.2023</strong>.
     </v-alert>
-    <v-alert
-        text
-        dense
-        color="deep-orange"
-        icon="mdi-clock-fast"
-        border="left"
-        max-width="900px"
-    >
+    <v-alert text dense color="deep-orange" icon="mdi-clock-fast" border="left" max-width="900px">
       {{ $t('alerts.remindToPayPlan') }} <strong>12.10.2023</strong>
     </v-alert>
-    <v-alert
-        max-width="900px"
-        type="error"
-    >
-      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>. {{ $t('alerts.payOrChangePlan') }}
+    <v-alert max-width="900px" type="error">
+      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>.
+      {{ $t('alerts.payOrChangePlan') }}
     </v-alert>
     <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
     <!--  Short Admin info -->
     <v-card id="short-profile" max-width="900px" class="pa-2 d-flex">
-      <v-avatar
-          color="primary"
-          rounded
-          size="60"
-      ><v-icon dark>
-        mdi-account-circle
-      </v-icon></v-avatar>
+      <v-avatar color="primary" rounded size="60"
+        ><v-icon dark> mdi-account-circle </v-icon></v-avatar
+      >
       <div class="ml-2 d-flex flex-column">
-        <strong >{{ user.name }} {{ user.surname }}</strong>
+        <strong>{{ user.name }} {{ user.surname }}</strong>
         <span class="text-caption">{{ user.company?.company }}</span>
       </div>
     </v-card>
     <!--  Plan Admin -->
     <div class="plans d-flex my-12">
       <plan-card
-          v-for="(plan, index) in plans"
-          :key="index"
-          :current-plan="plan"
-          :chosen-plan="user.company?.plan.plan"
-          @change-tariff="changeAdminTariff"
+        v-for="(plan, index) in plans"
+        :key="index"
+        :current-plan="plan"
+        :chosen-plan="user.company?.plan.plan"
+        @change-tariff="changeAdminTariff"
       ></plan-card>
     </div>
     <!--  Edit Admin -->
@@ -113,7 +100,9 @@
                   :disabled="$v.$invalid || disabled || loading"
                   @click.prevent="updateUser"
                 >
-                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                    mdi-content-save-outline
+                  </v-icon>
                   <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                 </v-btn>
 
@@ -124,7 +113,9 @@
                   type="submit"
                   @click.prevent="disabled = !disabled"
                 >
-                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                    mdi-close-circle-outline
+                  </v-icon>
                   <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                 </v-btn>
               </div>
@@ -149,7 +140,6 @@
             {{ $t('buttons.cancel') }}
           </v-btn>
           <v-btn color="error darken-1" text @click="deleteAdministrator">
-
             {{ $t('buttons.approve') }}
           </v-btn>
         </v-card-actions>
@@ -164,18 +154,18 @@
       <v-card-actions class="mx-4 d-flex justify-space-between">
         <div>
           <v-switch
-              v-model="confirmDelete"
-              inset
-              :label="$t('admin.cards.delete.checkbox')"
+            v-model="confirmDelete"
+            inset
+            :label="$t('admin.cards.delete.checkbox')"
           ></v-switch>
         </div>
         <div class="text-right">
           <v-btn
-              small
-              color="error"
-              type="submit"
-              :disabled="!confirmDelete || loading"
-              @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
+            small
+            color="error"
+            type="submit"
+            :disabled="!confirmDelete || loading"
+            @click.prevent="deleteDialogConfirm = !deleteDialogConfirm"
           >
             <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-delete </v-icon>
             <span class="d-none d-sm-flex">{{ $t('buttons.delete') }}</span>
@@ -183,18 +173,21 @@
         </div>
       </v-card-actions>
     </v-card>
+    <v-btn @click="getFormLiqpay">test</v-btn>
+    <div v-html="form"></div>
   </v-container>
 </template>
 
 <script>
 import { AuthService } from '@/services/auth.service';
 import { UsersService } from '@/services/users.service';
-import { PlansService } from "@/services/plans.service";
-import { PaymentService } from "@/services/payment.service";
-import { CompanyService } from "@/services/company.service";
- import { email, required } from 'vuelidate/lib/validators';
+import { PlansService } from '@/services/plans.service';
+import { PaymentService } from '@/services/payment.service';
+import { CompanyService } from '@/services/company.service';
+import { email, required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate } from '@/mixins/validators';
 import { Plan } from '@/common/constants/plan.enum-like';
+
 export default {
   name: 'AdminProfile',
   components: {
@@ -216,6 +209,7 @@ export default {
     confirmDelete: false,
     enumPlan: Plan,
     plans: [],
+    form: null,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -257,16 +251,16 @@ export default {
   },
   methods: {
     truncPrice(price) {
-      return (parseFloat(price) / 100);
+      return parseFloat(price) / 100;
     },
     async loadPlans() {
       this.beforeLoading();
       await PlansService.getAllPlansForNonLogin()
-          .then((response) => {
-            const sortedPlans = response.data;
-            this.plans = sortedPlans.sort((a,b) => a.price - b.price);
-          })
-          .catch((error) => console.log(error));
+        .then((response) => {
+          const sortedPlans = response.data;
+          this.plans = sortedPlans.sort((a, b) => a.price - b.price);
+        })
+        .catch((error) => console.log(error));
       this.afterLoading();
     },
     async getUserData(id) {
@@ -329,18 +323,31 @@ export default {
     afterLoading() {
       this.loading = false;
     },
-    async changeAdminTariff(planId){
+    async changeAdminTariff(planId) {
       this.beforeLoading();
       await CompanyService.changeTariffPlan(planId)
-      .then(() => {
-        this.getUserData(this.userId);
-        this.loadPlans();
-        this.$toast.success(this.$t('success.user.changeTariff'));
-      })
-      .catch((error) => {
-        this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
-      });
+        .then(() => {
+          this.getUserData(this.userId);
+          this.loadPlans();
+          this.$toast.success(this.$t('success.user.changeTariff'));
+        })
+        .catch((error) => {
+          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+        });
       this.afterLoading();
+    },
+    async getFormLiqpay() {
+      await PaymentService.createPaymentFormLiqPay({
+        amount: '200',
+        company_id: 'f62a31ea-c295-429f-8240-14148385f697',
+      })
+        .then((response) => {
+          console.log(response.data);
+          this.form = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     async makePayment() {
       const dataForPayment = {
@@ -352,16 +359,17 @@ export default {
       };
 
       await PaymentService.createPaymentFondy(dataForPayment)
-      .then((response) => {
-        if(response.data.response_status === 'success' && response.data.checkout_url) {
-          window.location.href = response.data.checkout_url || this.$router.push(`/profile/${this.userId}`);
-        }
-        console.log(response.data);
-      })
-      .catch((error) => {
-        this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
-      });
-    }
+        .then((response) => {
+          if (response.data.response_status === 'success' && response.data.checkout_url) {
+            window.location.href =
+              response.data.checkout_url || this.$router.push(`/profile/${this.userId}`);
+          }
+          console.log(response.data);
+        })
+        .catch((error) => {
+          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+        });
+    },
   },
 };
 </script>
