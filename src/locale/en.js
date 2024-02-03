@@ -131,6 +131,7 @@ export const messages = {
     login: 'Login',
     register: 'Register',
     makePayment: 'Make the payment',
+    goToPayment: 'Go to payment'
   },
   alerts: {
     noGroups: 'Group not yet added',

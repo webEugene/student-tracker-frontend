@@ -24,13 +24,20 @@
         {{ $t('plans.button.choose') }}
       </v-btn>
       <v-btn
-          v-if="isChosenPlan"
+          v-if="isChosenPlan && currentPlan.plan !== 0"
           small
           class="d-flex mx-auto my-2"
           color="success"
           type="submit"
           elevation="2"
-      >{{ $t('buttons.makePayment') }}</v-btn>
+          :to="{
+            name: 'PaymentPage',
+            params: {
+              amount: +truncPrice(currentPlan.price),
+              company_id: this.companyId
+            },
+          }"
+      >{{ $t('buttons.goToPayment') }}</v-btn>
 <!--      <v-chip-->
 <!--          v-if="isChosenPlan"-->
 <!--          color="primary"-->
@@ -78,6 +85,14 @@ export default {
       type: Number,
       required: false,
     },
+    paymentAmount: {
+      type: String,
+      required: false,
+    },
+    companyId: {
+      type: String,
+      required: false,
+    }
   },
   data: () => ({
     enumPlan: Plan,

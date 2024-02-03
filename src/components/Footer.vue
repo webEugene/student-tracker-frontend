@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="green darken-1" app class="d-flex flex-column">
+  <v-footer color="green darken-1" app absolute class="d-flex flex-column">
   <v-container fluid>
     <v-row no-gutters align="center" class="mb-2">
       <v-col sm="12" class="text-center">
