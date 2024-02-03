@@ -18,7 +18,7 @@ import AddUser from '@/views/Users/AddUser';
 import UserProfile from '@/views/Users/UserProfile';
 import AdminProfile from '@/views/AdminProfile';
 import Cabinet from '@/views/Cabinet';
-import PaymentForm from '@/views/Payment/PaymentForm';
+import PaymentPage from '@/views/Payment/PaymentPage';
 import Middlewares from '../middlewares';
 import middlewarePipeline from './middlewarePipeline';
 // i18n
@@ -208,9 +208,9 @@ const routes = [
     },
   },
   {
-    path: '/profile/:id/payment',
-    name: 'PaymentForm',
-    component: PaymentForm,
+    path: '/payments',
+    name: 'PaymentPage',
+    component: PaymentPage,
     meta: {
       layout: 'main',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],

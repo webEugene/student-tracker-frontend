@@ -28,6 +28,7 @@
         :key="index"
         :current-plan="plan"
         :chosen-plan="user.company?.plan.plan"
+        :company-id="user.company_id"
         @change-tariff="changeAdminTariff"
       ></plan-card>
     </div>
@@ -173,8 +174,6 @@
         </div>
       </v-card-actions>
     </v-card>
-    <v-btn @click="getFormLiqpay">test</v-btn>
-    <div v-html="form"></div>
   </v-container>
 </template>
 
@@ -335,19 +334,6 @@ export default {
           this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
         });
       this.afterLoading();
-    },
-    async getFormLiqpay() {
-      await PaymentService.createPaymentFormLiqPay({
-        amount: '200',
-        company_id: 'f62a31ea-c295-429f-8240-14148385f697',
-      })
-        .then((response) => {
-          console.log(response.data);
-          this.form = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     async makePayment() {
       const dataForPayment = {

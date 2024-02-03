@@ -131,6 +131,7 @@ export const messages = {
     login: 'Увійти',
     register: 'Зареєструватись',
     makePayment: 'Оплатити',
+    goToPayment: 'Перейти до оплати'
   },
   alerts: {
     noGroups: 'Група ще не добавлена',
