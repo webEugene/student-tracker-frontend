@@ -131,7 +131,9 @@ export const messages = {
     login: 'Login',
     register: 'Register',
     makePayment: 'Make the payment',
-    goToPayment: 'Go to payment'
+    goToPayment: 'Go to payment',
+    send: 'Send',
+    forgetPass: 'Forget Password'
   },
   alerts: {
     noGroups: 'Group not yet added',
@@ -169,6 +171,9 @@ export const messages = {
       update: 'User information successfully updated',
       delete: 'User successfully deleted',
       changeTariff: 'Tariff plan successfully changed',
+    },
+    auth: {
+      reset: 'Password successfully changed for ',
     },
   },
   error: {
@@ -294,6 +299,12 @@ export const messages = {
     account: {
       exist: 'Already have an account?',
       notExist: 'Do not have an account?'
+    },
+    forgotPassword: {
+      title: 'Forgot Password',
+    },
+    resetPassword: {
+      title: 'Reset Password',
     }
   },
   breadcrumb: {
