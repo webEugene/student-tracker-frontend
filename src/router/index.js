@@ -5,6 +5,8 @@ import Homepage from '@/views/Homepage.vue';
 import PageNotFound from '@/views/PageNotFound';
 import Login from '@/views/Auth/Login';
 import Register from '@/views/Auth/Register';
+import ForgotPassword from '@/views/Auth/ForgotPassword';
+import ResetPassword from '@/views/Auth/ResetPassword';
 import AddGroup from '@/views/Groups/AddGroup.vue';
 import ListGroups from '@/views/Groups/ListGroups.vue';
 import AddPupil from '@/views/Pupils/AddPupil.vue';
@@ -39,6 +41,24 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: {
+      layout: 'empty',
+      middleware: [Middlewares.guest, Middlewares.loggedIn],
+    },
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+    meta: {
+      layout: 'empty',
+      middleware: [Middlewares.guest, Middlewares.loggedIn],
+    },
+  },
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: ResetPassword,
     meta: {
       layout: 'empty',
       middleware: [Middlewares.guest, Middlewares.loggedIn],

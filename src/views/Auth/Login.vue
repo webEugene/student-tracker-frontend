@@ -69,6 +69,16 @@
           {{ $t('buttons.register') }}
         </v-btn>
       </v-card-actions>
+      <div class="text-right">
+        <v-btn
+            class="ma-2 text-capitalize"
+            color="primary"
+            text
+            @click="$router.push('/forgot-password')"
+        >
+          {{ $t('buttons.forgetPass') }}?
+        </v-btn>
+      </div>
     </v-card>
   </v-dialog>
 </template>
@@ -122,7 +132,7 @@ export default {
           const token = response.data.access_token;
           this.setTokenToLocalStorage(token);
           axiosHandler.defaults.headers.Authorization = 'Bearer ' + token;
-          this.serUserInfoToLocalStorage(userInfo);
+          this.setUserInfoToLocalStorage(userInfo);
           this.$router.push(this.$route.query.redirect || `/profile/${userInfo.id}`);
         })
         .catch((error) => {
@@ -130,7 +140,7 @@ export default {
           this.serverErrors = error?.response?.data?.message ?? error.message;
         });
     },
-    serUserInfoToLocalStorage(userInfo) {
+    setUserInfoToLocalStorage(userInfo) {
       localStorage.setItem(
         'userInfo',
         JSON.stringify({

@@ -131,7 +131,9 @@ export const messages = {
     login: 'Увійти',
     register: 'Зареєструватись',
     makePayment: 'Оплатити',
-    goToPayment: 'Перейти до оплати'
+    goToPayment: 'Перейти до оплати',
+    send: 'Відправити',
+    forgetPass: 'Забули пароль'
   },
   alerts: {
     noGroups: 'Група ще не добавлена',
@@ -169,6 +171,9 @@ export const messages = {
       update: 'Дані користувача успішно змінені',
       delete: 'Користувач успішно видалений',
       changeTariff: 'Тарифний план змінений',
+    },
+    auth: {
+      reset: 'Пароль успішно змінений для ',
     },
   },
   error: {
@@ -294,6 +299,12 @@ export const messages = {
     account: {
       exist: 'Вже є аккаунт?',
       notExist: 'Немає аккаунта?'
+    },
+    forgotPassword: {
+      title: 'Забули пароль',
+    },
+    resetPassword: {
+      title: 'Змінити пароль',
     }
   },
   breadcrumb: {

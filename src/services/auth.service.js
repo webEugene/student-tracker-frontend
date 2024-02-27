@@ -52,4 +52,24 @@ class AuthService {
     // if token expire - logout
     return loggedIn && expireToken > Date.now() / 1000;
   }
+
+  /**
+   * Forget the password
+   *
+   * @returns {Promise<AxiosResponse<any>>}
+   * @param email
+   */
+  static forgetPassword(email) {
+    return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/forgot-password`, {
+      email: `${email}`,
+    });
+  }
+
+  static resetPassword(password, token) {
+    return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/reset-password`, {
+      password: `${password}`,
+      token: `${token}`
+    });
+  }
+
 }
