@@ -1,76 +1,86 @@
 <template>
-  <v-card class="mx-4 d-flex flex-column" :class="{'is-chosen-plan': isChosenPlan}" width="250" outlined>
-    <v-chip class="mx-auto plan-position-chip" color="primary" small>{{ enumPlan[currentPlan.plan] }}</v-chip>
+  <v-card
+    class="mx-4 d-flex flex-column"
+    :class="{ 'is-chosen-plan': isChosenPlan }"
+    width="250"
+    outlined
+  >
+    <v-chip class="mx-auto plan-position-chip" color="primary" small>{{
+      enumPlan[currentPlan.plan]
+    }}</v-chip>
     <v-card-title class="mx-auto mt-2">
       <span class="price-style">{{ truncPrice(currentPlan.price) }}</span>
-      <sup><small>{{ currentPlan.currency_code }}</small></sup>
-      / {{$t('plans.title') }}
+      <sup
+        ><small>{{ currentPlan.currency_code }}</small></sup
+      >
+      / {{ $t('plans.title') }}
     </v-card-title>
     <v-card-subtitle class="mx-auto py-2">{{ currentPlan.description }}</v-card-subtitle>
     <v-divider class="mx-2"></v-divider>
     <v-card-text class="text--primary">
-      <ul v-html="$t(`plans.tariffs.${[enumPlan[currentPlan.plan]?.toLowerCase()]}`)">
-      </ul>
-
+      <ul v-html="$t(`plans.tariffs.${[enumPlan[currentPlan.plan]?.toLowerCase()]}`)"></ul>
     </v-card-text>
     <v-divider class="mx-2"></v-divider>
     <v-card-actions class="">
       <v-btn
-          v-if="!isChosenPlan"
-          color="primary"
-          class="d-flex mx-auto my-2"
-          @click="goToRegister(currentPlan)"
+        v-if="!isChosenPlan"
+        color="primary"
+        class="d-flex mx-auto my-2"
+        @click="goToRegister(currentPlan)"
       >
         {{ $t('plans.button.choose') }}
       </v-btn>
       <v-btn
-          v-if="isChosenPlan && currentPlan.plan !== 0"
-          small
-          class="d-flex mx-auto my-2"
-          color="success"
-          type="submit"
-          elevation="2"
-          :to="{
-            name: 'PaymentPage',
-            params: {
-              amount: +truncPrice(currentPlan.price),
-              company_id: this.companyId
-            },
-          }"
-      >{{ $t('buttons.goToPayment') }}</v-btn>
-<!--      <v-chip-->
-<!--          v-if="isChosenPlan"-->
-<!--          color="primary"-->
-<!--          label-->
-<!--          text-color="white"-->
-<!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
-<!--      >-->
-<!--        <v-avatar left>-->
-<!--          <v-icon>mdi-checkbox-marked-circle</v-icon>-->
-<!--        </v-avatar>-->
-<!--        {{$t('payment.status.paid') }}</v-chip>-->
-<!--      <v-chip-->
-<!--          color="orange"-->
-<!--          label-->
-<!--          text-color="white"-->
-<!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
-<!--      >-->
-<!--        <v-avatar left>-->
-<!--          <v-icon>mdi-alert</v-icon>-->
-<!--        </v-avatar>-->
-<!--        {{$t('payment.status.unpaid') }}</v-chip>-->
+        v-if="isChosenPlan && currentPlan.plan !== 0"
+        small
+        class="d-flex mx-auto my-2"
+        color="success"
+        type="submit"
+        elevation="2"
+        :to="{
+          name: 'PaymentPage',
+          params: {
+            amount: +truncPrice(currentPlan.price),
+            company_id: this.companyId,
+            plan: currentPlan.plan,
+            company_name: this.companyName,
+          },
+        }"
+        >{{ $t('buttons.goToPayment') }}</v-btn
+      >
+      <!--      <v-chip-->
+      <!--          v-if="isChosenPlan"-->
+      <!--          color="primary"-->
+      <!--          label-->
+      <!--          text-color="white"-->
+      <!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
+      <!--      >-->
+      <!--        <v-avatar left>-->
+      <!--          <v-icon>mdi-checkbox-marked-circle</v-icon>-->
+      <!--        </v-avatar>-->
+      <!--        {{$t('payment.status.paid') }}</v-chip>-->
+      <!--      <v-chip-->
+      <!--          color="orange"-->
+      <!--          label-->
+      <!--          text-color="white"-->
+      <!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
+      <!--      >-->
+      <!--        <v-avatar left>-->
+      <!--          <v-icon>mdi-alert</v-icon>-->
+      <!--        </v-avatar>-->
+      <!--        {{$t('payment.status.unpaid') }}</v-chip>-->
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import router from "@/router";
+import router from '@/router';
 import { Plan } from '@/common/constants/plan.enum-like';
-import planNumberFilter from "@/filters/planNumberFilter";
+import planNumberFilter from '@/filters/planNumberFilter';
 import { AuthService } from '@/services/auth.service';
 
 export default {
-  name: "PlanCard",
+  name: 'PlanCard',
   props: {
     currentPlan: {
       type: Object,
@@ -92,32 +102,36 @@ export default {
     companyId: {
       type: String,
       required: false,
-    }
+    },
+    companyName: {
+      type: String,
+      required: false,
+    },
   },
   data: () => ({
     enumPlan: Plan,
   }),
   computed: {
-    isLoggedIn(){
+    isLoggedIn() {
       return AuthService.isLoggedIn();
     },
     isChosenPlan() {
       return this.currentPlan.plan === this.chosenPlan;
-    }
+    },
   },
   methods: {
     truncPrice(price) {
-      return price ? (parseFloat(price) / 100) : 0;
+      return price ? parseFloat(price) / 100 : 0;
     },
     goToRegister(chosenPlan) {
-      if(this.isLoggedIn) {
+      if (this.isLoggedIn) {
         this.$emit('change-tariff', chosenPlan.id);
       } else {
-      return router.push(`/register?tariff=${planNumberFilter(chosenPlan).plan}`);
+        return router.push(`/register?tariff=${planNumberFilter(chosenPlan).plan}`);
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>

@@ -29,6 +29,7 @@
         :current-plan="plan"
         :chosen-plan="user.company?.plan.plan"
         :company-id="user.company_id"
+        :company-name="user.company?.company"
         @change-tariff="changeAdminTariff"
       ></plan-card>
     </div>
