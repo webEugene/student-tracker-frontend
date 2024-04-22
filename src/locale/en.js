@@ -117,7 +117,7 @@ export const messages = {
       invalid: 'Password is invalid',
     },
     tariff: {
-      required: "Tariff is required",
+      required: 'Tariff is required',
     },
   },
   buttons: {
@@ -133,14 +133,16 @@ export const messages = {
     makePayment: 'Make the payment',
     goToPayment: 'Go to payment',
     send: 'Send',
-    forgetPass: 'Forget Password'
+    forgetPass: 'Forget Password',
+    change: 'Change',
   },
   alerts: {
     noGroups: 'Group not yet added',
     toUsePlan: 'To use your tariff plan, please, make the payment until',
     remindToPayPlan: 'Reminding you about the obligatory payment by your tariff until',
     notInTimePaidPlan: 'Payment according to the tariff was not made until',
-    payOrChangePlan: 'Your tariff remains the same, but with a data limit. To extend your tariff, make the payment.',
+    payOrChangePlan:
+      'Your tariff remains the same, but with a data limit. To extend your tariff, make the payment.',
   },
   success: {
     pupil: {
@@ -249,7 +251,7 @@ export const messages = {
       mother: 'Mother',
       grandpa: 'Grandpa',
       grandma: 'Grandma',
-      nanny: 'Nanny'
+      nanny: 'Nanny',
     },
     set: {
       time: {
@@ -298,14 +300,14 @@ export const messages = {
     },
     account: {
       exist: 'Already have an account?',
-      notExist: 'Do not have an account?'
+      notExist: 'Do not have an account?',
     },
     forgotPassword: {
       title: 'Forgot Password',
     },
     resetPassword: {
       title: 'Reset Password',
-    }
+    },
   },
   breadcrumb: {
     homepage: 'Homepage',
@@ -328,7 +330,7 @@ export const messages = {
       list: '@:user.title.list',
       profile: '@:general.page',
     },
-    profile: 'Profile'
+    profile: 'Profile',
   },
   plans: {
     list: {
@@ -344,37 +346,40 @@ export const messages = {
     },
     tariffs: {
       free: '<li>1 user</li><li>1 teacher</li><li>1 group</li><li>Up to 5 pupils</li>',
-      light: '<li>Up to 2 users</li><li>Up to 2 teachers</li><li>Up to 2 groups</li><li>Up to 10 pupils</li>',
-      standard: '<li>Up to 3 users</li><li>Up to 3 teachers</li><li>Up to 3 groups</li><li>Up to 30 pupils</li>',
-      premium: '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',
-    }
+      light:
+        '<li>Up to 2 users</li><li>Up to 2 teachers</li><li>Up to 2 groups</li><li>Up to 10 pupils</li>',
+      standard:
+        '<li>Up to 3 users</li><li>Up to 3 teachers</li><li>Up to 3 groups</li><li>Up to 30 pupils</li>',
+      premium:
+        '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',
+    },
   },
   payment: {
     status: {
       paid: 'Paid',
-      unpaid: 'Unpaid'
-    }
+      unpaid: 'Unpaid',
+    },
   },
   admin: {
     cards: {
       delete: {
         heading: 'Delete account',
         subtitle: 'Once you delete your account, there is no going back. Please be certain.',
-        checkbox: 'I want to delete my account.'
-      }
-    }
+        checkbox: 'I want to delete my account.',
+      },
+    },
   },
   toastification: {
     errors: {
       group: {
         0: 'Exceeded limit according to the tariff conditions',
         1: 'Group is already exist',
-        2: 'Group can not be deleted. Delete relations with pupil or teacher first!'
+        2: 'Group can not be deleted. Delete relations with pupil or teacher first!',
       },
       pupil: {
         0: 'Exceeded limit according to the tariff conditions',
         1: 'Pupil is already exist',
-        2: 'Pupil can not be deleted. Delete relations first!'
+        2: 'Pupil can not be deleted. Delete relations first!',
       },
       teacher: {
         0: '@:toastification.errors.group.0',
@@ -384,12 +389,12 @@ export const messages = {
       user: {
         0: '@:toastification.errors.group.0',
         1: 'User is already exist',
-        3: 'User with such email is already exist'
+        3: 'User with such email is already exist',
         // 2: 'User can not be deleted. Delete relations with pupil or teacher first!'
       },
       general: {
-        0: 'something has been broken, we are fixing this!'
-      }
+        0: 'something has been broken, we are fixing this!',
+      },
     },
-  }
+  },
 };
