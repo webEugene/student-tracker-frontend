@@ -21,7 +21,7 @@
       <ul v-html="$t(`plans.tariffs.${[enumPlan[currentPlan.plan]?.toLowerCase()]}`)"></ul>
     </v-card-text>
     <v-divider class="mx-2"></v-divider>
-    <v-card-actions class="">
+    <v-card-actions class="d-flex flex-column">
       <v-btn
         v-if="!isChosenPlan"
         color="primary"
@@ -31,7 +31,7 @@
         {{ $t('plans.button.choose') }}
       </v-btn>
       <v-btn
-        v-if="isChosenPlan && currentPlan.plan !== 0"
+        v-if="isChosenPlan && currentPlan.plan !== 0 && paymentStatus !== 2"
         small
         class="d-flex mx-auto my-2"
         color="success"
@@ -48,27 +48,30 @@
         }"
         >{{ $t('buttons.goToPayment') }}</v-btn
       >
-      <!--      <v-chip-->
-      <!--          v-if="isChosenPlan"-->
-      <!--          color="primary"-->
-      <!--          label-->
-      <!--          text-color="white"-->
-      <!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
-      <!--      >-->
-      <!--        <v-avatar left>-->
-      <!--          <v-icon>mdi-checkbox-marked-circle</v-icon>-->
-      <!--        </v-avatar>-->
-      <!--        {{$t('payment.status.paid') }}</v-chip>-->
-      <!--      <v-chip-->
-      <!--          color="orange"-->
-      <!--          label-->
-      <!--          text-color="white"-->
-      <!--          class="d-flex mx-auto my-2 text-uppercase font-weight-bold"-->
-      <!--      >-->
-      <!--        <v-avatar left>-->
-      <!--          <v-icon>mdi-alert</v-icon>-->
-      <!--        </v-avatar>-->
-      <!--        {{$t('payment.status.unpaid') }}</v-chip>-->
+      <v-chip
+        v-if="isChosenPlan && currentPlan.plan !== 0 && paymentStatus === 2"
+        color="success"
+        label
+        text-color="white"
+        class="d-flex mx-auto my-2 text-uppercase font-weight-bold"
+      >
+        <v-avatar left>
+          <v-icon>mdi-checkbox-marked-circle</v-icon>
+        </v-avatar>
+        {{ $t('payment.status.paid') }}</v-chip
+      >
+      <v-chip
+        v-if="isChosenPlan && currentPlan.plan !== 0 && paymentStatus === 1"
+        color="orange"
+        label
+        text-color="white"
+        class="d-flex mx-auto my-2 text-uppercase font-weight-bold"
+      >
+        <v-avatar left>
+          <v-icon>mdi-alert</v-icon>
+        </v-avatar>
+        {{ $t('payment.status.unpaid') }}</v-chip
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -107,6 +110,10 @@ export default {
       type: String,
       required: false,
     },
+    paymentStatus: {
+      type: Number,
+      required: false,
+    },
   },
   data: () => ({
     enumPlan: Plan,
@@ -125,7 +132,8 @@ export default {
     },
     goToRegister(chosenPlan) {
       if (this.isLoggedIn) {
-        this.$emit('change-tariff', chosenPlan.id);
+        // eslint-disable-next-line no-undef
+        this.$emit('change-tariff', chosenPlan);
       } else {
         return router.push(`/register?tariff=${planNumberFilter(chosenPlan).plan}`);
       }

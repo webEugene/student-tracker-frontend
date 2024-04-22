@@ -3,10 +3,18 @@
     <v-alert text type="info" max-width="900px" v-if="Boolean(user.company?.plan.plan)">
       {{ $t('alerts.toUsePlan') }} <strong>12.10.2023</strong>.
     </v-alert>
-    <v-alert text dense color="deep-orange" icon="mdi-clock-fast" border="left" max-width="900px">
+    <v-alert
+      v-if="Boolean(user.company?.plan.plan)"
+      text
+      dense
+      color="deep-orange"
+      icon="mdi-clock-fast"
+      border="left"
+      max-width="900px"
+    >
       {{ $t('alerts.remindToPayPlan') }} <strong>12.10.2023</strong>
     </v-alert>
-    <v-alert max-width="900px" type="error">
+    <v-alert v-if="Boolean(user.company?.plan.plan)" max-width="900px" type="error">
       {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>.
       {{ $t('alerts.payOrChangePlan') }}
     </v-alert>
@@ -22,6 +30,28 @@
       </div>
     </v-card>
     <!--  Plan Admin -->
+    <!-- Dialog confirm -->
+    <v-dialog v-model="changeTariffDialogConfirm" persistent max-width="500">
+      <v-card>
+        <v-card-title class="text-h6">
+          Ви дійсно хочете змінити тарифний план на <strong>{{ enumPlan[chosenPlan?.plan] }}</strong
+          >?</v-card-title
+        >
+        <v-card-text>
+          <p v-if="chosenPlan?.plan === 0">Якщо змінити тарифний план, оплата не повертається.</p>
+          <p v-else>Якщо змінити тарифний план, оплата буде стягнута в повному обсязі. Змінити?</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" text @click="changeTariffDialogConfirm = false">
+            {{ $t('buttons.cancel') }}
+          </v-btn>
+          <v-btn color="success darken-1" text @click="changeAdminTariff()">
+            {{ $t('buttons.change') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div class="plans d-flex my-12">
       <plan-card
         v-for="(plan, index) in plans"
@@ -30,7 +60,8 @@
         :chosen-plan="user.company?.plan.plan"
         :company-id="user.company_id"
         :company-name="user.company?.company"
-        @change-tariff="changeAdminTariff"
+        :payment-status="user.company?.payment_status"
+        @change-tariff="changeTariffConfirmation"
       ></plan-card>
     </div>
     <!--  Edit Admin -->
@@ -210,6 +241,8 @@ export default {
     enumPlan: Plan,
     plans: [],
     form: null,
+    changeTariffDialogConfirm: false,
+    chosenPlan: null,
   }),
   validations: {
     name: { required, nameSurnameValidate },
@@ -323,9 +356,14 @@ export default {
     afterLoading() {
       this.loading = false;
     },
-    async changeAdminTariff(planId) {
+    changeTariffConfirmation(chosenPlan) {
+      this.chosenPlan = chosenPlan;
+      this.changeTariffDialogConfirm = !this.changeTariffDialogConfirm;
+    },
+    async changeAdminTariff() {
+      this.changeTariffDialogConfirm = false;
       this.beforeLoading();
-      await CompanyService.changeTariffPlan(planId)
+      await CompanyService.changeTariffPlan(this.chosenPlan.id, this.chosenPlan.plan)
         .then(() => {
           this.getUserData(this.userId);
           this.loadPlans();
