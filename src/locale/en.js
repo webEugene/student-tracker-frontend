@@ -138,7 +138,7 @@ export const messages = {
   },
   alerts: {
     noGroups: 'Group not yet added',
-    toUsePlan: 'To use your tariff plan, please, make the payment until',
+    toUsePlan: 'To use your tariff plan, please, make the payment.',
     remindToPayPlan: 'Reminding you about the obligatory payment by your tariff until',
     notInTimePaidPlan: 'Payment according to the tariff was not made until',
     payOrChangePlan:
@@ -353,6 +353,7 @@ export const messages = {
       premium:
         '<li>Up to 10 users</li><li>Up to 10 teachers</li><li>Up to 10 groups</li><li>Up to 100 pupils</li><li class="cross">Possibility to add photos to pupils, teachers</li>',
     },
+    paidTill: 'Paid till:',
   },
   payment: {
     status: {

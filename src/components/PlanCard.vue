@@ -73,6 +73,13 @@
         {{ $t('payment.status.unpaid') }}</v-chip
       >
     </v-card-actions>
+    <v-chip
+      v-if="isChosenPlan && currentPlan.plan !== 0 && paymentStatus === 2"
+      class="mx-auto"
+      color="primary"
+      small
+      >{{ $t('plans.paidTill') }} {{ new Date(tariffEndDate).toLocaleString() }}</v-chip
+    >
   </v-card>
 </template>
 
@@ -112,6 +119,10 @@ export default {
     },
     paymentStatus: {
       type: Number,
+      required: false,
+    },
+    tariffEndDate: {
+      type: String,
       required: false,
     },
   },

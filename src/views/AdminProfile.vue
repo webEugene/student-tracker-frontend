@@ -1,23 +1,30 @@
 <template>
   <v-container fluid>
-    <v-alert text type="info" max-width="900px" v-if="Boolean(user.company?.plan.plan)">
-      {{ $t('alerts.toUsePlan') }} <strong>12.10.2023</strong>.
+    <v-alert
+      text
+      type="info"
+      max-width="900px"
+      v-if="Boolean(user.company?.plan.plan) && user.company?.payment_status === 1"
+    >
+      {{ $t('alerts.toUsePlan') }}
     </v-alert>
     <v-alert
-      v-if="Boolean(user.company?.plan.plan)"
+      v-if="
+        Boolean(user.company?.plan.plan) && user.company?.payment_status === 2 && checkTariffDate
+      "
       text
       dense
       color="deep-orange"
       icon="mdi-clock-fast"
       border="left"
       max-width="900px"
-    >
-      {{ $t('alerts.remindToPayPlan') }} <strong>12.10.2023</strong>
+      >{{ $t('alerts.remindToPayPlan') }}
+      <strong>{{ new Date(this.user.company?.tariff_end_date).toLocaleString() }}</strong>
     </v-alert>
-    <v-alert v-if="Boolean(user.company?.plan.plan)" max-width="900px" type="error">
-      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>.
-      {{ $t('alerts.payOrChangePlan') }}
-    </v-alert>
+    <!--    <v-alert v-if="Boolean(user.company?.plan.plan)" max-width="900px" type="error">-->
+    <!--      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>.-->
+    <!--      {{ $t('alerts.payOrChangePlan') }}-->
+    <!--    </v-alert>-->
     <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
     <!--  Short Admin info -->
     <v-card id="short-profile" max-width="900px" class="pa-2 d-flex">
@@ -61,6 +68,7 @@
         :company-id="user.company_id"
         :company-name="user.company?.company"
         :payment-status="user.company?.payment_status"
+        :tariff-end-date="user.company?.tariff_end_date"
         @change-tariff="changeTariffConfirmation"
       ></plan-card>
     </div>
@@ -280,6 +288,13 @@ export default {
       !this.$v.email.required && errors.push(this.$t('validationErrors.email.required'));
       !this.$v.email.email && errors.push(this.$t('validationErrors.email.invalid'));
       return errors;
+    },
+    checkTariffDate() {
+      const differenceInTime =
+        new Date(this.user.company?.tariff_end_date).getTime() - new Date().getTime();
+      const differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+
+      return differenceInDays < 6;
     },
   },
   methods: {
