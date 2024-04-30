@@ -138,7 +138,7 @@ export const messages = {
   },
   alerts: {
     noGroups: 'Група ще не добавлена',
-    toUsePlan: 'Щоб використовувати ваш тариф, оплатіть його до',
+    toUsePlan: 'Щоб використовувати ваш тариф, оплатіть його.',
     remindToPayPlan: "Нагадуємо про обов'язкову оплату тарифу до",
     notInTimePaidPlan: 'Оплати згідно тарифу не було зроблено до',
     payOrChangePlan:
@@ -353,6 +353,7 @@ export const messages = {
       premium:
         '<li>до 10 користувачів</li><li>до 10 вчителів</li><li>до 10 груп</li><li>до 100 учнів</li><li class="cross">Можливість додавати фото учням, вчителям</li>',
     },
+    paidTill: 'Оплачено до:',
   },
   payment: {
     status: {

@@ -21,7 +21,7 @@
 import { PaymentService } from '@/services/payment.service';
 
 export default {
-  name: 'PaymentForm',
+  name: 'PaymentPage',
   data: () => ({
     form: null,
     amount: null,
