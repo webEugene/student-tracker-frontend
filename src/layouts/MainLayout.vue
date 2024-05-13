@@ -14,10 +14,6 @@
 
     <v-app-bar clipped-rightdark app color="green darken-1" dense dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon>mdi-timer-lock-outline</v-icon>
-      <v-toolbar-title class="ml-2 d-none d-md-block"
-        >{{ appName }}
-        </v-toolbar-title>
       <v-spacer></v-spacer>
       <LanguageSwitcher />
       <v-tooltip bottom v-if="$can('admin')">
@@ -38,16 +34,19 @@
         <span>{{ $t('tooltips.profile') }}</span>
       </v-tooltip>
       <v-btn
-          color="primary"
-          elevation="2"
-          fab
-          small
-          :value="1"
-          router
-          :to="`/profile/${getUserInfo.id}`"
-          class="ml-2 d-md-none d-lg-none"
+        color="primary"
+        elevation="2"
+        fab
+        small
+        :value="1"
+        router
+        :to="`/profile/${getUserInfo.id}`"
+        class="ml-2 d-md-none d-lg-none"
       >
-        <span class="white--text">{{ getUserInfo.name | firstLetterUppercaseFilter }}{{ getUserInfo.surname | firstLetterUppercaseFilter }}</span>
+        <span class="white--text"
+          >{{ getUserInfo.name | firstLetterUppercaseFilter
+          }}{{ getUserInfo.surname | firstLetterUppercaseFilter }}</span
+        >
       </v-btn>
       <v-btn-toggle v-model="toggle_exclusive" color="primary" dense group>
         <v-tooltip bottom>
@@ -63,10 +62,6 @@
 
     <Main />
     <v-footer color="green darken-1" app class="d-flex justify-space-between">
-      <div>
-        <v-chip class="mr-2 white--text" color="pink" label small>BETA</v-chip>
-        <span class="white--text">{{ $t('general.version') }}: 1.0.0</span>
-      </div>
       <span class="white--text">Copyright &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -86,7 +81,6 @@ export default {
 
   data: () => ({
     drawer: null,
-    appName: 'KiddySafe Management Tracker',
     icons: {
       iconProfile: 'mdi-account-circle-outline',
       iconLogout: 'mdi-logout-variant',

@@ -1,8 +1,17 @@
 <template>
   <nav class="menu-tabs">
+    <!--    <v-list-item>-->
+    <!--      <v-list-item-content>-->
+    <!--        <v-list-item-title>{{ $t('menu.heading') }} </v-list-item-title>-->
+    <!--      </v-list-item-content>-->
+    <!--    </v-list-item>-->
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title>{{ $t('menu.heading') }} </v-list-item-title>
+        <v-list-item-title class="text-h6">{{ appName }}</v-list-item-title>
+        <v-list-item-subtitle>
+          <v-chip class="mr-2 white--text" color="pink" label x-small>BETA</v-chip>
+          {{ appVersion }}
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
@@ -50,7 +59,10 @@
 </template>
 <script>
 export default {
-  data: () => ({}),
+  data: () => ({
+    appName: 'KiddySafe',
+    appVersion: '1.0.0',
+  }),
   computed: {
     links() {
       return [
@@ -129,6 +141,20 @@ export default {
               title: this.$t('menu.user.subLinks.list'),
               url: '/list-users',
               icon: 'mdi-list-box-outline',
+              permission: ['admin'],
+            },
+          ],
+          permission: ['admin'],
+        },
+        {
+          title: this.$t('menu.payment.mainTitle'),
+          url: '',
+          icon: 'mdi-credit-card-outline',
+          subLinks: [
+            {
+              title: this.$t('menu.payment.subLinks.list'),
+              url: '/payments-list',
+              icon: 'mdi-view-list',
               permission: ['admin'],
             },
           ],

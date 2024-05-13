@@ -29,6 +29,12 @@ export const messages = {
         list: '@:user.title.list',
       },
     },
+    payment: {
+      mainTitle: 'Payments',
+      subLinks: {
+        list: '@:payments.title.list',
+      },
+    },
   },
   pupil: {
     title: {
@@ -63,6 +69,11 @@ export const messages = {
     title: {
       add: 'Add group',
       list: 'List groups',
+    },
+  },
+  payments: {
+    title: {
+      list: 'Payment list',
     },
   },
   welcome: {
@@ -200,6 +211,11 @@ export const messages = {
       pupils: 'Pupils',
       users: 'Users',
       role: 'Role',
+      amount: 'Amount',
+      status: 'Status',
+      plan: 'Plan',
+      tariffStart: 'Tariff starts',
+      tariffEnd: 'Tariff ends',
     },
   },
   dialog: {
