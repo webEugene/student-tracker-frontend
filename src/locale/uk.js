@@ -29,6 +29,12 @@ export const messages = {
         list: '@:user.title.list',
       },
     },
+    payment: {
+      mainTitle: 'Оплати',
+      subLinks: {
+        list: '@:payments.title.list',
+      },
+    },
   },
   pupil: {
     title: {
@@ -63,6 +69,11 @@ export const messages = {
     title: {
       add: 'Додати групу',
       list: 'Список груп',
+    },
+  },
+  payments: {
+    title: {
+      list: 'Список оплат',
     },
   },
   welcome: {
@@ -200,6 +211,11 @@ export const messages = {
       pupils: 'Кількість учнів',
       users: 'Користувачі',
       role: 'Роль',
+      amount: 'Сума',
+      status: 'Статус',
+      plan: 'Тарифний план',
+      tariffStart: 'Початок тарифу',
+      tariffEnd: 'Кінець тарифу',
     },
   },
   dialog: {

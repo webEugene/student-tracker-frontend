@@ -1,6 +1,6 @@
 import { axiosHandler } from '../axios.config';
 import getCompanyId from '../helpers/getCompanyId';
-import getTariffPermission from "../helpers/getTariffPermission";
+import getTariffPermission from '../helpers/getTariffPermission';
 
 export { UsersService };
 
@@ -89,7 +89,7 @@ class UsersService {
   }
 
   /**
-   * Update teachers
+   * Update users
    *
    * @param {string} id
    * @param {object} params
@@ -101,5 +101,22 @@ class UsersService {
       ...params,
       company_id: getCompanyId(),
     });
+  }
+
+  /**
+   * Get payments list by ID
+   *
+   * @param {string} id
+   * @returns {Promise<AxiosResponse<any>>}
+   */
+  static getAllPayments() {
+    return axiosHandler.get(
+      `${process.env.VUE_APP_API_ENDPOINT}/v1/users/admin/payments-list/a6708e58-5d37-4f27-ab88-c052f3306d5e`,
+      {
+        params: {
+          company_id: getCompanyId(),
+        },
+      },
+    );
   }
 }

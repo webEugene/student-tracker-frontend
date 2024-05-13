@@ -166,60 +166,68 @@
       </template>
       <!-- Data table output -->
       <template v-slot:item="row">
-        <tr :class="{'tbody-tr-mobile': isMobile}">
+        <tr :class="{ 'tbody-tr-mobile': isMobile }">
           <td>
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[0].text }}:</div>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[0].text }}:
+            </div>
             <span>{{ row.item.name }} {{ row.item.surname }}</span>
             <div class="d-sm-none d-md-none d-lg-none tbody-redirect-mobile" v-if="$can('admin')">
               <v-btn
-                  fab
-                  x-small
-                  icon
-                  class="btn-domain-page"
-                  router
-                  :to="{
-                    name: 'PupilProfile',
-                    params: { id: row.item.id },
-                  }"
-              ><v-icon>mdi-dots-vertical</v-icon></v-btn
+                fab
+                x-small
+                icon
+                class="btn-domain-page"
+                router
+                :to="{
+                  name: 'PupilProfile',
+                  params: { id: row.item.id },
+                }"
+                ><v-icon>mdi-dots-vertical</v-icon></v-btn
               >
             </div>
-            <div class="d-none d-sm-inline-block ">
+            <div class="d-none d-sm-inline-block">
               <v-tooltip top v-if="$can('admin')">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                      fab
-                      x-small
-                      icon
-                      v-bind="attrs"
-                      v-on="on"
-                      class="btn-domain-page"
-                      router
-                      :to="{
-                    name: 'PupilProfile',
-                    params: { id: row.item.id },
-                  }"
-                  ><v-icon>mdi-dots-vertical</v-icon></v-btn
+                    fab
+                    x-small
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    class="btn-domain-page"
+                    router
+                    :to="{
+                      name: 'PupilProfile',
+                      params: { id: row.item.id },
+                    }"
+                    ><v-icon>mdi-dots-vertical</v-icon></v-btn
                   >
                 </template>
                 <span>{{ $t('pupil.redirectTo') }}</span>
               </v-tooltip>
             </div>
           </td>
-          <td :class="{'flex-in-one-line-td' : isMobile}">
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[1].text }}:</div>
+          <td :class="{ 'flex-in-one-line-td': isMobile }">
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[1].text }}:
+            </div>
             <v-icon v-if="row.item.gender === 'male'" left>mdi-human-male</v-icon>
             <v-icon v-if="row.item.gender === 'female'" left>mdi-human-female</v-icon>
           </td>
           <td>
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[2].text }}:</div>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[2].text }}:
+            </div>
             <v-chip v-if="row.item.group" color="primary" label>
               {{ row.item.group.name }}
             </v-chip>
             <v-chip v-else label small> - </v-chip>
           </td>
           <td>
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[3].text }}:</div>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[3].text }}:
+            </div>
             <v-chip v-if="row.item.group && row.item.group.teacher" class="" color="primary" label>
               <v-icon left> mdi-account-circle-outline </v-icon>
               {{ row.item.group.teacher.name }} {{ row.item.group.teacher.surname }}
@@ -227,7 +235,9 @@
             <v-chip center v-else label small> - </v-chip>
           </td>
           <td>
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[4].text }}:</div>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[4].text }}:
+            </div>
             <v-chip :color="getCameTime(row.item).color" dark small>
               {{ getCameTime(row.item).text }}
             </v-chip>
@@ -237,7 +247,9 @@
             >
           </td>
           <td>
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[5].text }}:</div>
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[5].text }}:
+            </div>
             <v-chip :color="getLeftTime(row.item).color" dark small>
               {{ getLeftTime(row.item).text }}
             </v-chip>
@@ -246,37 +258,39 @@
               {{ getBySomebody(row.item.visits, 'took') | relativesFilter }}</span
             >
           </td>
-          <td :class="{'flex-in-one-line-td' : isMobile}">
-            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[6].text }}:</div>
+          <td :class="{ 'flex-in-one-line-td': isMobile }">
+            <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+              {{ headers[6].text }}:
+            </div>
             <div class="d-sm-none d-md-none d-lg-none tbody-actions-mobile" v-if="$can('admin')">
               <v-btn
-                  class="mx-1 mr-1"
-                  fab
-                  dark
-                  x-small
-                  color="primary"
-                  @click="showEditGroupDialog(row.item)"
+                class="mx-1 mr-1"
+                fab
+                dark
+                x-small
+                color="primary"
+                @click="showEditGroupDialog(row.item)"
               >
                 <v-icon dark> mdi-account-edit-outline </v-icon>
               </v-btn>
               <v-btn
-                  class="mx-1 mr-1 disabled-action"
-                  fab
-                  dark
-                  x-small
-                  color="primary"
-                  @click="showCameAtDialog(row.item)"
+                class="mx-1 mr-1 disabled-action"
+                fab
+                dark
+                x-small
+                color="primary"
+                @click="showCameAtDialog(row.item)"
               >
                 <v-icon dark> mdi-account-arrow-left-outline </v-icon>
               </v-btn>
               <v-btn
-                  class="mx-1 mr-1 disabled-action"
-                  fab
-                  dark
-                  x-small
-                  color="primary"
-                  :disabled="getCameTime(row.item).showLeftTimeTooltip"
-                  @click="showLeftAtDialog(row.item)"
+                class="mx-1 mr-1 disabled-action"
+                fab
+                dark
+                x-small
+                color="primary"
+                :disabled="getCameTime(row.item).showLeftTimeTooltip"
+                @click="showLeftAtDialog(row.item)"
               >
                 <v-icon dark> mdi-account-arrow-right-outline </v-icon>
               </v-btn>
@@ -446,10 +460,6 @@ export default {
       this.loading = false;
       this.disabled = false;
     },
-    getColor(came_at) {
-      if (!came_at) return 'red';
-      else return 'green';
-    },
     getCameTime(value) {
       if (value?.visits === undefined || value?.visits[0]?.came_at === undefined) {
         return {
@@ -506,7 +516,7 @@ export default {
         pupil_id: this.editedItem.id,
         came_at: d.toISOString(),
         brought: this.editedItem.brought.value,
-        came_confirmer: `${userInfo.name} ${userInfo.surname}`
+        came_confirmer: `${userInfo.name} ${userInfo.surname}`,
       })
         .then(() => {
           this.loadPupils();
@@ -527,7 +537,7 @@ export default {
         id: visitId,
         left_at: d.toISOString(),
         took: this.editedItem.took.value,
-        left_confirmer: `${userInfo.name} ${userInfo.surname}`
+        left_confirmer: `${userInfo.name} ${userInfo.surname}`,
       })
         .then(() => {
           this.loadPupils();
@@ -593,7 +603,7 @@ export default {
       );
       this.dialogLeftAt = true;
     },
-    onResize () {
+    onResize() {
       this.isMobile = window.innerWidth < 600;
     },
   },
@@ -602,7 +612,7 @@ export default {
       this.loadPupils();
     },
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (typeof window === 'undefined') return;
 
     window.removeEventListener('resize', this.onResize, { passive: true });

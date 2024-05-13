@@ -21,10 +21,6 @@
       >{{ $t('alerts.remindToPayPlan') }}
       <strong>{{ new Date(this.user.company?.tariff_end_date).toLocaleString() }}</strong>
     </v-alert>
-    <!--    <v-alert v-if="Boolean(user.company?.plan.plan)" max-width="900px" type="error">-->
-    <!--      {{ $t('alerts.notInTimePaidPlan') }} <strong>12.10.2023</strong>.-->
-    <!--      {{ $t('alerts.payOrChangePlan') }}-->
-    <!--    </v-alert>-->
     <h1 class="mb-3">{{ $t('general.pageAdmin') }}</h1>
     <!--  Short Admin info -->
     <v-card id="short-profile" max-width="900px" class="pa-2 d-flex">

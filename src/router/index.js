@@ -21,6 +21,7 @@ import UserProfile from '@/views/Users/UserProfile';
 import AdminProfile from '@/views/AdminProfile';
 import Cabinet from '@/views/Cabinet';
 import PaymentPage from '@/views/Payment/PaymentPage';
+import PaymentsList from '@/views/Payment/PaymentsList';
 import Middlewares from '../middlewares';
 import middlewarePipeline from './middlewarePipeline';
 // i18n
@@ -231,6 +232,17 @@ const routes = [
     path: '/payments',
     name: 'PaymentPage',
     component: PaymentPage,
+    meta: {
+      layout: 'main',
+      middleware: [Middlewares.auth, Middlewares.checkPermissions],
+      permissions: ['admin'],
+      breadcrumb: i18n.t('breadcrumb.user.profile'),
+    },
+  },
+  {
+    path: '/payments-list',
+    name: 'PaymentsList',
+    component: PaymentsList,
     meta: {
       layout: 'main',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
