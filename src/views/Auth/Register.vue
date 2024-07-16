@@ -3,22 +3,13 @@
     <v-card>
       <v-card-title class="justify-space-between">
         <span class="headline">{{ $t('auth.register.title') }}</span>
-        <v-btn
-            icon
-            small
-            class="ma-2"
-            color="blue-grey"
-            dark
-            @click="$router.push('/')"
-        >
-          <v-icon>
-            mdi-home
-          </v-icon>
+        <v-btn icon small class="ma-2" color="blue-grey" dark @click="$router.push('/')">
+          <v-icon> mdi-home </v-icon>
         </v-btn>
       </v-card-title>
       <v-card-text>
-        <v-alert type="error" class="error-alert" ismissible dense v-if="error">
-          {{ error }}
+        <v-alert type="error" class="error-alert" ismissible dense v-if="serverErrors">
+          {{ serverErrors }}
         </v-alert>
         <v-form @submit.prevent="submit">
           <v-text-field
@@ -101,7 +92,6 @@
             {{ $t('buttons.register') }}
           </v-btn>
         </v-form>
-
       </v-card-text>
       <v-divider class="mx-4"></v-divider>
       <v-card-actions class="justify-center">
@@ -111,8 +101,6 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-
-
   </v-dialog>
 </template>
 
@@ -122,9 +110,9 @@ import { required, email, sameAs } from 'vuelidate/lib/validators';
 import { AuthService } from '@/services/auth.service';
 import jwt_decode from 'jwt-decode';
 import { axiosHandler } from '@/axios.config';
-import {companyNameValidate, nameSurnameValidate, passwordValidate} from '@/mixins/validators';
-import { PlansService } from "@/services/plans.service";
-import planNumberFilter from "@/filters/planNumberFilter";
+import { companyNameValidate, nameSurnameValidate, passwordValidate } from '@/mixins/validators';
+import { PlansService } from '@/services/plans.service';
+import planNumberFilter from '@/filters/planNumberFilter';
 
 export default {
   name: 'Register',
@@ -141,7 +129,7 @@ export default {
     submitStatus: null,
     showPassInput: false,
     showConfirmPassInput: false,
-    error: null,
+    serverErrors: null,
     loading: false,
     disabled: false,
     plans: [],
@@ -153,7 +141,7 @@ export default {
     company: { required, companyNameValidate },
     password: { required, passwordValidate },
     confirmPassword: { required, sameAsPassword: sameAs('password'), passwordValidate },
-    selectTariff: { required }
+    selectTariff: { required },
   },
   computed: {
     tariffErrors() {
@@ -207,6 +195,8 @@ export default {
         errors.push(this.$t('validationErrors.password.required'));
       !this.$v.confirmPassword.passwordValidate &&
         errors.push(this.$t('validationErrors.password.invalid'));
+      !this.$v.confirmPassword.sameAsPassword &&
+        errors.push(this.$t('validationErrors.password.different'));
       return errors;
     },
   },
@@ -215,14 +205,14 @@ export default {
       await PlansService.getAllPlansForNonLogin()
         .then((response) => {
           const getPlans = response.data;
-          const sortedPlans = getPlans.sort((a,b) => a.price - b.price);
-          this.plans = sortedPlans.map(item => planNumberFilter(item));
+          const sortedPlans = getPlans.sort((a, b) => a.price - b.price);
+          this.plans = sortedPlans.map((item) => planNumberFilter(item));
 
           this.setTariff();
         })
         .catch((error) => console.log(error));
     },
-    getTariffFromHost(){
+    getTariffFromHost() {
       const regex = /\w+$/gm;
       const tariff = window.location.search;
       const str = `?tariff=${tariff}`;
@@ -231,11 +221,10 @@ export default {
     },
     setTariff() {
       const chosenTariff = this.getTariffFromHost();
-      this.selectTariff = this.plans.find(item => item.plan === chosenTariff);
-
+      this.selectTariff = this.plans.find((item) => item.plan === chosenTariff);
     },
     register() {
-      this.error = '';
+      this.serverErrors = '';
       this.loading = true;
       AuthService.register({
         name: this.name,
@@ -255,7 +244,8 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.error = error?.response?.data?.message ?? error.message;
+          const errorMessage = error?.response?.data?.message ?? error.message;
+          this.serverErrors = this.$t(`serverAnswers.${errorMessage}`);
         });
     },
     serUserInfoToLocalStorage(userInfo) {
@@ -279,6 +269,6 @@ export default {
   },
   mounted() {
     this.loadPlans();
-  }
+  },
 };
 </script>

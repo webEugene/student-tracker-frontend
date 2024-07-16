@@ -15,6 +15,11 @@ import EmptyLayout from '@/layouts/EmptyLayout';
 import MainLayout from '@/layouts/MainLayout';
 export default {
   name: 'App',
+  metaInfo: {
+    title: 'KiddySafe Title',
+    titleTemplate: '%s | kiddysafe.com',
+    meta: [{ name: 'description', content: 'An example Vue application with vue-meta.' }],
+  },
   computed: {
     setLayout() {
       return (this.$route.meta.layout || 'empty') + '-layout';

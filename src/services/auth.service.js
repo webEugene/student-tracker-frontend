@@ -58,18 +58,19 @@ class AuthService {
    *
    * @returns {Promise<AxiosResponse<any>>}
    * @param email
+   * @param locale
    */
-  static forgetPassword(email) {
+  static forgetPassword(email, locale = 'uk') {
     return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/forgot-password`, {
-      email: `${email}`,
+      email,
+      locale,
     });
   }
 
   static resetPassword(password, token) {
     return axios.post(`${process.env.VUE_APP_API_ENDPOINT}/v1/auth/reset-password`, {
       password: `${password}`,
-      token: `${token}`
+      token: `${token}`,
     });
   }
-
 }

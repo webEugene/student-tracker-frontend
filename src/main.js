@@ -5,6 +5,7 @@ import vuetify from './plugins/vuetify';
 import Vuelidate from 'vuelidate';
 import Toast, { TYPE } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import VueMeta from 'vue-meta';
 // helpers
 import permissions from '@/helpers/permissions';
 // i18n
@@ -39,6 +40,9 @@ Vue.mixin({
   },
 });
 Vue.use(Toast, options);
+Vue.use(VueMeta, {
+  keyName: 'metaInfo',
+});
 
 Vue.filter('relativesFilter', relativesFilter);
 Vue.filter('firstLetterUppercaseFilter', firstLetterUppercaseFilter);

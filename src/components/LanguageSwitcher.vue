@@ -36,6 +36,12 @@ export default {
       ];
     },
   },
+  mounted() {
+    if (this.$route.query.locale) {
+      i18n.locale = this.$route.query.locale;
+      this.activeLang = this.$route.query.locale;
+    }
+  },
   methods: {
     changeLocale(locale) {
       i18n.locale = locale;
@@ -44,5 +50,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

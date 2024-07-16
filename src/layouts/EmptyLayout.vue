@@ -17,7 +17,7 @@ import Main from '@/components/Main';
 import Footer from '@/components/Footer';
 export default {
   data: () => ({
-    appName: 'Pupils Management Tracker',
+    appName: 'KiddySafe',
   }),
   components: {
     Main,

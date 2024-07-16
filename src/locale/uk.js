@@ -77,7 +77,8 @@ export const messages = {
     },
   },
   welcome: {
-    title: 'Вас вітає система трекінгу учнів KiddySafe',
+    title: 'Вас вітає KiddySafe',
+    subtitle: 'Онлайн система трекінгу учнів',
   },
   pageNotFound: {
     title: '(404) Сторінку не знайдено',
@@ -126,6 +127,7 @@ export const messages = {
     password: {
       required: "Пароль обов'язковий",
       invalid: 'Пароль невалідний',
+      different: 'Пароль підтвердження інший',
     },
     tariff: {
       required: "Тариф обов'язковий",
@@ -300,6 +302,7 @@ export const messages = {
       group: 'Сортувати по группі',
     },
     supportTitle: 'Підтримка',
+    copyrights: 'Всі права захищені.',
   },
   avatar: {
     title: 'Завантажте нову аватар',
@@ -414,5 +417,27 @@ export const messages = {
         0: 'щось зламалось, вже виправлямо!',
       },
     },
+  },
+  metaData: {
+    title: {
+      admin: 'Адмін',
+    },
+  },
+  staticPages: {
+    userAgreement: 'Угода користувача',
+    privacyPolicy: 'Політика конфіденційності',
+    instructions: 'Інструкція',
+  },
+  serverAnswers: {
+    inc_mail: 'Невірна почта',
+    inc_pass: 'Невірний пароль',
+    not_f_email: 'Пошта не знайдена',
+    not_f_user: 'Користувач не знайдений',
+    not_f_group: 'Група не знайдена',
+    token_expired: 'Токен просрочений або невірний',
+    exist_company: 'Така компанія вже існує',
+    exist_admin: 'Такий адміністратор вже існує',
+    inc_mailer: 'Щось пішло не так на стороні почтовика',
+    not_auth_user: 'Користувач не авторизований',
   },
 };

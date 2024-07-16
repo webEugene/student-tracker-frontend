@@ -77,7 +77,8 @@ export const messages = {
     },
   },
   welcome: {
-    title: 'Welcome to the Pupils Tracking System KiddySafe',
+    title: 'Welcome to KiddySafe',
+    subtitle: 'Online pupils tracking system',
   },
   pageNotFound: {
     title: '(404) Page Not Found',
@@ -126,6 +127,7 @@ export const messages = {
     password: {
       required: 'Password is required',
       invalid: 'Password is invalid',
+      different: 'Confirm password is not the same',
     },
     tariff: {
       required: 'Tariff is required',
@@ -300,6 +302,7 @@ export const messages = {
       group: 'Sort by group',
     },
     supportTitle: 'User support',
+    copyrights: 'All rights reserved.',
   },
   avatar: {
     title: 'Upload a new avatar',
@@ -413,5 +416,27 @@ export const messages = {
         0: 'something has been broken, we are fixing this!',
       },
     },
+  },
+  metaData: {
+    title: {
+      admin: 'Admin',
+    },
+  },
+  staticPages: {
+    userAgreement: 'User Agreement',
+    privacyPolicy: 'Privacy Policy',
+    instructions: 'Instructions',
+  },
+  serverAnswers: {
+    inc_mail: 'Incorrect mail',
+    inc_pass: 'Incorrect password',
+    not_f_email: 'Email is not found',
+    not_f_user: 'User is not found',
+    not_f_group: 'Group not found',
+    token_expired: 'Token has been expired or incorrect',
+    exist_company: 'Company already exists',
+    exist_admin: 'Admin already exists',
+    inc_mailer: 'Something wrong on mailer side',
+    not_auth_user: 'User is not authorized',
   },
 };

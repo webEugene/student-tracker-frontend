@@ -189,7 +189,9 @@
                         :disabled="$v.$invalid || disabled || loading"
                         @click.prevent="updatePupil"
                       >
-                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                          mdi-content-save-outline
+                        </v-icon>
                         <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                       </v-btn>
 
@@ -200,7 +202,9 @@
                         type="submit"
                         @click.prevent="disabled = !disabled"
                       >
-                        <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                        <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                          mdi-close-circle-outline
+                        </v-icon>
                         <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                       </v-btn>
                     </div>
@@ -257,9 +261,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="visit in pupil.visits" :key="visit.id" :class="{'tbody-tr-mobile': isMobile}">
+                  <tr
+                    v-for="visit in pupil.visits"
+                    :key="visit.id"
+                    :class="{ 'tbody-tr-mobile': isMobile }"
+                  >
                     <td>
-                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.came') }}:</div>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                        {{ $t('table.header.came') }}:
+                      </div>
                       <v-chip :color="getTimeData(visit, 'came_at').color" dark small>
                         {{ getTimeData(visit, 'came_at').text }}
                       </v-chip>
@@ -267,20 +277,15 @@
                         >{{ $t('general.who') }}:
                         {{ getBySomebody(visit, 'brought') | relativesFilter }}</span
                       >
-                      <v-chip
-                          class="ma-2"
-                          color="primary"
-                          label
-                      >
-                        <v-icon left>
-                          mdi-account-circle-outline
-                        </v-icon>
+                      <v-chip class="ma-2" color="primary" label>
+                        <v-icon left> mdi-account-circle-outline </v-icon>
                         {{ visit.came_confirmer }}
                       </v-chip>
-
                     </td>
                     <td>
-                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ $t('table.header.left') }}:</div>
+                      <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                        {{ $t('table.header.left') }}:
+                      </div>
                       <v-chip :color="getTimeData(visit, 'left_at').color" dark small>
                         {{ getTimeData(visit, 'left_at').text }}
                       </v-chip>
@@ -288,14 +293,8 @@
                         >{{ $t('general.who') }}:
                         {{ getBySomebody(visit, 'took') | relativesFilter }}</span
                       >
-                      <v-chip
-                          class="ma-2"
-                          color="primary"
-                          label
-                      >
-                        <v-icon left>
-                          mdi-account-circle-outline
-                        </v-icon>
+                      <v-chip class="ma-2" color="primary" label>
+                        <v-icon left> mdi-account-circle-outline </v-icon>
                         {{ visit.left_confirmer }}
                       </v-chip>
                     </td>
@@ -423,7 +422,7 @@ export default {
       this.dialogAvatar = false;
       this.beforeLoading();
       const avatarName = this.getDataFromInput();
-        await PupilsService.pupilAvatarChange(this.pupilId, avatarName)
+      await PupilsService.pupilAvatarChange(this.pupilId, avatarName)
         .then(() => {
           this.$toast.success(this.$t('success.pupil.update'));
           this.getPupilData(this.pupilId);
@@ -506,7 +505,8 @@ export default {
         email: this.email,
       };
       await PupilsService.updatePupil(this.pupilId, preparedData)
-        .then(() => {
+        .then((res) => {
+          console.log(res);
           this.$toast.success(this.$t('success.pupil.update'));
           this.getPupilData(this.pupilId);
         })
@@ -534,11 +534,11 @@ export default {
     afterLoading() {
       this.loading = false;
     },
-    onResize () {
+    onResize() {
       this.isMobile = window.innerWidth < 600;
     },
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (typeof window === 'undefined') return;
 
     window.removeEventListener('resize', this.onResize, { passive: true });
