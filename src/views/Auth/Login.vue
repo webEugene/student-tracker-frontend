@@ -11,17 +11,8 @@
       </v-alert>
       <v-card-title class="justify-space-between">
         <span class="headline">{{ $t('auth.login.title') }}</span>
-        <v-btn
-            icon
-            small
-            class="ma-2"
-            color="blue-grey"
-            dark
-            @click="$router.push('/')"
-        >
-          <v-icon>
-            mdi-home
-          </v-icon>
+        <v-btn icon small class="ma-2" color="blue-grey" dark @click="$router.push('/')">
+          <v-icon> mdi-home </v-icon>
         </v-btn>
       </v-card-title>
       <v-card-text>
@@ -71,10 +62,10 @@
       </v-card-actions>
       <div class="text-right">
         <v-btn
-            class="ma-2 text-capitalize"
-            color="primary"
-            text
-            @click="$router.push('/forgot-password')"
+          class="ma-2 text-capitalize"
+          color="primary"
+          text
+          @click="$router.push('/forgot-password')"
         >
           {{ $t('buttons.forgetPass') }}?
         </v-btn>
@@ -137,7 +128,8 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.serverErrors = error?.response?.data?.message ?? error.message;
+          const errorMessage = error?.response?.data?.message ?? error.message;
+          this.serverErrors = this.$t(`serverAnswers.${errorMessage}`);
         });
     },
     setUserInfoToLocalStorage(userInfo) {

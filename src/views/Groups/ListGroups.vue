@@ -87,44 +87,56 @@
           </template>
           <!-- Data table output -->
           <template v-slot:item="row">
-            <tr :class="{'tbody-tr-mobile': isMobile}">
+            <tr :class="{ 'tbody-tr-mobile': isMobile }">
               <td>
-                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[0].text }}:</div>
-                {{ row.item.name }}</td>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                  {{ headers[0].text }}:
+                </div>
+                {{ row.item.name }}
+              </td>
               <td>
-                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[1].text }}:</div>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                  {{ headers[1].text }}:
+                </div>
                 <v-chip color="teal lighten-4" class="ml-0 mr-2 black--text" label>
                   {{ $t('general.chips.pupils') }}: {{ row.item.pupils.length }}
                 </v-chip>
               </td>
               <td>
-                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[2].text }}:</div>
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                  {{ headers[2].text }}:
+                </div>
                 <v-chip v-if="row.item.teacher" color="primary" label>
                   <v-icon left> mdi-account-circle-outline </v-icon>
                   {{ row.item.teacher.name }} {{ row.item.teacher.surname }}
                 </v-chip>
                 <v-chip v-else label> {{ $t('general.chips.attached.teacher') }} </v-chip>
               </td>
-              <td :class="{'flex-in-one-line-td' : isMobile}">
-                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">{{ headers[3].text }}:</div>
-                <div class="d-sm-none d-md-none d-lg-none tbody-actions-mobile" v-if="$can('admin')">
+              <td :class="{ 'flex-in-one-line-td': isMobile }">
+                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
+                  {{ headers[3].text }}:
+                </div>
+                <div
+                  class="d-sm-none d-md-none d-lg-none tbody-actions-mobile"
+                  v-if="$can('admin')"
+                >
                   <v-btn
-                      class="show-edit-dialog-btn mx-2 mr-2"
-                      fab
-                      dark
-                      x-small
-                      color="primary"
-                      @click="showEditDialog(row.item)"
+                    class="show-edit-dialog-btn mx-2 mr-2"
+                    fab
+                    dark
+                    x-small
+                    color="primary"
+                    @click="showEditDialog(row.item)"
                   >
                     <v-icon dark> mdi-pencil </v-icon>
                   </v-btn>
                   <v-btn
-                      class="show-delete-dialog-btn mx-2"
-                      fab
-                      dark
-                      x-small
-                      color="error"
-                      @click="showDeleteDialog(row.item)"
+                    class="show-delete-dialog-btn mx-2"
+                    fab
+                    dark
+                    x-small
+                    color="error"
+                    @click="showDeleteDialog(row.item)"
                   >
                     <v-icon dark> mdi-delete </v-icon>
                   </v-btn>
@@ -134,14 +146,14 @@
                   <v-tooltip top v-if="$can('admin')" class="d-none">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
-                          class="show-edit-dialog-btn mx-2 mr-2"
-                          fab
-                          dark
-                          x-small
-                          color="primary"
-                          @click="showEditDialog(row.item)"
-                          v-bind="attrs"
-                          v-on="on"
+                        class="show-edit-dialog-btn mx-2 mr-2"
+                        fab
+                        dark
+                        x-small
+                        color="primary"
+                        @click="showEditDialog(row.item)"
+                        v-bind="attrs"
+                        v-on="on"
                       >
                         <v-icon dark> mdi-pencil </v-icon>
                       </v-btn>
@@ -152,14 +164,14 @@
                   <v-tooltip top v-if="$can('admin')" class="d-none">
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
-                          class="show-delete-dialog-btn mx-2"
-                          fab
-                          dark
-                          x-small
-                          color="error"
-                          @click="showDeleteDialog(row.item)"
-                          v-bind="attrs"
-                          v-on="on"
+                        class="show-delete-dialog-btn mx-2"
+                        fab
+                        dark
+                        x-small
+                        color="error"
+                        @click="showDeleteDialog(row.item)"
+                        v-bind="attrs"
+                        v-on="on"
                       >
                         <v-icon dark> mdi-delete </v-icon>
                       </v-btn>
@@ -267,7 +279,10 @@ export default {
           this.loadGroups();
         })
         .catch((error) => {
-          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          // this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          this.$toast.error(
+            `${this.$t('error.general.oops')} ${this.$t(`serverAnswers.${error.message}`)}`,
+          );
           this.afterLoading();
         });
     },
@@ -283,10 +298,16 @@ export default {
           this.loadGroups();
         })
         .catch((error) => {
-          if(error.response.status === 500) {
-            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.general[0]')}`);
+          if (error.response.status === 500) {
+            this.$toast.error(
+              `${this.$t('error.general.oops')} ${this.$t('toastification.errors.general[0]')}`,
+            );
           } else {
-            this.$toast.error(`${this.$t('error.general.oops')} ${this.$t('toastification.errors.group[' +error.message+ ']')}`);
+            this.$toast.error(
+              `${this.$t('error.general.oops')} ${this.$t(
+                'toastification.errors.group[' + error.message + ']',
+              )}`,
+            );
           }
           this.afterLoading();
         });
@@ -320,7 +341,7 @@ export default {
       });
       this.$v.editedItem.$reset();
     },
-    onResize () {
+    onResize() {
       this.isMobile = window.innerWidth < 600;
     },
   },
@@ -329,7 +350,7 @@ export default {
       this.loadGroups();
     },
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (typeof window === 'undefined') return;
 
     window.removeEventListener('resize', this.onResize, { passive: true });

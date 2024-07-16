@@ -19,9 +19,12 @@ import ListUsers from '@/views/Users/ListUsers';
 import AddUser from '@/views/Users/AddUser';
 import UserProfile from '@/views/Users/UserProfile';
 import AdminProfile from '@/views/AdminProfile';
-import Cabinet from '@/views/Cabinet';
+import Releases from '@/views/Releases';
 import PaymentPage from '@/views/Payment/PaymentPage';
 import PaymentsList from '@/views/Payment/PaymentsList';
+import UserAgreement from '@/views/StaticPages/UserAgreement';
+import PrivacyPolicy from '@/views/StaticPages/PrivacyPolicy';
+import Instructions from '@/views/StaticPages/Instructions';
 import Middlewares from '../middlewares';
 import middlewarePipeline from './middlewarePipeline';
 // i18n
@@ -97,14 +100,14 @@ const routes = [
     },
   },
   {
-    path: '/cabinet',
-    name: 'Cabinet',
-    component: Cabinet,
+    path: '/releases',
+    name: 'Releases',
+    component: Releases,
     meta: {
       layout: 'main',
       breadcrumb: '',
       middleware: [Middlewares.auth, Middlewares.checkPermissions],
-      permissions: ['admin'],
+      permissions: ['admin', 'user'],
     },
   },
   {
@@ -250,6 +253,37 @@ const routes = [
       breadcrumb: i18n.t('breadcrumb.user.profile'),
     },
   },
+  {
+    path: '/user-agreement',
+    name: 'UserAgreement',
+    component: UserAgreement,
+    meta: {
+      layout: 'empty',
+      middleware: [Middlewares.guest, Middlewares.loggedIn],
+      breadcrumb: '',
+    },
+  },
+  {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy,
+    meta: {
+      layout: 'empty',
+      middleware: [Middlewares.guest, Middlewares.loggedIn],
+      breadcrumb: '',
+    },
+  },
+  {
+    path: '/instructions',
+    name: 'Instructions',
+    component: Instructions,
+    meta: {
+      layout: 'empty',
+      middleware: [Middlewares.guest, Middlewares.loggedIn],
+      breadcrumb: '',
+    },
+  },
+
   // otherwise redirect to PageNotFound
   {
     path: '*',

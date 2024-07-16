@@ -3,17 +3,8 @@
     <v-card>
       <v-card-title class="justify-space-between">
         <span class="headline">{{ $t('auth.resetPassword.title') }}</span>
-        <v-btn
-            icon
-            small
-            class="ma-2"
-            color="blue-grey"
-            dark
-            @click="$router.push('/')"
-        >
-          <v-icon>
-            mdi-home
-          </v-icon>
+        <v-btn icon small class="ma-2" color="blue-grey" dark @click="$router.push('/')">
+          <v-icon> mdi-home </v-icon>
         </v-btn>
       </v-card-title>
       <v-card-text>
@@ -22,34 +13,34 @@
         </v-alert>
         <v-form @submit.prevent>
           <v-text-field
-              v-model="password"
-              :error-messages="passwordErrors"
-              :label="$t('formFields.password')"
-              :hint="$t('general.password.hint')"
-              class="password-input"
-              :append-icon="showPassInput ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showPassInput ? 'text' : 'password'"
-              @input="$v.password.$touch()"
-              @blur="$v.password.$touch()"
-              @click:append="showPassInput = !showPassInput"
+            v-model="password"
+            :error-messages="passwordErrors"
+            :label="$t('formFields.password')"
+            :hint="$t('general.password.hint')"
+            class="password-input"
+            :append-icon="showPassInput ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassInput ? 'text' : 'password'"
+            @input="$v.password.$touch()"
+            @blur="$v.password.$touch()"
+            @click:append="showPassInput = !showPassInput"
           ></v-text-field>
           <v-text-field
-              v-model="confirmPassword"
-              :error-messages="confirmPasswordErrors"
-              :label="$t('formFields.confirmPassword')"
-              class="password-input"
-              :append-icon="showConfirmPassInput ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="showConfirmPassInput ? 'text' : 'password'"
-              @input="$v.confirmPassword.$touch()"
-              @blur="$v.confirmPassword.$touch()"
-              @click:append="showConfirmPassInput = !showConfirmPassInput"
+            v-model="confirmPassword"
+            :error-messages="confirmPasswordErrors"
+            :label="$t('formFields.confirmPassword')"
+            class="password-input"
+            :append-icon="showConfirmPassInput ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showConfirmPassInput ? 'text' : 'password'"
+            @input="$v.confirmPassword.$touch()"
+            @blur="$v.confirmPassword.$touch()"
+            @click:append="showConfirmPassInput = !showConfirmPassInput"
           ></v-text-field>
           <v-btn
-              class="mr-4 mt-2 login-btn"
-              color="success"
-              type="submit"
-              :disabled="$v.password.$invalid"
-              @click.prevent="resetPassword()"
+            class="mr-4 mt-2 login-btn"
+            color="success"
+            type="submit"
+            :disabled="$v.password.$invalid"
+            @click.prevent="resetPassword()"
           >
             <v-progress-circular v-if="loading" indeterminate left></v-progress-circular>
             <v-icon v-if="!loading" left>mdi-login-variant</v-icon>
@@ -65,10 +56,11 @@
 import { validationMixin } from 'vuelidate';
 import { required, sameAs } from 'vuelidate/lib/validators';
 import { passwordValidate } from '@/mixins/validators';
-import { AuthService } from "@/services/auth.service";
+import { AuthService } from '@/services/auth.service';
+import { i18n } from '@/plugins/i18n';
 
 export default {
-  name: "ResetPassword",
+  name: 'ResetPassword',
   mixins: [validationMixin],
   validations: {
     password: { required, passwordValidate },
@@ -85,7 +77,8 @@ export default {
     resetToken: null,
   }),
   mounted() {
-    this.resetToken = this.$route.query.resetToken
+    this.resetToken = this.$route.query.resetToken;
+    i18n.locale = this.$route.query.locale;
   },
   computed: {
     passwordErrors() {
@@ -93,16 +86,18 @@ export default {
       if (!this.$v.password.$dirty) return errors;
       !this.$v.password.required && errors.push(this.$t('validationErrors.password.required'));
       !this.$v.password.passwordValidate &&
-      errors.push(this.$t('validationErrors.password.invalid'));
+        errors.push(this.$t('validationErrors.password.invalid'));
       return errors;
     },
     confirmPasswordErrors() {
       const errors = [];
       if (!this.$v.confirmPassword.$dirty) return errors;
       !this.$v.confirmPassword.required &&
-      errors.push(this.$t('validationErrors.password.required'));
+        errors.push(this.$t('validationErrors.password.required'));
       !this.$v.confirmPassword.passwordValidate &&
-      errors.push(this.$t('validationErrors.password.invalid'));
+        errors.push(this.$t('validationErrors.password.invalid'));
+      !this.$v.confirmPassword.sameAsPassword &&
+        errors.push(this.$t('validationErrors.password.different'));
       return errors;
     },
   },
@@ -119,12 +114,10 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.serverErrors = error?.response?.data?.message ?? error.message;
+          const errorMessage = error?.response?.data?.message ?? error.message;
+          this.serverErrors = this.$t(`serverAnswers.${errorMessage}`);
         });
-    }
-  }
-}
+    },
+  },
+};
 </script>
-<style scoped>
-
-</style>

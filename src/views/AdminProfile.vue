@@ -259,6 +259,11 @@ export default {
     this.getUserData(this.userId);
     this.loadPlans();
   },
+  metaInfo() {
+    return {
+      title: `${this.$t('metaData.title.admin')}`,
+    };
+  },
   computed: {
     roleLabel() {
       return this.role ? `${this.$t('formFields.role')}: ${this.role.value}` : '';
