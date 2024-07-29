@@ -48,13 +48,13 @@
                   $t('buttons.edit')
                 }}</v-btn>
                 <v-btn
-                    elevation="1"
-                    small
-                    class="mt-2"
-                    color="error"
-                    @click.prevent="removeAvatar()"
-                    :disabled="!avatarExist"
-                >{{ $t('buttons.delete') }}</v-btn
+                  elevation="1"
+                  small
+                  class="mt-2"
+                  color="error"
+                  @click.prevent="removeAvatar()"
+                  :disabled="!avatarExist"
+                  >{{ $t('buttons.delete') }}</v-btn
                 >
               </div>
             </v-col>
@@ -157,7 +157,9 @@
                   :disabled="$v.$invalid || disabled || loading"
                   @click.prevent="updateTeacher"
                 >
-                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-content-save-outline </v-icon>
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                    mdi-content-save-outline
+                  </v-icon>
                   <span class="d-none d-sm-flex">{{ $t('buttons.save') }}</span>
                 </v-btn>
 
@@ -168,7 +170,9 @@
                   type="submit"
                   @click.prevent="disabled = !disabled"
                 >
-                  <v-icon class="d-sm-none d-md-none d-lg-none" dark> mdi-close-circle-outline </v-icon>
+                  <v-icon class="d-sm-none d-md-none d-lg-none" dark>
+                    mdi-close-circle-outline
+                  </v-icon>
                   <span class="d-none d-sm-flex">{{ $t('buttons.cancel') }}</span>
                 </v-btn>
               </div>
@@ -219,7 +223,7 @@ import { TeachersService } from '@/services/teachers.service';
 import { GroupsService } from '@/services/groups.service';
 import { required } from 'vuelidate/lib/validators';
 import { nameSurnameValidate, allMobilesValidate } from '@/mixins/validators';
-import path from "path";
+import path from 'path';
 
 export default {
   name: 'TeacherProfile',
@@ -367,20 +371,22 @@ export default {
           this.getTeacherData(this.teacherId);
         })
         .catch((error) => {
-          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+          this.$toast.error(
+            `${this.$t('error.general.oops')} ${this.$t(`serverAnswers.${error.message}`)}`,
+          );
         });
       this.afterLoading();
     },
     async removeAvatar() {
       this.beforeLoading();
       await TeachersService.teacherRemoveAvatar(this.teacherId, path.basename(this.avatar))
-          .then(() => {
-            this.$toast.success(this.$t('success.teacher.update'));
-            this.getTeacherData(this.teacherId);
-          })
-          .catch((error) => {
-            this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
-          });
+        .then(() => {
+          this.$toast.success(this.$t('success.teacher.update'));
+          this.getTeacherData(this.teacherId);
+        })
+        .catch((error) => {
+          this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
+        });
       this.afterLoading();
     },
     async deleteTeacher() {
