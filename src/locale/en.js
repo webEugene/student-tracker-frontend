@@ -433,10 +433,12 @@ export const messages = {
     not_f_email: 'Email is not found',
     not_f_user: 'User is not found',
     not_f_group: 'Group not found',
+    not_f_teacher: 'Teacher not found',
     token_expired: 'Token has been expired or incorrect',
     exist_company: 'Company already exists',
     exist_admin: 'Admin already exists',
     inc_mailer: 'Something wrong on mailer side',
     not_auth_user: 'User is not authorized',
+    not_updated: 'Not updated, try again later',
   },
 };

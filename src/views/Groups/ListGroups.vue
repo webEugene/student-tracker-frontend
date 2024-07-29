@@ -279,7 +279,6 @@ export default {
           this.loadGroups();
         })
         .catch((error) => {
-          // this.$toast.error(`${this.$t('error.general.oops')} ${error.message}`);
           this.$toast.error(
             `${this.$t('error.general.oops')} ${this.$t(`serverAnswers.${error.message}`)}`,
           );
