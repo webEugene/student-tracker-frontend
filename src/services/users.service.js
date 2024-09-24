@@ -109,9 +109,9 @@ class UsersService {
    * @param {string} id
    * @returns {Promise<AxiosResponse<any>>}
    */
-  static getAllPayments() {
+  static getAllPayments(id) {
     return axiosHandler.get(
-      `${process.env.VUE_APP_API_ENDPOINT}/v1/users/admin/payments-list/a6708e58-5d37-4f27-ab88-c052f3306d5e`,
+      `${process.env.VUE_APP_API_ENDPOINT}/v1/users/admin/payments-list/${id}`,
       {
         params: {
           company_id: getCompanyId(),

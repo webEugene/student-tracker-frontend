@@ -53,10 +53,11 @@
         color="success"
         label
         text-color="white"
-        class="d-flex mx-auto my-2 text-uppercase font-weight-bold"
+        class="d-flex mx-auto my-1 text-uppercase font-weight-medium"
+        small
       >
         <v-avatar left>
-          <v-icon>mdi-checkbox-marked-circle</v-icon>
+          <v-icon small>mdi-checkbox-marked-circle</v-icon>
         </v-avatar>
         {{ $t('payment.status.paid') }}</v-chip
       >
@@ -65,7 +66,8 @@
         color="orange"
         label
         text-color="white"
-        class="d-flex mx-auto my-2 text-uppercase font-weight-bold"
+        class="d-flex mx-auto my-2 text-uppercase font-weight-medium"
+        small
       >
         <v-avatar left>
           <v-icon>mdi-alert</v-icon>
@@ -75,7 +77,7 @@
     </v-card-actions>
     <v-chip
       v-if="isChosenPlan && currentPlan.plan !== 0 && paymentStatus === 2"
-      class="mx-auto"
+      class="mx-auto mb-2"
       color="primary"
       small
       >{{ $t('plans.paidTill') }} {{ new Date(tariffEndDate).toLocaleString() }}</v-chip
