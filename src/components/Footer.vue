@@ -24,15 +24,11 @@
         </v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col md="6" sm="12">
-          <v-chip class="mr-2 white--text" color="pink" label small>BETA</v-chip>
-          <span class="white--text">{{ $t('general.version') }}: 1.0.0</span>
-        </v-col>
-        <v-col md="6" sm="12" class="text-right">
-          <span class="white--text"
+        <v-col md="12" sm="12" class="text-center">
+          <span class="white--text text-sm-subtitle-2"
             >©{{ new Date().getFullYear() }} — {{ $t('general.copyrights') }}</span
-          ></v-col
-        >
+          >
+        </v-col>
       </v-row>
     </v-container>
   </v-footer>

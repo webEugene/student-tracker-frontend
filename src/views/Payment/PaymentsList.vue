@@ -44,14 +44,6 @@
                   {{ convertDate(row.item.tariff_start_date) }}
                 </v-chip>
               </td>
-              <td>
-                <div :class="[isMobile ? 'tbody-header-mobile' : 'tbody-header-desktop']">
-                  {{ headers[4].text }}:
-                </div>
-                <v-chip color="green" text-color="white" label small>
-                  {{ convertDate(row.item.tariff_end_date) }}
-                </v-chip>
-              </td>
             </tr>
           </template>
           <!-- Show the message if there is no data -->
@@ -101,12 +93,6 @@ export default {
           value: 'tariff_start',
           sortable: false,
         },
-        {
-          text: this.$t('table.header.tariffEnd'),
-          align: 'start',
-          value: 'tariff_end',
-          sortable: false,
-        },
       ];
     },
   },
@@ -120,8 +106,9 @@ export default {
       this.isMobile = window.innerWidth < 600;
     },
     async loadPayments() {
+      const { id } = JSON.parse(localStorage.getItem('userInfo'));
       this.beforeLoading();
-      await UsersService.getAllPayments()
+      await UsersService.getAllPayments(id)
         .then((response) => {
           this.payments = response.data;
         })
